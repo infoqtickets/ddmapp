@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, viewport-fit=cover">
+	<meta name="theme-color" content="#2196f3">
+	<meta name="author" content="QTickets" /> 
+	<meta name="format-detection" content="telephone=no">
+    <!-- Title -->
+	<title>QTickets Event App</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/vendor/swiper/swiper-bundle.min.css">
+	<link rel="stylesheet" href="assets/vendor/fontawesome651/css/all.min.css">
+	<link rel="stylesheet" href="assets/vendor/googlefonts/googlefont.css">
+	<script src="assets/js/appbefore.js"/>
+
+	<style>
+* { box-sizing: border-box; }
+html, body {
+	margin: 0;
+	height: 100%;
+	font-family: sans-serif;
+}
+
+.schedule-wrapper {
+	display: flex;
+	height: calc(100vh - 90px);
+	overflow: hidden;
+	background-color: #000;
+}
+
+.y-axis {
+	position: sticky;
+	left: 0;
+	top: 0;
+	z-index: 10;
+	background: #fff;
+	border-right: 1px solid #555;
+}
+
+.y-header {
+	height: 41px;
+	width: 120px;
+	background: #f0f0f0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	border-bottom: 1px solid #555;
+}
+
+.stage-label {
+	width: 1px;
+	font-weight: bold;
+	font-size: 14px;
+	margin-top: 16px;
+	margin-bottom: 72px;
+	display: flex;
+	position: sticky;
+	left: 10px;
+	color: #fff;
+	overflow: visible;
+	white-space: nowrap;
+	text-transform: uppercase;
+	z-index: 50;
+}
+
+.timeline-container {
+	overflow: auto;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+}
+
+.timeline {
+	min-width: 1440px;
+	position: relative;
+}
+
+#now-line-container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+	z-index: 25;
+}
+
+#now-box {
+	position: absolute;
+	top: 9px;
+	transform: translateX(-50%);
+	background-color: #2196f3;
+	color: #fff;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 2px 6px;
+	border-radius: 4px;
+}
+
+#now-line {
+	position: absolute;
+	top: 30px; /* below the "Now" box */
+	width: 2px;
+	background-color: #2196f3;
+}
+
+.x-header {
+	display: flex;
+	position: sticky;
+	top: 0;
+	z-index: 5;
+	background: #f9f9f9dd;
+	border-bottom: 1px solid #555;
+	z-index: 20;
+}
+
+.x-cell {
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	font-size: 12px;
+	flex-shrink: 0;
+}
+.x-cell.maincell {
+	position: sticky;
+	left: 0;
+}
+.x-cell.label {
+	font-weight: bold;
+	font-size: 16px;
+	color: #000000;
+}	
+
+.x-cell:nth-child(12n+1) {
+	width: 60px;
+}
+
+.rowschedule {
+	display: flex;
+	position: relative;
+}
+
+.block {
+	height: 110px;
+	flex-shrink: 0;
+	z-index: -9;
+	height: calc(100vh - 40px);
+}
+
+.even {
+	background-color: #19160a;
+}
+
+.block:nth-child(1n+1) {
+	width: 60px;
+	border-right: 1px solid #555;
+	z-index: -9;
+}
+.first-block {
+	border-left: 1px solid #555;
+	margin-left: 30px;
+}
+
+.band {
+	position: absolute;
+	height: 60px;
+	/*background: #fff;*/
+	font-size: 16px;
+	/*color: #fff;*/
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+	/*box-shadow: 0 2px 5px rgba(0,0,0,0.4);*/
+	padding: 0;
+	z-index: 10;
+	-webkit-overflow-scrolling: touch;
+	overscroll-behavior: contain;
+	touch-action: auto;
+}
+
+.band-bg {
+	position: absolute;
+	height: 60px;
+	background: #fff;
+	font-size: 16px;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+	box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+	padding: 0;
+	z-index: 10;
+	-webkit-overflow-scrolling: touch;
+	overscroll-behavior: contain;
+	touch-action: auto;
+	justify-content: flex-end;
+}
+
+.band .color-bar {
+	width: 5px;
+	height: 100%;
+	flex-shrink: 0;
+}
+
+.band .band-image {
+	width: 65px;
+	height: 60px;
+	background-color: #666;
+	background-size: cover;
+	background-position: center;
+	flex-shrink: 0;
+}
+
+.band .band-info {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding-left: 5px;
+	flex-grow: 1;
+}
+
+.band .band-name {
+	font-weight: bold;
+	height: 40px;
+	/*padding-top: 5px;*/
+}
+
+.band .band-time {
+	font-size: 11px;
+	/*background: #fff;*/
+	color: #000;
+	padding: 2px 0px;
+	border-radius: 3px;
+	display: inline-block;
+	height: 20px;
+	padding-top: 2px;
+}
+
+.band-bg .favorite-icon {
+	padding: 0px 8px 0px 8px;
+	font-size: 16px;
+	color: #000;
+}
+
+.favorite-icon i {
+	transition: opacity 1s ease, transform 1s ease;
+	display: inline-block;
+}
+
+@media (max-width: 600px) {
+	.x-cell:nth-child(3n+1) {
+		width: 40px;
+	}
+
+	.block:nth-child(3n+1) {
+		width: 40px;
+		z-index: -9;
+	}
+}
+	</style>
+</head>   
+<body class="theme-dark" data-theme-color="color-orange">
+<div class="page-wraper">
+    
+    <!-- Header -->
+	<header class="header transparent" style="padding-top: 10px; z-index:100;">
+		<div class="main-bar sticky-header" style="padding-top: 35px;">
+			<div class="container d-grid">
+				<div class="header-content">
+					<div class="left-content" style="width: 14px;">
+						<a onclick="toggleFavorites(this);" style="color: #fff;">
+							<i class="fal fa-skull" style="font-size: 1rem;"></i>
+                        </a>
+					</div>
+					<div id="dayselect" class="mid-content">
+					</div>
+					<div class="right-content">
+						<a href="notification.html" style="color: #fff;">
+							<i class="fal fa-bell" style="font-size: 1rem;"></i>
+                        </a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+    <!-- Header End -->
+    
+    <!-- Preloader -->
+	<div id="preloader">
+		<div class="spinner" style="border: none;"><img src="assets/images/DDM-loader.gif"></div>
+	</div>
+    <!-- Preloader end-->
+    
+
+
+
+		<div style="height: 90px;"></div>
+		<div id="schedule-wrapper" class="schedule-wrapper">
+			<div class="timeline-container">
+				<div class="timeline">
+					<div class="x-header" id="x-header"></div>
+					<div id="now-line-container">
+						<div id="now-box">Now</div>
+						<div id="now-line"></div>
+					</div>
+					<div id="rows"></div>
+				</div>
+			</div>
+		</div>
+
+
+		<script>
+const days = [
+  {"name": "Saturday", "subtitle": "Day 1", "subtitle2": "27 september", "starthour": 12, "endhour": 29},
+  {"name": "Sunday", "subtitle": "Day 2", "subtitle2": "28 september", "starthour": 11, "endhour": 30}
+]
+
+const stages = [
+  { "day": "Saturday", "name": "South Stage", "color": "#e74c3c" },
+  { "day": "Saturday", "name": "North Stage", "color": "#3498db" },
+  { "day": "Saturday", "name": "Marquee", "color": "#2ecc71" },
+  { "day": "Saturday", "name": "Jupiler Stage", "color": "#9b59b6" },
+  { "day": "Saturday", "name": "Metal Dome", "color": "#f39c12" },
+  { "day": "Saturday", "name": "Classic Rock Café", "color": "#1abc9c" },
+  { "day": "Saturday", "name": "Marquee II", "color": "#f39c12" },
+  { "day": "Saturday", "name": "Marquee III", "color": "#f39c12" },
+  { "day": "Saturday", "name": "Marquee IV", "color": "#f39c12" },
+  { "day": "Saturday", "name": "Red Bull Stage", "color": "#1abc9c" },
+  { "day": "Sunday", "name": "South Stage", "color": "#e74c3c" },
+  { "day": "Sunday", "name": "North Stage", "color": "#3498db" },
+  { "day": "Sunday", "name": "Marquee", "color": "#2ecc71" },
+  { "day": "Sunday", "name": "Jupiler Stage", "color": "#9b59b6" },
+  { "day": "Sunday", "name": "Metal Dome", "color": "#f39c12" },
+  { "day": "Sunday", "name": "Classic Rock Café", "color": "#1abc9c" },
+  { "day": "Sunday", "name": "Marquee II", "color": "#f39c12" },
+  { "day": "Sunday", "name": "Marquee III", "color": "#f39c12" },
+  { "day": "Sunday", "name": "Marquee IV", "color": "#f39c12" },
+  { "day": "Sunday", "name": "Red Bull Stage", "color": "#1abc9c" }
+]
+
+const bands = [
+  { "id": "1", "day": "Saturday", "stage": "South Stage", "name": "Municipal Waste", "image": "assets/images/band1.png", "start": "12:05", "duration": 45 },
+  { "id": "2", "day": "Saturday", "stage": "South Stage", "name": "Landmvrks", "image": "assets/images/band1.png", "start": "13:55", "duration": 50 },
+  { "id": "3", "day": "Saturday", "stage": "South Stage", "name": "Motionless In White", "image": "assets/images/band1.png", "start": "15:55", "duration": 60 },
+  { "id": "4", "day": "Saturday", "stage": "South Stage", "name": "Dream Theater", "image": "assets/images/band1.png", "start": "18:15", "duration": 75 },
+  { "id": "5", "day": "Saturday", "stage": "South Stage", "name": "Iron Maiden", "image": "assets/images/band1.png", "start": "21:00", "duration": 120 },
+  { "id": "6", "day": "Saturday", "stage": "North Stage", "name": "Warkings", "image": "assets/images/band1.png", "start": "13:00", "duration": 45 },
+  { "id": "7", "day": "Saturday", "stage": "North Stage", "name": "Beast In Black", "image": null, "start": "14:55", "duration": 50 },
+  { "id": "8", "day": "Saturday", "stage": "North Stage", "name": "Alestorm", "image": "assets/images/band1.png", "start": "17:05", "duration": 60 },
+  { "id": "9", "day": "Saturday", "stage": "North Stage", "name": "Epica", "image": "assets/images/band1.png", "start": "19:40", "duration": 60 },
+  { "id": "10", "day": "Saturday", "stage": "North Stage", "name": "Powerwolf", "image": "assets/images/band1.png", "start": "23:10", "duration": 90 },
+  { "id": "11", "day": "Saturday", "stage": "Marquee", "name": "Psychonaut", "image": "assets/images/band1.png", "start": "12:00", "duration": 40 },
+  { "id": "12", "day": "Saturday", "stage": "Marquee", "name": "Signs of the Swarm", "image": "assets/images/band1.png", "start": "13:15", "duration": 45 },
+  { "id": "13", "day": "Saturday", "stage": "Marquee", "name": "Death Angel", "image": "assets/images/band1.png", "start": "14:40", "duration": 45 },
+  { "id": "14", "day": "Saturday", "stage": "Marquee", "name": "Soen", "image": "assets/images/band1.png", "start": "16:05", "duration": 50 },
+  { "id": "15", "day": "Saturday", "stage": "Marquee", "name": "Paradise Lost", "image": "assets/images/band1.png", "start": "17:35", "duration": 50 },
+  { "id": "16", "day": "Saturday", "stage": "Marquee", "name": "Orbit Culture", "image": "assets/images/band1.png", "start": "19:10", "duration": 50 },
+  { "id": "17", "day": "Saturday", "stage": "Marquee", "name": "Carcass", "image": "assets/images/band1.png", "start": "20:45", "duration": 60 },
+  { "id": "18", "day": "Saturday", "stage": "Marquee", "name": "Hatebreed", "image": "assets/images/band1.png", "start": "23:00", "duration": 75 },
+  { "id": "19", "day": "Saturday", "stage": "Jupiler Stage", "name": "Fleshwater", "image": "assets/images/band1.png", "start": "12:40", "duration": 40 },
+  { "id": "20", "day": "Saturday", "stage": "Jupiler Stage", "name": "Trash Boat", "image": "assets/images/band1.png", "start": "14:00", "duration": 45 },
+  { "id": "21", "day": "Saturday", "stage": "Jupiler Stage", "name": "Alien Ant Farm", "image": "assets/images/band1.png", "start": "15:40", "duration": 45 },
+  { "id": "22", "day": "Saturday", "stage": "Jupiler Stage", "name": "Terror", "image": "assets/images/band1.png", "start": "17:25", "duration": 45 },
+  { "id": "23", "day": "Saturday", "stage": "Jupiler Stage", "name": "Yellowcard", "image": "assets/images/band1.png", "start": "19:10", "duration": 50 },
+  { "id": "24", "day": "Saturday", "stage": "Jupiler Stage", "name": "Stick To Your Guns", "image": "assets/images/band1.png", "start": "21:00", "duration": 50 },
+  { "id": "25", "day": "Saturday", "stage": "Jupiler Stage", "name": "Lagwagon", "image": "assets/images/band1.png", "start": "23:00", "duration": 60 },
+  { "id": "26", "day": "Saturday", "stage": "Metal Dome", "name": "Deafheaven", "image": "assets/images/band1.png", "start": "12:00", "duration": 40 },
+  { "id": "27", "day": "Saturday", "stage": "Metal Dome", "name": "The Raven Age", "image": "assets/images/band1.png", "start": "13:20", "duration": 40 },
+  { "id": "28", "day": "Saturday", "stage": "Metal Dome", "name": "Chatlotte Wessels", "image": "assets/images/band1.png", "start": "14:50", "duration": 45 },
+  { "id": "29", "day": "Saturday", "stage": "Metal Dome", "name": "Hot Milk", "image": "assets/images/band1.png", "start": "16:30", "duration": 50 },
+  { "id": "30", "day": "Saturday", "stage": "Metal Dome", "name": "Julie Christmas", "image": "assets/images/band1.png", "start": "18:15", "duration": 50 },
+  { "id": "31", "day": "Saturday", "stage": "Metal Dome", "name": "Perturbator", "image": "assets/images/band1.png", "start": "20:05", "duration": 50 },
+  { "id": "32", "day": "Saturday", "stage": "Metal Dome", "name": "Mass Hysteria", "image": "assets/images/band1.png", "start": "21:55", "duration": 60 },
+  { "id": "33", "day": "Saturday", "stage": "Metal Dome", "name": "DJ Nathachelet", "image": "assets/images/band1.png", "start": "24:00", "duration": 60 },
+  { "id": "34", "day": "Saturday", "stage": "Metal Dome", "name": "Thrash Attack", "image": "assets/images/band1.png", "start": "25:00", "duration": 60 },
+  { "id": "35", "day": "Saturday", "stage": "Metal Dome", "name": "DJ Nathachelet", "image": "assets/images/band1.png", "start": "26:00", "duration": 30 },
+  { "id": "36", "day": "Saturday", "stage": "Metal Dome", "name": "ACinDC", "image": "assets/images/band1.png", "start": "26:30", "duration": 90 },
+  { "id": "37", "day": "Saturday", "stage": "Metal Dome", "name": "DJ Nathachelet", "image": "assets/images/band1.png", "start": "28:00", "duration": 45 },
+  { "id": "38", "day": "Saturday", "stage": "Classic Rock Café", "name": "Lukazz", "image": "assets/images/band1.png", "start": "14:00", "duration": 45 },
+  { "id": "39", "day": "Saturday", "stage": "Classic Rock Café", "name": "Lukazz", "image": "assets/images/band1.png", "start": "15:15", "duration": 45 },
+  { "id": "40", "day": "Saturday", "stage": "Classic Rock Café", "name": "Lukazz", "image": "assets/images/band1.png", "start": "16:30", "duration": 45 },
+  { "id": "41", "day": "Saturday", "stage": "Classic Rock Café", "name": "DJ Nathachelet", "image": "assets/images/band1.png", "start": "21:00", "duration": 120 },
+  { "id": "42", "day": "Saturday", "stage": "Classic Rock Café", "name": "DJ Carl", "image": "assets/images/band1.png", "start": "24:00", "duration": 240 },
+  { "id": "43", "day": "Saturday", "stage": "Marquee II", "name": "On going clips", "image": "assets/images/band1.png", "start": "13:00", "duration": 760 },
+  { "id": "44", "day": "Saturday", "stage": "Marquee III", "name": "On going clips", "image": "assets/images/band1.png", "start": "14:00", "duration": 760 },
+  { "id": "45", "day": "Saturday", "stage": "Marquee IV", "name": "On going clips", "image": "assets/images/band1.png", "start": "15:00", "duration": 760 },
+  { "id": "46", "day": "Saturday", "stage": "Red Bull Stage", "name": "Wrestling", "image": "assets/images/band1.png", "start": "19:10", "duration": 50 },
+  { "id": "47", "day": "Sunday", "stage": "South Stage", "name": "2Municipal Waste", "image": "assets/images/band1.png", "start": "12:05", "duration": 45 },
+  { "id": "48", "day": "Sunday", "stage": "South Stage", "name": "2Landmvrks", "image": "assets/images/band1.png", "start": "13:55", "duration": 50 },
+  { "id": "49", "day": "Sunday", "stage": "South Stage", "name": "2Motionless In White", "image": "assets/images/band1.png", "start": "15:55", "duration": 60 },
+  { "id": "50", "day": "Sunday", "stage": "South Stage", "name": "2Dream Theater", "image": "assets/images/band1.png", "start": "18:15", "duration": 75 },
+  { "id": "51", "day": "Sunday", "stage": "South Stage", "name": "2Iron Maiden", "image": "assets/images/band1.png", "start": "21:00", "duration": 120 },
+  { "id": "52", "day": "Sunday", "stage": "North Stage", "name": "2Warkings", "image": "assets/images/band1.png", "start": "13:00", "duration": 45 },
+  { "id": "53", "day": "Sunday", "stage": "North Stage", "name": "2Beast In Black", "image": null, "start": "14:55", "duration": 50 },
+  { "id": "54", "day": "Sunday", "stage": "North Stage", "name": "2Alestorm", "image": "assets/images/band1.png", "start": "17:05", "duration": 60 },
+  { "id": "55", "day": "Sunday", "stage": "North Stage", "name": "2Epica", "image": "assets/images/band1.png", "start": "19:40", "duration": 60 },
+  { "id": "56", "day": "Sunday", "stage": "North Stage", "name": "2Powerwolf", "image": "assets/images/band1.png", "start": "23:10", "duration": 90 },
+  { "id": "57", "day": "Sunday", "stage": "Marquee", "name": "2Psychonaut", "image": "assets/images/band1.png", "start": "12:00", "duration": 40 },
+  { "id": "58", "day": "Sunday", "stage": "Marquee", "name": "2Signs of the Swarm", "image": "assets/images/band1.png", "start": "13:15", "duration": 45 },
+  { "id": "59", "day": "Sunday", "stage": "Marquee", "name": "2Death Angel", "image": "assets/images/band1.png", "start": "14:40", "duration": 45 },
+  { "id": "60", "day": "Sunday", "stage": "Marquee", "name": "2Soen", "image": "assets/images/band1.png", "start": "16:05", "duration": 50 },
+  { "id": "61", "day": "Sunday", "stage": "Marquee", "name": "2Paradise Lost", "image": "assets/images/band1.png", "start": "17:35", "duration": 50 },
+  { "id": "62", "day": "Sunday", "stage": "Marquee", "name": "2Orbit Culture", "image": "assets/images/band1.png", "start": "19:10", "duration": 50 },
+  { "id": "63", "day": "Sunday", "stage": "Marquee", "name": "2Carcass", "image": "assets/images/band1.png", "start": "20:45", "duration": 60 },
+  { "id": "64", "day": "Sunday", "stage": "Marquee", "name": "2Hatebreed", "image": "assets/images/band1.png", "start": "23:00", "duration": 75 },
+  { "id": "65", "day": "Sunday", "stage": "Jupiler Stage", "name": "2Fleshwater", "image": "assets/images/band1.png", "start": "12:40", "duration": 40 },
+  { "id": "66", "day": "Sunday", "stage": "Jupiler Stage", "name": "2Trash Boat", "image": "assets/images/band1.png", "start": "14:00", "duration": 45 },
+  { "id": "67", "day": "Sunday", "stage": "Jupiler Stage", "name": "2Alien Ant Farm", "image": "assets/images/band1.png", "start": "15:40", "duration": 45 },
+  { "id": "68", "day": "Sunday", "stage": "Jupiler Stage", "name": "2Terror", "image": "assets/images/band1.png", "start": "17:25", "duration": 45 },
+  { "id": "69", "day": "Sunday", "stage": "Jupiler Stage", "name": "2Yellowcard", "image": "assets/images/band1.png", "start": "19:10", "duration": 50 },
+  { "id": "70", "day": "Sunday", "stage": "Jupiler Stage", "name": "2Stick To Your Guns", "image": "assets/images/band1.png", "start": "21:00", "duration": 50 },
+  { "id": "71", "day": "Sunday", "stage": "Jupiler Stage", "name": "2Lagwagon", "image": "assets/images/band1.png", "start": "23:00", "duration": 60 },
+  { "id": "72", "day": "Sunday", "stage": "Metal Dome", "name": "2Deafheaven", "image": "assets/images/band1.png", "start": "12:00", "duration": 40 },
+  { "id": "73", "day": "Sunday", "stage": "Metal Dome", "name": "2The Raven Age", "image": "assets/images/band1.png", "start": "13:20", "duration": 40 },
+  { "id": "74", "day": "Sunday", "stage": "Metal Dome", "name": "2Chatlotte Wessels", "image": "assets/images/band1.png", "start": "14:50", "duration": 45 },
+  { "id": "75", "day": "Sunday", "stage": "Metal Dome", "name": "2Hot Milk", "image": "assets/images/band1.png", "start": "16:30", "duration": 50 },
+  { "id": "76", "day": "Sunday", "stage": "Metal Dome", "name": "2Julie Christmas", "image": "assets/images/band1.png", "start": "18:15", "duration": 50 },
+  { "id": "77", "day": "Sunday", "stage": "Metal Dome", "name": "2Perturbator", "image": "assets/images/band1.png", "start": "20:05", "duration": 50 },
+  { "id": "78", "day": "Sunday", "stage": "Metal Dome", "name": "2Mass Hysteria", "image": "assets/images/band1.png", "start": "21:55", "duration": 60 },
+  { "id": "79", "day": "Sunday", "stage": "Metal Dome", "name": "2DJ Nathachelet", "image": "assets/images/band1.png", "start": "24:00", "duration": 60 },
+  { "id": "80", "day": "Sunday", "stage": "Metal Dome", "name": "2Thrash Attack", "image": "assets/images/band1.png", "start": "25:00", "duration": 60 },
+  { "id": "81", "day": "Sunday", "stage": "Metal Dome", "name": "2DJ Nathachelet", "image": "assets/images/band1.png", "start": "26:00", "duration": 30 },
+  { "id": "82", "day": "Sunday", "stage": "Metal Dome", "name": "2ACinDC", "image": "assets/images/band1.png", "start": "26:30", "duration": 90 },
+  { "id": "83", "day": "Sunday", "stage": "Metal Dome", "name": "2DJ Nathachelet", "image": "assets/images/band1.png", "start": "28:00", "duration": 45 },
+  { "id": "84", "day": "Sunday", "stage": "Classic Rock Café", "name": "2Lukazz", "image": "assets/images/band1.png", "start": "14:00", "duration": 45 },
+  { "id": "85", "day": "Sunday", "stage": "Classic Rock Café", "name": "2Lukazz", "image": "assets/images/band1.png", "start": "15:15", "duration": 45 },
+  { "id": "86", "day": "Sunday", "stage": "Classic Rock Café", "name": "2Lukazz", "image": "assets/images/band1.png", "start": "16:30", "duration": 45 },
+  { "id": "87", "day": "Sunday", "stage": "Classic Rock Café", "name": "2DJ Nathachelet", "image": "assets/images/band1.png", "start": "21:00", "duration": 120 },
+  { "id": "88", "day": "Sunday", "stage": "Classic Rock Café", "name": "2DJ Carl", "image": "assets/images/band1.png", "start": "24:00", "duration": 240 },
+  { "id": "89", "day": "Sunday", "stage": "Marquee II", "name": "2On going clips", "image": "assets/images/band1.png", "start": "13:00", "duration": 760 },
+  { "id": "90", "day": "Sunday", "stage": "Marquee III", "name": "2On going clips", "image": "assets/images/band1.png", "start": "14:00", "duration": 760 },
+  { "id": "91", "day": "Sunday", "stage": "Marquee IV", "name": "2On going clips", "image": "assets/images/band1.png", "start": "15:00", "duration": 760 },
+  { "id": "92", "day": "Sunday", "stage": "Red Bull Stage", "name": "2Wrestling", "image": "assets/images/band1.png", "start": "19:10", "duration": 50 }
+]
+
+const rowHeight = 110; // see and calculate 'stage-label'
+
+// set dropdown menu
+const dayselect = document.getElementById("dayselect");
+if (days.length > 1) {
+	const btngroup = document.createElement("div");
+	const ddtoggle = document.createElement("div");
+	const ddmenu = document.createElement("div");
+	
+	btngroup.className = "btn-group";
+	ddtoggle.id = "daydd";
+	ddtoggle.innerHTML = days[0].name;
+	ddtoggle.className = "dropdown-toggle";
+	ddtoggle.setAttribute("data-bs-toggle", "dropdown");
+	ddtoggle.setAttribute("aria-expanded", "false");
+	ddmenu.className = "dropdown-menu";
+	ddmenu.setAttribute("style", "width: 100vw !important;");
+	days.forEach(day => {
+		let menuitem = document.createElement("a");
+		menuitem.className = "dropdown-item";
+		menuitem.setAttribute("href", "javascript:document.getElementById('daydd').innerHTML = '" + day.name + "';buildSchedule(days.find(d => d.name === '" + day.name + "'), days, stages, bands)");
+		menuitem.innerHTML = day.name;
+		ddmenu.appendChild(menuitem);
+	});
+	btngroup.appendChild(ddtoggle);
+	btngroup.appendChild(ddmenu);
+	dayselect.appendChild(btngroup);
+}
+
+buildSchedule(days[0], days, stages, bands);
+updateNowLine();
+setInterval(updateNowLine, 0.25 * 60 * 1000); // every 15 seconds
+
+//function buildSchedule(startHour, endHour, days, stages, bands)
+function buildSchedule(selectedday, alldays, allstages, allbands)
+{
+
+let startHour = selectedday.starthour;
+let endHour = selectedday.endhour;
+let dayname = selectedday.name;
+
+const stages = allstages.filter(d => d.day === dayname);
+const bands = allbands.filter(b => b.day === dayname);
+
+const pixelsPerMinute = 6;
+const firstColumnWidth = pixelsPerMinute * 5;// * 6;
+const timeSlots = ((endHour - startHour) * 60) / 5;
+const xHeaderHeight = 40;
+
+// header times
+const xHeader = document.getElementById("x-header");
+xHeader.innerHTML = "";
+xHeader.style.width = `${(pixelsPerMinute * timeSlots * 5) + firstColumnWidth}px`;
+for (let i = 0; i < timeSlots; i++) {
+	if (i == 0)
+	{
+		const maincell = document.createElement("div");
+		maincell.className = "x-cell maincell";
+		maincell.style.width = `${firstColumnWidth-20}px`; // to center the time on the line
+		xHeader.appendChild(maincell);
+	}
+
+	const cell = document.createElement("div");
+	cell.className = "x-cell";
+	cell.style.width = `${pixelsPerMinute * 5}px`;
+
+	const minutes = startHour * 60 + i * 5;
+	let hour = Math.floor(minutes / 60);
+	const min = minutes % 60;
+
+	if (min === 0 || min === 30) {
+		if (hour >= 24)
+		{
+			hour = hour-24;
+		}
+		cell.textContent = `${hour.toString().padStart(2, '0')}:${min.toString().padStart(2, '0')}`;
+		cell.classList.add("label");
+	}
+	xHeader.appendChild(cell);
+}
+
+const rows = document.getElementById("rows");
+rows.innerHTML = "";
+rows.style.width = `${(pixelsPerMinute * timeSlots * 5) + firstColumnWidth}px`;
+rows.style.position = 'relative';
+
+// background blocks
+const row2 = document.createElement("div");
+row2.className = "rowschedule";
+row2.style.position = "absolute";
+for (let i = 0; i < timeSlots; i++) {
+	const minutes = startHour * 60 + i * 5;
+	const hour = Math.floor(minutes / 60);
+	const min = minutes % 60;
+
+	if (min % 15 == 0)
+	{
+		const block = document.createElement("div");
+		block.className = "block";
+		block.style.width = `${pixelsPerMinute * 15}px`;
+		block.style.height = `${(stages.length * rowHeight) + xHeaderHeight}px`;
+		//block.style.height = `${(stages.length * rowHeight)}px`;
+		
+		if (i == 0)
+		{
+			block.className = "block first-block";
+		}
+
+		if (min < 30) {
+			block.className = "block even";
+			if (i == 0)
+			{
+				block.className = "block even first-block";
+			}
+		}
+		row2.appendChild(block);
+	}
+}
+rows.appendChild(row2);
+
+// stages
+const stageLabels = document.getElementById("stage-labels");
+let isFirstStageRow = true;
+
+stages.forEach((stageObj, index) => {
+	const isLastStage = index === stages.length - 1;
+	if (isLastStage) {
+	}
+	const stage = stageObj.name;
+	const stageColor = stageObj.color;
+	const label = document.createElement("div");
+	label.style.color = stageColor;
+	label.className = "stage-label";
+	label.textContent = stage;
+	label.style.minWidth = `${firstColumnWidth}px`;
+
+	const row = document.createElement("div");
+	row.className = "rowschedule";
+	
+	// background blocks
+	for (let i = 0; i < timeSlots; i++) {
+		const minutes = startHour * 60 + i * 5;
+		const hour = Math.floor(minutes / 60);
+		const min = minutes % 60;
+
+		if (min % 15 == 0)
+		{
+			const block = document.createElement("div");
+			block.className = "block";
+			block.style.width = `${pixelsPerMinute * 15}px`;
+			
+			if (i == 0)
+			{
+				row.appendChild(label);
+				block.className = "block first-block";
+			}
+
+			if (min < 30) {
+				block.className = "block even";
+				if (i == 0)
+				{
+					block.className = "block even first-block";
+				}
+			}
+			//row.appendChild(block);
+		}
+	}
+	rows.appendChild(row);
+
+	// bands
+	bands.filter(b => b.stage === stage).forEach(band => {
+		const xHeaderHeight = 0;
+		const [h, m] = band.start.split(":").map(Number);
+		const startMin = (h - startHour) * 60 + m;
+		const left = startMin * pixelsPerMinute + (firstColumnWidth);
+		const width = band.duration * pixelsPerMinute - 5; // -5 px for margin
+
+		const bandDiv = document.createElement("div");
+		bandDiv.id = "band" + band.id;
+		bandDiv.className = "band";
+		bandDiv.style.left = `${left}px`;
+		bandDiv.setAttribute("ori-left", `${left}`);
+		bandDiv.style.top = `${xHeaderHeight + index * 110 + 5 + 50}px`;
+		bandDiv.setAttribute("ori-top", `${xHeaderHeight + index * 110 + 5 + 50}`);
+		//bandDiv.style.top = `${xHeaderHeight + 50}px`;
+		bandDiv.style.top = `${xHeaderHeight}px`;
+		bandDiv.style.marginTop = "50px";
+		bandDiv.setAttribute("ori-top", `${xHeaderHeight + 50}`);
+		//bandDiv.style.width = `${width}px`;
+		bandDiv.setAttribute("ori-width", `${width}`);
+		let imagediv = "";
+		if (band.image !== null) {
+			imagediv = `<div onclick="showArtist();" class="band-image" style="background:${stageColor};padding-left: 5px;"><img src="${band.image}"></div>`;
+		}
+		else {
+			imagediv = `<div onclick="showArtist();" class="band-image" style="background:${stageColor};width: 5px;"></div>`;
+		}
+		bandDiv.innerHTML = `${imagediv}
+								<div onclick="showArtist();" class="band-info">
+									<div class="band-name" style="color:${stageColor}"><span class="span-band-name" style="white-space: nowrap;">${band.name}</span></div>
+									<div class="band-time">${calculateEndTime(band.start, 0)} - ${calculateEndTime(band.start, band.duration)}</div>
+								</div>`;
+		const copyBandDiv = bandDiv.cloneNode(true);
+		copyBandDiv.id = "bgband" + band.id;
+		copyBandDiv.innerHTML = `<div onclick="showArtist();" style="width: 100%; height: 100%;"></div><div id="fav${band.id}" class="favorite-icon" onclick="setFavorite(this);"><i class="fal fa-skull"></i>
+								</div>`;
+		copyBandDiv.className = "band-bg";
+		copyBandDiv.style.width = `${width}px`;
+		copyBandDiv.setAttribute("ori-width", `${width}`);
+		row.appendChild(copyBandDiv);
+		row.appendChild(bandDiv);
+	});
+	//rows.appendChild(row);
+	isFirstStageRow = false;
+});
+
+// logic to keep band name and image on screen in case the band-div is to wide to fit on the screen
+const scrollContainer = document.querySelector('.timeline-container');
+const scrolltimeline = document.querySelector('.timeline');
+let minBandWidth = 100;
+
+const targets = document.querySelectorAll('.band');
+
+scrollContainer.addEventListener('scroll', () => {
+	targets.forEach(target => {
+		const scrollContainerRect = scrolltimeline.getBoundingClientRect();
+		const currentLeftPosContainer = Math.abs(scrollContainerRect.left)
+		const currentTopPosContainer = Math.abs(scrollContainerRect.top)
+		const oritop = parseFloat(target.getAttribute('ori-top'));
+		const orileft = parseFloat(target.getAttribute('ori-left'));
+		const oriwidth = parseFloat(target.getAttribute('ori-width'));
+		const isLeftSideBlockOnLeftSideScreen = currentLeftPosContainer >= orileft;
+		const nameLabel = target.querySelector('.span-band-name');
+		minBandWidth = 60 + 10 + 32 + nameLabel.offsetWidth;
+		const maxLeft = orileft + oriwidth - minBandWidth;
+
+		if (currentLeftPosContainer >= orileft && currentLeftPosContainer <= maxLeft) // then stick/fixed
+		{
+			target.style.position = 'sticky';
+			target.style.left = '0px';
+		}
+		else
+		{
+			if (isLeftSideBlockOnLeftSideScreen) 
+			{
+				target.style.position = 'absolute';
+				target.style.left = maxLeft + 'px';
+			}
+			else
+			{
+				target.style.position = 'absolute';
+				target.style.left = orileft + 'px';
+			}
+		}
+	});
+});
+}
+
+function updateNowLine() {
+	const day = days[0]; // Assuming you show only 1 day at a time
+	const container = document.getElementById("now-line-container");
+	const box = document.getElementById("now-box");
+	const line = document.getElementById("now-line");
+
+	const pixelsPerMinute = 6;
+	const firstColumnWidth = pixelsPerMinute * 5;
+	const timeline = document.querySelector(".timeline");
+	const rows = document.getElementById("rows");
+
+	const now = new Date();
+	let hour = now.getHours();
+	if (hour < 6)
+	{
+		hour = hour + 24;
+	}
+	let minutes = now.getMinutes();
+	const totalMinutes = hour * 60 + minutes;
+	const startMinutes = day.starthour * 60;
+	const endMinutes = day.endhour * 60;
+
+	if (totalMinutes < startMinutes || totalMinutes > endMinutes) {
+		container.style.display = "none";
+		return;
+	} else {
+		container.style.display = "block";
+	}
+
+	const minutesFromStart = totalMinutes - startMinutes;
+	const left = firstColumnWidth + minutesFromStart * pixelsPerMinute;
+
+	// Move Now box and line
+	box.style.left = `${left}px`;
+	line.style.left = `${left}px`;
+	line.style.height = `${rows.offsetHeight}px`;
+}
+
+// helpers
+function calculateEndTime(start, duration) {
+	const [h, m] = start.split(":").map(Number);
+	const total = h * 60 + m + duration;
+	let endH = Math.floor(total / 60);
+	if (endH >= 24)
+	{
+		endH = endH-24;
+	}
+	const endM = total % 60;
+	return `${endH.toString().padStart(2, '0')}:${endM.toString().padStart(2, '0')}`;
+}
+
+function setFavorite(element) {
+  const icon = element.querySelector('i');
+  const bandbgDiv = element.closest('.band-bg');
+  const bandDiv = document.getElementById(bandbgDiv.id.replace('bg', ''));
+  const bandImageDiv = bandDiv.querySelector('.band-image');
+  const bandName = bandDiv.querySelector('.band-name');
+
+  // Save original colors if not already saved
+  if (!bandbgDiv.dataset.originalBg) {
+    bandbgDiv.dataset.originalBg = getComputedStyle(bandbgDiv).backgroundColor;
+  }
+  if (!bandName.dataset.originalColor) {
+    bandName.dataset.originalColor = getComputedStyle(bandName).color;
+  }
+
+  // Get color from band-image
+  const imageBg = getComputedStyle(bandImageDiv).backgroundColor;
+
+  // Determine current favorite state
+  const isFavorite = icon.classList.contains('fa') && !icon.classList.contains('fal');
+
+  // Start icon transition
+  icon.style.opacity = '0';
+  icon.style.transform = 'scale(0.8)';
+
+  setTimeout(() => {
+    icon.classList.remove('fa', 'fal');
+    icon.classList.add(isFavorite ? 'fal' : 'fa');
+
+    // End transition
+    icon.style.opacity = '1';
+    icon.style.transform = 'scale(1)';
+  }, 500);
+
+  // Animate background and text color
+  bandbgDiv.style.transition = 'background-color 0.5s';
+  bandName.style.transition = 'color 0.5s';
+
+  if (!isFavorite) {
+    bandbgDiv.style.backgroundColor = imageBg;
+    bandName.style.color = '#000';
+  } else {
+    bandbgDiv.style.backgroundColor = bandbgDiv.dataset.originalBg;
+    bandName.style.color = bandName.dataset.originalColor;
+  }
+}
+
+function toggleFavorites(obj) {
+	const icon = obj.querySelector('i');
+	const isFavoriteOn = icon.classList.contains('fa') && !icon.classList.contains('fal');
+    icon.classList.remove('fa', 'fal');
+    icon.classList.add(isFavoriteOn ? 'fal' : 'fa');
+
+	if (isFavoriteOn) {
+		document.querySelectorAll('.band-bg').forEach(bandbg => {
+			if (bandbg.querySelector('.fal.fa-skull')) {
+				bandbg.style.display = '';
+				document.getElementById(bandbg.id.replace('bg', '')).style.display = '';
+			}
+		});
+	}
+	else {
+		document.querySelectorAll('.band-bg').forEach(bandbg => {
+			if (bandbg.querySelector('.fal.fa-skull')) {
+				bandbg.style.display = 'none';
+				document.getElementById(bandbg.id.replace('bg', '')).style.display = 'none';
+			}
+		});
+	}
+}
+
+function getFavoriteIds() {
+	const ids = [];
+	document.querySelectorAll('.band-bg').forEach(bandbg => {
+		const skullIcon = bandbg.querySelector('.fa.fa-skull');
+		if (skullIcon) {
+			// Voeg het ID toe zonder de 'bg'-suffix
+			const idWithoutBg = bandbg.id.replace('bgband', '');
+			ids.push(idWithoutBg);
+		}
+	});
+	return ids.join(',');
+}
+function setFavorites(Ids) {
+	const favoriteIds = Ids.split(',').map(id => id.trim());
+	favoriteIds.forEach(id => {
+		const element = document.getElementById('fav'+id);
+		if (element) {
+			element.click();
+		}
+	});
+}
+
+function setFavs(Ids) {
+	const favoriteIds = Ids.split(',').map(id => id.trim());
+
+	document.querySelectorAll('.band-bg').forEach(bandbg => {
+		const idWithoutPrefix = bandbg.id.replace('bgband', '');
+		const isFavorite = favoriteIds.includes(idWithoutPrefix);
+		const icon = bandbg.querySelector('i.fa-skull');
+
+		if (icon) {
+			if (isFavorite) {
+				// Zet favoriet aan
+				icon.classList.remove('fal');
+				icon.classList.add('fa');
+
+				// Laat band en achtergrond zien
+				bandbg.style.display = '';
+				const band = document.getElementById(idWithoutPrefix);
+				if (band) {
+					band.style.display = '';
+				}
+			} else {
+				// Zet favoriet uit
+				icon.classList.remove('fa');
+				icon.classList.add('fal');
+
+				// Verberg band en achtergrond
+				bandbg.style.display = 'none';
+				const band = document.getElementById(idWithoutPrefix);
+				if (band) {
+					band.style.display = 'none';
+				}
+			}
+		}
+	});
+}
+
+function showArtist() {
+	alert("clicked");
+}
+		</script>
+
+</div>    
+
+<!--**********************************
+    Scripts
+***********************************-->
+<script src="index.js" defer></script>
+<script src="assets/js/jquery.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/settings.js"></script>
+<script src="assets/js/custom.js"></script>
+<script src="assets/js/dz.carousel.js"></script><!-- Swiper -->
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
+<script src="assets/js/appafter.js"></script>
+</body>
+</html>
