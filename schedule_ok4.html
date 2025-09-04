@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="nl">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<title>Band Tijdschema</title>
+		<link rel="stylesheet" href="assets/vendor/fontawesome/css/all.min.css">
+		<style>
+* { box-sizing: border-box; }
+html, body {
+	margin: 0;
+	height: 100%;
+	font-family: sans-serif;
+}
+
+.schedule-wrapper {
+	display: flex;
+	height: 100vh;
+	overflow: hidden;
+	background-color: #000;
+}
+
+.y-axis {
+	position: sticky;
+	left: 0;
+	top: 0;
+	z-index: 10;
+	background: #fff;
+	border-right: 1px solid #555;
+}
+
+.y-header {
+	height: 41px;
+	width: 120px;
+	background: #f0f0f0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	border-bottom: 1px solid #555;
+}
+
+.stage-label {
+	width: 120px;
+	display: flex;
+	position: sticky;
+	left: 10px;
+	color: #fff;
+	overflow: visible;
+	white-space: nowrap;
+	margin-top: 20px;
+	font-weight: bold;
+}
+
+.timeline-container {
+	overflow: auto;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+}
+
+.timeline {
+	min-width: 1440px;
+	position: relative;
+}
+
+.x-header {
+	display: flex;
+	position: sticky;
+	top: 0;
+	z-index: 5;
+	background: #f9f9f999;
+	border-bottom: 1px solid #555;
+}
+
+.x-cell {
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	font-size: 12px;
+	flex-shrink: 0;
+}
+.x-cell.maincell {
+	position: sticky;
+	left: 0;
+}
+.x-cell.label {
+	font-weight: bold;
+	font-size: 16px;
+	}	
+
+.x-cell:nth-child(12n+1) {
+	width: 60px;
+}
+
+.row {
+	display: flex;
+	position: relative;
+}
+
+.block {
+	height: 110px;
+	flex-shrink: 0;
+	z-index: -9;
+}
+.even {
+	background-color: #19160a;
+}
+
+.block:nth-child(3n+1) {
+	width: 60px;
+	border-right: 1px solid #555;
+	z-index: -9;
+}
+.first-block {
+	border-left: 1px solid #555;
+}
+
+.band {
+	position: absolute;
+	height: 60px;
+	background: #fff;
+	font-size: 16px;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+	box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+	padding: 0;
+}
+
+.band .color-bar {
+	width: 5px;
+	height: 100%;
+	flex-shrink: 0;
+}
+
+.band .band-image {
+	width: 65px;
+	height: 60px;
+	background-color: #666;
+	background-size: cover;
+	background-position: center;
+	flex-shrink: 0;
+}
+
+.band .band-info {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding-left: 5px;
+	flex-grow: 1;
+}
+
+.band .band-name {
+	font-weight: bold;
+	margin-bottom: 4px;
+}
+
+.band .band-time {
+	font-size: 11px;
+	background: #fff;
+	color: #000;
+	padding: 2px 0px;
+	border-radius: 3px;
+	display: inline-block;
+}
+
+.band .favorite-icon {
+	padding: 0px 8px 0px 0px;
+	font-size: 16px;
+	color: #000;
+}
+
+@media (max-width: 600px) {
+	.x-cell:nth-child(6n+1) {
+		width: 40px;
+	}
+
+	.block:nth-child(6n+1) {
+		width: 40px;
+		z-index: -9;
+	}
+}
+		</style>
+	</head>
+	<body>
+		<div id="schedule-wrapper" class="schedule-wrapper">
+			<div class="timeline-container">
+				<div class="timeline">
+					<div class="x-header" id="x-header"></div>
+					<div id="rows"></div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+const startHour = 12;
+const endHour = 29;
+
+const stages = [
+  { "name": "South Stage", "color": "#e74c3c" },
+  { "name": "North Stage", "color": "#3498db" },
+  { "name": "Marquee", "color": "#2ecc71" },
+  { "name": "Jupiler Stage", "color": "#9b59b6" },
+  { "name": "Metal Dome", "color": "#f39c12" },
+  { "name": "Classic Rock Café", "color": "#1abc9c" },
+  { "name": "Marquee II", "color": "#f39c12" },
+  { "name": "Marquee III", "color": "#f39c12" },
+  { "name": "Marquee IV", "color": "#f39c12" },
+  { "name": "Red Bull Stage", "color": "#1abc9c" }
+]
+
+const bands = [
+  { "stage": "South Stage", "name": "Municipal Waste", "image": "assets/images/band1.png", "start": "12:05", "duration": 45 },
+  { "stage": "South Stage", "name": "Landmvrks", "image": "assets/images/band1.png", "start": "13:55", "duration": 50 },
+  { "stage": "South Stage", "name": "Motionless In White", "image": "assets/images/band1.png", "start": "15:55", "duration": 60 },
+  { "stage": "South Stage", "name": "Dream Theater", "image": "assets/images/band1.png", "start": "18:15", "duration": 75 },
+  { "stage": "South Stage", "name": "Iron Maiden", "image": "assets/images/band1.png", "start": "21:00", "duration": 120 },
+
+  { "stage": "North Stage", "name": "Warkings", "image": "assets/images/band1.png", "start": "13:00", "duration": 45 },
+  { "stage": "North Stage", "name": "Beast In Black", "image": null, "start": "14:55", "duration": 50 },
+  { "stage": "North Stage", "name": "Alestorm", "image": "assets/images/band1.png", "start": "17:05", "duration": 60 },
+  { "stage": "North Stage", "name": "Epica", "image": "assets/images/band1.png", "start": "19:40", "duration": 60 },
+  { "stage": "North Stage", "name": "Powerwolf", "image": "assets/images/band1.png", "start": "23:10", "duration": 90 },
+
+  { "stage": "Marquee", "name": "Psychonaut", "image": "assets/images/band1.png", "start": "12:00", "duration": 40 },
+  { "stage": "Marquee", "name": "Signs of the Swarm", "image": "assets/images/band1.png", "start": "13:15", "duration": 45 },
+  { "stage": "Marquee", "name": "Death Angel", "image": "assets/images/band1.png", "start": "14:40", "duration": 45 },
+  { "stage": "Marquee", "name": "Soen", "image": "assets/images/band1.png", "start": "16:05", "duration": 50 },
+  { "stage": "Marquee", "name": "Paradise Lost", "image": "assets/images/band1.png", "start": "17:35", "duration": 50 },
+  { "stage": "Marquee", "name": "Orbit Culture", "image": "assets/images/band1.png", "start": "19:10", "duration": 50 },
+  { "stage": "Marquee", "name": "Carcass", "image": "assets/images/band1.png", "start": "20:45", "duration": 60 },
+  { "stage": "Marquee", "name": "Hatebreed", "image": "assets/images/band1.png", "start": "23:00", "duration": 75 },
+
+  { "stage": "Jupiler Stage", "name": "Fleshwater", "image": "assets/images/band1.png", "start": "12:40", "duration": 40 },
+  { "stage": "Jupiler Stage", "name": "Trash Boat", "image": "assets/images/band1.png", "start": "14:00", "duration": 45 },
+  { "stage": "Jupiler Stage", "name": "Alien Ant Farm", "image": "assets/images/band1.png", "start": "15:40", "duration": 45 },
+  { "stage": "Jupiler Stage", "name": "Terror", "image": "assets/images/band1.png", "start": "17:25", "duration": 45 },
+  { "stage": "Jupiler Stage", "name": "Yellowcard", "image": "assets/images/band1.png", "start": "19:10", "duration": 50 },
+  { "stage": "Jupiler Stage", "name": "Stick To Your Guns", "image": "assets/images/band1.png", "start": "21:00", "duration": 50 },
+  { "stage": "Jupiler Stage", "name": "Lagwagon", "image": "assets/images/band1.png", "start": "23:00", "duration": 60 },
+
+  { "stage": "Metal Dome", "name": "Deafheaven", "image": "assets/images/band1.png", "start": "12:00", "duration": 40 },
+  { "stage": "Metal Dome", "name": "The Raven Age", "image": "assets/images/band1.png", "start": "13:20", "duration": 40 },
+  { "stage": "Metal Dome", "name": "Chatlotte Wessels", "image": "assets/images/band1.png", "start": "14:50", "duration": 45 },
+  { "stage": "Metal Dome", "name": "Hot Milk", "image": "assets/images/band1.png", "start": "16:30", "duration": 50 },
+  { "stage": "Metal Dome", "name": "Julie Christmas", "image": "assets/images/band1.png", "start": "18:15", "duration": 50 },
+  { "stage": "Metal Dome", "name": "Perturbator", "image": "assets/images/band1.png", "start": "20:05", "duration": 50 },
+  { "stage": "Metal Dome", "name": "Mass Hysteria", "image": "assets/images/band1.png", "start": "21:55", "duration": 60 },
+  { "stage": "Metal Dome", "name": "DJ Nathachelet", "image": "assets/images/band1.png", "start": "24:00", "duration": 60 },
+  { "stage": "Metal Dome", "name": "Thrash Attack", "image": "assets/images/band1.png", "start": "25:00", "duration": 60 },
+  { "stage": "Metal Dome", "name": "DJ Nathachelet", "image": "assets/images/band1.png", "start": "26:00", "duration": 30 },
+  { "stage": "Metal Dome", "name": "ACinDC", "image": "assets/images/band1.png", "start": "26:30", "duration": 90 },
+  { "stage": "Metal Dome", "name": "DJ Nathachelet", "image": "assets/images/band1.png", "start": "28:00", "duration": 45 },
+
+  { "stage": "Classic Rock Café", "name": "Lukazz", "image": "assets/images/band1.png", "start": "14:00", "duration": 45 },
+  { "stage": "Classic Rock Café", "name": "Lukazz", "image": "assets/images/band1.png", "start": "15:15", "duration": 45 },
+  { "stage": "Classic Rock Café", "name": "Lukazz", "image": "assets/images/band1.png", "start": "16:30", "duration": 45 },
+  { "stage": "Classic Rock Café", "name": "DJ Nathachelet", "image": "assets/images/band1.png", "start": "21:00", "duration": 120 },
+  { "stage": "Classic Rock Café", "name": "DJ Carl", "image": "assets/images/band1.png", "start": "24:00", "duration": 240 },
+
+  { "stage": "Marquee II", "name": "On going clips", "image": "assets/images/band1.png", "start": "13:00", "duration": 960 },
+  { "stage": "Marquee III", "name": "On going clips", "image": "assets/images/band1.png", "start": "14:00", "duration": 960 },
+  { "stage": "Marquee IV", "name": "On going clips", "image": "assets/images/band1.png", "start": "15:00", "duration": 960 },
+  { "stage": "Red Bull Stage", "name": "Wrestling", "image": "assets/images/band1.png", "start": "19:10", "duration": 50 }
+]
+
+const pixelsPerMinute = 6;
+const firstColumnWidth = pixelsPerMinute * 5;// * 6;
+const timeSlots = ((endHour - startHour) * 60) / 5;
+
+const xHeader = document.getElementById("x-header");
+xHeader.style.width = `${(pixelsPerMinute * timeSlots * 5) + firstColumnWidth}px`;
+
+for (let i = 0; i < timeSlots; i++) {
+	if (i == 0)
+	{
+		const maincell = document.createElement("div");
+		maincell.className = "x-cell maincell";
+		maincell.style.width = `${firstColumnWidth-20}px`; // to center the time on the line
+		xHeader.appendChild(maincell);
+	}
+
+	const cell = document.createElement("div");
+	cell.className = "x-cell";
+	cell.style.width = `${pixelsPerMinute * 5}px`;
+
+	const minutes = startHour * 60 + i * 5;
+	var hour = Math.floor(minutes / 60);
+	const min = minutes % 60;
+
+	if (min === 0 || min === 30) {
+		if (hour >= 24)
+		{
+			hour = hour-24;
+		}
+		cell.textContent = `${hour.toString().padStart(2, '0')}:${min.toString().padStart(2, '0')}`;
+		cell.classList.add("label");
+	}
+	xHeader.appendChild(cell);
+}
+
+const xHeaderHeight = 40;
+const stageLabels = document.getElementById("stage-labels");
+const rows = document.getElementById("rows");
+rows.style.width = `${(pixelsPerMinute * timeSlots * 5) + firstColumnWidth}px`;
+rows.style.position = 'relative';
+
+stages.forEach((stageObj, index) => {
+	const stage = stageObj.name;
+	const stageColor = stageObj.color;
+	const label = document.createElement("div");
+	label.style.color = stageColor;
+	label.className = "stage-label";
+	label.textContent = stage;
+	label.style.minWidth = `${firstColumnWidth}px`;
+
+	const row = document.createElement("div");
+	row.className = "row";
+
+	for (let i = 0; i < timeSlots; i++) {
+		const block = document.createElement("div");
+		block.className = "block";
+		block.style.width = `${pixelsPerMinute * 5}px`;
+		if (i == 0)
+		{
+			row.appendChild(label);
+			block.className = "block first-block";
+		}
+
+		const minutes = startHour * 60 + i * 5;
+		const hour = Math.floor(minutes / 60);
+		const min = minutes % 60;
+
+		if (min < 30) {
+			block.className = "block even";
+			if (i == 0)
+			{
+				block.className = "block even first-block";
+			}
+		}
+		row.appendChild(block);
+	}
+
+	bands.filter(b => b.stage === stage).forEach(band => {
+		const xHeaderHeight = 0;
+		const [h, m] = band.start.split(":").map(Number);
+		const startMin = (h - startHour) * 60 + m;
+		const left = startMin * pixelsPerMinute + (firstColumnWidth);
+		const width = band.duration * pixelsPerMinute;
+
+		const bandDiv = document.createElement("div");
+		bandDiv.className = "band";
+		bandDiv.style.left = `${left}px`;
+		bandDiv.setAttribute("ori-left", `${left}`);
+		bandDiv.style.top = `${xHeaderHeight + index * 110 + 5 + 50}px`;
+		bandDiv.setAttribute("ori-top", `${xHeaderHeight + index * 110 + 5 + 50}`);
+		bandDiv.style.width = `${width}px`;
+		bandDiv.setAttribute("ori-width", `${width}`);
+		if (band.image !== null) {
+			bandDiv.innerHTML = `
+								<div class="band-image" style="background:${stageColor};padding-left: 5px;"><img src="${band.image}"></div>
+									<div class="band-info">
+										<div class="band-name" style="color:${stageColor}">${band.name}</div>
+										<div class="band-time">${calculateEndTime(band.start, 0)}-${calculateEndTime(band.start, band.duration)}</div>
+									</div>
+									<div class="favorite-icon"><i class="far fa-heart"></i>
+								</div>`;
+		}
+		else {
+			bandDiv.innerHTML = `
+								<div class="band-image" style="background:${stageColor};width: 5px;"></div>
+									<div class="band-info">
+										<div class="band-name" style="color:${stageColor}">${band.name}</div>
+										<div class="band-time">${calculateEndTime(band.start, 0)}-${calculateEndTime(band.start, band.duration)}</div>
+									</div>
+									<div class="favorite-icon"><i class="far fa-heart"></i>
+								</div>`;
+		}
+		rows.appendChild(bandDiv);
+	});
+	rows.appendChild(row);
+});
+
+const scrollContainer = document.querySelector('.timeline-container');
+const scrolltimeline = document.querySelector('.timeline');
+
+const minBandWidth = 250;
+
+const posibleTargets = document.querySelectorAll('.band');
+const targets = Array.from(posibleTargets).filter(el => {
+	const width = parseInt(el.getAttribute('ori-width'));
+	return width > minBandWidth;
+});
+
+// logic to keep band name and image on screen in case the band-div is to wide to fit on the screen
+scrollContainer.addEventListener('scroll', () => {
+	targets.forEach(target => {
+		//console.log('c1');
+		const scrollContainerRect = scrolltimeline.getBoundingClientRect();
+		const currentLeftPosContainer = Math.abs(scrollContainerRect.left)
+		const currentTopPosContainer = Math.abs(scrollContainerRect.top)
+		const oritop = parseInt(target.getAttribute('ori-top'));
+		const orileft = parseInt(target.getAttribute('ori-left'));
+		const oriwidth = parseInt(target.getAttribute('ori-width'));
+		const isLeftSideBlockOnLeftSideScreen = currentLeftPosContainer >= orileft;
+		const maxLeft = orileft + oriwidth - minBandWidth;
+
+		if (currentLeftPosContainer >= orileft && currentLeftPosContainer <= maxLeft) // then stick/fixed
+		{
+			//console.log('a2');
+			target.style.position = 'fixed';
+			target.style.top = (oritop+scrollContainerRect.top) + xHeaderHeight + 1 + 'px';
+			target.style.left = '0px';
+			target.style.width = (oriwidth - (currentLeftPosContainer - orileft)) + 'px';
+		}
+		else
+		{
+			if (isLeftSideBlockOnLeftSideScreen) 
+			{
+				//console.log('b2');
+				target.style.position = 'absolute';
+				target.style.top = oritop + 'px';
+				target.style.left = maxLeft + 'px';
+				target.style.width = minBandWidth + 'px';
+			}
+			else
+			{
+				//console.log('c2');
+				target.style.position = 'absolute';
+				target.style.top = oritop + 'px';
+				target.style.left = orileft + 'px';
+				target.style.width = oriwidth + 'px';
+			}
+		}
+	});
+});
+
+function calculateEndTime(start, duration) {
+	const [h, m] = start.split(":").map(Number);
+	const total = h * 60 + m + duration;
+	var endH = Math.floor(total / 60);
+	if (endH >= 24)
+	{
+		endH = endH-24;
+	}
+	const endM = total % 60;
+	return `${endH.toString().padStart(2, '0')}:${endM.toString().padStart(2, '0')}`;
+}
+		</script>
+	</body>
+</html>
