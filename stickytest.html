@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 300vh; /* voor verticale scrollruimte */
+    }
+
+    .scroll-container {
+      width: 2000px;
+      height: 300px;
+      margin: 100px 0;
+      position: relative;
+      background: linear-gradient(to right, #e0e0e0, #c0c0c0);
+      border: 1px solid #999;
+    }
+
+    .sticky-img {
+      position: absolute;
+      top: 20px;
+      left: 0;
+      width: 100px;
+      height: auto;
+      z-index: 10;
+      transition: left 0.1s;
+    }
+
+    .placeholder {
+      margin-left: 120px;
+      padding-top: 30px;
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Meerdere containers -->
+  <div class="scroll-container">
+    <img src="https://via.placeholder.com/100/FF0000/FFFFFF?text=1" class="sticky-img" alt="Sticky 1">
+    <div class="placeholder">
+      <p>Container 1</p>
+    </div>
+  </div>
+
+  <div class="scroll-container">
+    <img src="https://via.placeholder.com/100/00FF00/000000?text=2" class="sticky-img" alt="Sticky 2">
+    <div class="placeholder">
+      <p>Container 2</p>
+    </div>
+  </div>
+
+  <div class="scroll-container">
+    <img src="https://via.placeholder.com/100/0000FF/FFFFFF?text=3" class="sticky-img" alt="Sticky 3">
+    <div class="placeholder">
+      <p>Container 3</p>
+    </div>
+  </div>
+
+  <script>
+const containers = document.querySelectorAll('.scroll-container');
+
+window.addEventListener('scroll', () => {
+  containers.forEach(container => {
+    const img = container.querySelector('.sticky-img');
+    const scrollLeft = window.scrollX;
+    const containerLeft = container.offsetLeft;
+    const containerTop = container.offsetTop;
+    const containerHeight = container.offsetHeight;
+    const imgWidth = img.offsetWidth;
+    const maxLeft = container.offsetWidth - imgWidth - 300;
+
+    const fixedTop = containerTop + 20 - window.scrollY; // 20 = offset van top in CSS
+
+    if (
+      scrollLeft >= containerLeft &&
+      scrollLeft <= containerLeft + maxLeft
+    ) {
+      img.style.position = 'fixed';
+      img.style.left = '0px';
+      img.style.top = `${fixedTop}px`;
+    } else if (scrollLeft < containerLeft) {
+      img.style.position = 'absolute';
+      img.style.left = '0px';
+      img.style.top = '20px';
+    } else {
+      img.style.position = 'absolute';
+      img.style.left = `${maxLeft}px`;
+      img.style.top = '20px';
+    }
+  });
+});
+  </script>
+
+</body>
+</html>
