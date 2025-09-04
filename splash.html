@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, viewport-fit=cover">
+	<meta name="theme-color" content="#2196f3">
+	<meta name="author" content="QTickets" /> 
+	<meta name="format-detection" content="telephone=no">
+    <!-- Title -->
+	<title>QTickets Event App</title>
+    <!-- Stylesheets -->
+	<!--<link rel="stylesheet" href="assets/vendor/googlefonts/googlefont.css">-->
+	<style>
+		html, body {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+		}
+
+		.full-background {
+			width: 100vw;
+			height: 100vh;
+			background-image: url('assets/images/DdmAppSplashBg.jpg');
+			background-size: 100% auto;
+			background-repeat: no-repeat;
+			background-position: bottom center;
+			overflow: hidden;
+		}
+		
+		.full-background img {
+			position: absolute;
+			top: 40%;
+			left: 50%;
+			width: 70%;
+			height: auto;
+			transform: translate(-50%, -50%) scale(0.1);
+			animation: zoomIn 2s cubic-bezier(0.7, 0.02, 0.13, 2.13) forwards;
+			filter: drop-shadow(0px 10px 5px rgba(0, 0, 0, 0.8));
+		}
+		
+		.spin {
+			transform-origin: center 53%;
+			animation: spin 5s linear infinite !important;
+		}
+
+		.spinner-border {
+			position: absolute;
+			top: 40%;
+			left: 50%;
+			display: inline-block;
+			width: 1rem;
+			height: 1rem;
+			vertical-align: -0.125em;
+			border: 0.2em solid #fff;;
+			border-right-color: transparent;
+			border-radius: 50%;
+			animation: 0.75s linear infinite spinner-border;
+		}
+
+		.loading {
+			display: none;
+			position: absolute;
+			top: 63%;
+			width: 100%
+		}
+		.loading-text {
+			/*font-family: Sorts Mill Goudy, serif;*/
+			/*font-weight: 400;*/
+			color: #fff;;
+			position: absolute;
+			width: 100%;
+			text-align: center;
+			margin-top: 15px;
+		}
+		
+		.progress {
+			width: 50%;
+			background-color: #000000;
+			height: 5px;
+			margin-bottom: 0px;
+			text-align: left;
+		}
+		.progress-bar {
+			height: 5px;
+			background-color: #ffffff;
+			text-align: right;
+			padding-right: 5px;
+		}
+
+		@keyframes zoomIn {
+			0% {
+				transform: translate(-50%, -50%) scale(0.1);
+			}
+			100% {
+				transform: translate(-50%, -50%) scale(1);
+			}
+		}
+		
+		@keyframes spin {
+			from {
+				transform: translate(-50%, -50%) scale(1) rotate(0deg);
+			}
+			to {
+				transform: translate(-50%, -50%) scale(1) rotate(360deg);
+			}
+		}
+
+		@keyframes spinner-border {
+			from {
+				transform: translate(-50%, -50%) scale(1) rotate(0deg);
+			}
+			to {
+				transform: translate(-50%, -50%) scale(1) rotate(360deg);
+			}
+		}
+	</style>
+</head>   
+<body style="background-color: #000;">
+<div class="full-background">
+	<img id="animatedImage" src="assets/images/DDMLogoTransparent.svg"><br>
+	<div class="loading" style="align-items: center !important;">
+		<span class="loading-text">Loading...</span>
+		<center><div class="progress"><div id="progressbar" class="progress-bar" style="width: 0%;"></div></div></center>
+		<!--<span class="spinner-border me-3 spinner-border-sm" role="status" aria-hidden="true"></span><br>-->
+	</div>
+</div>    
+
+<!--**********************************
+    Scripts
+***********************************-->
+<script>
+	const image = document.getElementById('animatedImage');
+
+	// Listen for when the zoom-in animation ends
+	image.addEventListener('animationend', (e) => {
+		if (e.animationName === 'zoomIn') {
+			sendToDotNet('startdownload');
+			document.getElementsByClassName('loading')[0].style.display = 'block';
+		}
+	});
+
+	function sendToDotNet(msg) {
+		window.location.href = 'about:blank#' + encodeURIComponent(msg);
+	}
+	function receiveFromDotNet(msg) {
+		//alert('From .NET: ' + msg);
+		//document.getElementById('testje').innerHTML = msg;
+	}
+	function setProgressbar(count, total) {
+		document.getElementById("progressbar").style.width = ((count / total) * 100) + "%";
+	}
+	function hideMenu() {
+		$('.sidebar').removeClass('show');
+		$('.menu-toggler').removeClass('show');
+	}
+</script>
+</body>
+</html>
