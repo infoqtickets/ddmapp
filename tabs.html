@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, viewport-fit=cover">
+	<meta name="theme-color" content="#2196f3">
+	<meta name="author" content="QTickets" /> 
+	<meta name="format-detection" content="telephone=no">
+    <!-- Title -->
+	<title>QTickets Event App</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/vendor/swiper/swiper-bundle.min.css">
+	<link rel="stylesheet" href="assets/vendor/fontawesome651/css/all.min.css">
+	<link rel="stylesheet" href="assets/vendor/googlefonts/googlefont.css">
+</head>
+<style>
+	a.nav-link {
+		margin-top: -10px;
+	}
+	.nav-link i.fal {
+		height: 28px;
+		color: #999999;
+	}
+	.nav-link.active i.fal {
+		color: #ffffff;
+	}
+	.nav-link div {
+		font-size: 12px;
+		color: #999999;
+		margin-bottom: -10px;
+	}
+	.nav-link.active div {
+		color: #ffffff;
+	}
+</style>
+<body class="theme-dark">
+<div class="page-wraper">
+    
+	<!-- Menubar -->
+	<div class="menubar-area" style="bottom: auto;">
+		<div class="toolbar-inner menubar-nav">
+			<a onclick="tabClick(this, '');" qtmenu="tab1" class="nav-link active">
+				<i class="fal fa-newspaper"></i><div>News</div>
+			</a>
+			<a onclick="tabClick(this, 'https://www.deduystereshop.com/');" qtmenu="tab2" class="nav-link">
+				<i class="fal fa-cart-shopping"></i><div>Webshop</div>
+			</a>
+			<a onclick="tabClick(this, '');" qtmenu="tab3" class="nav-link">
+				<i class="fal fa-store"></i><div>Vendors</div>
+			</a>
+			<a onclick="tabClick(this, '');" qtmenu="tab4" class="nav-link">
+				<i class="fal fa-calendar-day"></i><div>Shows</div>
+			</a>
+			<a onclick="tabClick(this, '');" qtmenu="tab5" class="nav-link">
+				<i class="fal fa-circle-ellipsis"></i><div>More</div>
+			</a>
+		</div>
+	</div>
+	<!-- Menubar -->
+	
+</div>  
+<!--**********************************
+    Scripts
+***********************************-->
+
+<script>
+	function sendToDotNet(msg) {
+		window.location.href = 'about:blank#' + encodeURIComponent(msg);
+	}
+	function tabClick(obj, val) {
+		setTab(obj.getAttribute('qtmenu'), val);
+	}
+	function receiveFromDotNet(msg) {
+		alert(msg);
+	}
+	function setTab(tabname, val)
+	{
+		const elements = document.querySelectorAll('[qtmenu]');
+		elements.forEach(element => {
+		  element.classList.remove('active');
+		});
+		var obj = document.querySelector('[qtmenu="' + tabname + '"]');
+		obj.classList.add('active');
+		if (tabname == 'webshop') {
+			sendToDotNet('openurl_' + val);
+		}
+		else {
+			sendToDotNet('showcontent_' + obj.getAttribute('qtmenu'));
+		}
+	}
+</script>
+<script src="index.js" defer></script>
+<script src="assets/js/jquery.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/settings.js"></script>
+<script src="assets/js/custom.js"></script>
+<script src="assets/js/dz.carousel.js"></script><!-- Swiper -->
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
+</body>
+</html>
