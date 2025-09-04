@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Band Tijdschema</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      height: 100%;
+      font-family: sans-serif;
+    }
+
+    .schedule-wrapper {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .y-axis {
+      position: sticky;
+      left: 0;
+      top: 0;
+      z-index: 10;
+      background: #fff;
+      border-right: 1px solid #ccc;
+    }
+
+    .y-header {
+      height: 41px;
+      width: 120px;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .stage-label {
+      height: 60px;
+      width: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid #eee;
+    }
+
+    .timeline-container {
+      overflow: auto;
+      width: 100%;
+      height: 100%;
+    }
+
+    .timeline {
+      min-width: 1440px;
+      position: relative;
+    }
+
+    .x-header {
+      display: flex;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: #f9f9f9;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .x-cell {
+      width: 10px;
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+      font-size: 12px;
+    }
+
+    .x-cell:nth-child(12n) {
+      width: 60px;
+      border-right: 1px solid #ccc;
+      /*background: #f0f0f0;*/
+    }
+
+    .row {
+      display: flex;
+      position: relative;
+    }
+
+    .block {
+      height: 60px;
+      width: 10px;
+    }
+
+    .block:nth-child(6n) {
+      width: 60px;
+      /*background: #f9f9f9;*/
+      border-right: 1px solid #ccc;
+	  z-index: -9;
+    }
+
+    .band {
+      position: absolute;
+      height: 50px;
+      background: #4caf50;
+      color: #fff;
+      border-radius: 4px;
+      padding: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 600px) {
+      .x-cell:nth-child(6n) {
+        width: 40px;
+      }
+
+      .block:nth-child(6n) {
+        width: 40px;
+		z-index: -9;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="schedule-wrapper">
+    <div class="y-axis">
+      <div class="y-header">Podia</div>
+      <div id="stage-labels"></div>
+    </div>
+    <div class="timeline-container">
+      <div class="timeline">
+        <div class="x-header" id="x-header"></div>
+        <div id="rows"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const startHour = 10;
+    const endHour = 22;
+    const stages = ["Main Stage1", "Second Stage1", "DJ Stage1", "Main Stage2", "Second Stage2", "DJ Stage2", "Main Stage3", "Second Stage3", "DJ Stage3", "Main Stage4", "Second Stage4", "DJ Stage4", "Main Stage5", "Second Stage5", "DJ Stage5", "Main Stage6", "Second Stage6", "DJ Stage6"];
+    const bands = [
+      { stage: "Main Stage1", name: "Band A", start: "10:55", duration: 45 },
+      { stage: "Main Stage1", name: "Band B", start: "14:10", duration: 90 },
+      { stage: "Second Stage1", name: "DJ Y", start: "12:00", duration: 30 },
+      { stage: "Second Stage1", name: "Band Z", start: "13:45", duration: 55 },
+      { stage: "DJ Stage1", name: "Techno M", start: "20:15", duration: 75 },
+      { stage: "Main Stage2", name: "Band A", start: "10:55", duration: 45 },
+      { stage: "Main Stage2", name: "Band B", start: "14:10", duration: 90 },
+      { stage: "Second Stage2", name: "DJ Y", start: "12:00", duration: 30 },
+      { stage: "Second Stage2", name: "Band Z", start: "13:45", duration: 55 },
+      { stage: "DJ Stage2", name: "Techno M", start: "20:15", duration: 75 },
+      { stage: "Main Stage3", name: "Band A", start: "10:55", duration: 45 },
+      { stage: "Main Stage3", name: "Band B", start: "14:10", duration: 90 },
+      { stage: "Second Stage3", name: "DJ Y", start: "12:00", duration: 30 },
+      { stage: "Second Stage3", name: "Band Z", start: "13:45", duration: 55 },
+      { stage: "DJ Stage3", name: "Techno M", start: "20:15", duration: 75 },
+      { stage: "Main Stage4", name: "Band A", start: "10:55", duration: 45 },
+      { stage: "Main Stage4", name: "Band B", start: "14:10", duration: 90 },
+      { stage: "Second Stage4", name: "DJ Y", start: "12:00", duration: 30 },
+      { stage: "Second Stage4", name: "Band Z", start: "13:45", duration: 55 },
+      { stage: "DJ Stage4", name: "Techno M", start: "20:15", duration: 75 },
+      { stage: "Main Stage5", name: "Band A", start: "10:55", duration: 45 },
+      { stage: "Main Stage5", name: "Band B", start: "14:10", duration: 90 },
+      { stage: "Second Stage5", name: "DJ Y", start: "12:00", duration: 30 },
+      { stage: "Second Stage5", name: "Band Z", start: "13:45", duration: 55 },
+      { stage: "DJ Stage5", name: "Techno M", start: "20:15", duration: 75 },
+      { stage: "Main Stage6", name: "Band A", start: "10:55", duration: 45 },
+      { stage: "Main Stage6", name: "Band B", start: "14:10", duration: 90 },
+      { stage: "Second Stage6", name: "DJ Y", start: "12:00", duration: 30 },
+      { stage: "Second Stage6", name: "Band Z", start: "13:45", duration: 55 },
+      { stage: "DJ Stage6", name: "Techno M", start: "20:15", duration: 75 }
+    ];
+
+    const pixelsPerMinute = 2;
+    const timeSlots = ((endHour - startHour) * 60) / 5;
+
+    const xHeader = document.getElementById("x-header");
+    for (let i = 0; i < timeSlots; i++) {
+      const cell = document.createElement("div");
+      cell.className = "x-cell";
+      const minutes = startHour * 60 + i * 5;
+      const hour = Math.floor(minutes / 60);
+      const min = minutes % 60;
+      cell.textContent = min === 0 ? `${hour.toString().padStart(2, '0')}:00` : '';
+      xHeader.appendChild(cell);
+    }
+
+    const stageLabels = document.getElementById("stage-labels");
+    const rows = document.getElementById("rows");
+	const xHeaderHeight = 40;
+
+    stages.forEach((stage, index) => {
+      const label = document.createElement("div");
+      label.className = "stage-label";
+      label.textContent = stage;
+      stageLabels.appendChild(label);
+
+      const row = document.createElement("div");
+      row.className = "row";
+
+      for (let i = 0; i < timeSlots; i++) {
+        const block = document.createElement("div");
+        block.className = "block";
+        row.appendChild(block);
+      }
+
+      bands.filter(b => b.stage === stage).forEach(band => {
+        const [h, m] = band.start.split(":").map(Number);
+        const startMin = (h - startHour) * 60 + m;
+        const left = startMin * pixelsPerMinute;
+        const width = band.duration * pixelsPerMinute;
+
+        const bandDiv = document.createElement("div");
+        bandDiv.className = "band";
+        bandDiv.textContent = band.name;
+        bandDiv.style.left = `${left}px`;
+		const xHeaderHeight = 40;
+		bandDiv.style.top = `${xHeaderHeight + index * 60 + 5}px`;
+        bandDiv.style.width = `${width}px`;
+
+        rows.appendChild(bandDiv);
+      });
+
+      rows.appendChild(row);
+    });
+  </script>
+</body>
+</html>
