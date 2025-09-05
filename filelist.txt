@@ -187,6 +187,8 @@
 [F]|2025-09-04T23:08:18|index4.html
 [F]|2025-05-16T15:17:46|index_ok1.html
 [F]|2025-05-03T14:45:23|notification.html
+[F]|2025-09-05T16:05:50|releasetag.txt
+[F]|2025-09-05T09:50:02|robots.txt
 [F]|2025-05-16T23:19:54|schedule.html
 [F]|2025-05-13T00:36:47|schedule_ok.html
 [F]|2025-05-13T01:05:22|schedule_ok2.html
