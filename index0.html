@@ -46,7 +46,77 @@
 	<script src="assets/js/appbefore.js"></script>
 </head>   
 <body class="theme-dark" data-theme-color="color-orange">
-<div class="full-background">
+<div class="full-background page-content page page-onboading">
+
+        <div class="started-swiper-box">
+            <div class="swiper-container get-started">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="slide-info">
+                            <div class="slide-content">
+                                <h1 class="dz-title">Welcome to<br><span style="font-size:1.4em;">De Duystere Markt</span></h1>
+                                <br>
+								<p>Before we begin<br>we have to ask you something...</p>
+								<br>
+								<br>
+								<i style="font-size: 1.5rem;" class="fas fa-arrow-left"></i> 
+								&nbsp;&nbsp;
+								<i style="font-size: 3.0rem;" class="fa-solid fa-hand-back-point-up"></i> 
+								&nbsp;&nbsp;
+								<i style="font-size: 1.5rem;" class="fas fa-arrow-right"></i>
+								<br>
+								<br>
+								<p>(Swipe to the left)</p>
+                            </div>
+                            <div class="dz-media">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="slide-info">
+                            <div class="slide-content">
+                                <h1 class="dz-title">Do you want to receive notifications to stay updated?</span></h1>
+                                <br>
+								<button></button>
+								<a class="btn btn-primary w-100" href="javascript:sendToDotNet('askpermission_pushnotification|You will not receive push notifications.');">Yes, I want to stay updated</a>
+								<br>
+								<br>
+								<br>
+								<i style="font-size: 1.5rem;" class="fas fa-arrow-left"></i> 
+								<i style="font-size: 3.0rem;" class="fa-solid fa-hand-back-point-up"></i> 
+								<i style="font-size: 1.5rem;" class="fas fa-arrow-right"></i>
+								<br>
+								<br>
+								<p>(Swipe to the left)</p>
+                            </div>
+                            <div class="dz-media">
+                            </div>
+                       </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="slide-info">
+                            <div class="slide-content">
+                                <h1 class="dz-title">You are ready to go</span></h1>
+                                <br>
+                                <br>
+								<button></button>
+								<a class="btn btn-primary w-100" href="javascript:gotomainpage();">Let's begin</a>
+								<br>
+								<br>
+								<br>
+								<br>
+								<br>
+                            </div>
+                            <div class="dz-media">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-btn">
+                <div class="swiper-pagination-started pagination-dots style-1"></div>
+            </div>
+        </div>
 </div>    
 
 <!--**********************************
@@ -60,5 +130,15 @@
 <script src="assets/js/dz.carousel.js"></script><!-- Swiper -->
 <script src="assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
 <script src="assets/js/appafter.js"></script>
+<script>
+	function gotomainpage() {
+		sendToDotNet('setvar_introdone|true');
+		wait(100);
+		sendToDotNet('openmainpage');
+	}
+	
+	$(document).ready(setPersistentVars);
+	
+</script>
 </body>
 </html>
