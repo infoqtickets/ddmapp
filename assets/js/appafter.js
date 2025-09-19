@@ -225,7 +225,8 @@ function postMainData() {
 		},
 		PersistentVars : {
 			PopupHeaderBGColor: "e0a200",
-			PopupHeaderTextColor: "ffffff"
+			PopupHeaderTextColor: "ffffff",
+			introdone: "false"
 		}
 	  }
 	};
@@ -298,7 +299,9 @@ function setDownloadUrls() {
 	  Request: {
 		RequestActionName: "setdownloadurls",
 		MainData: {
-		  DOWNLOAD_QTICKETS_BASEURL: "booboo"
+		  DOWNLOAD_QTICKETS_BASEURL: "https://www.qtickets.nl/eventsapps/ddmapp/",
+		  DOWNLOAD_BASEURL: "https://www.qtickets.nl/eventsapps/ddmapp/",
+		  DOWNLOAD_RELEASE_TAG_URL: "https://www.qtickets.nl/eventsapps/ddmapp/releasetag.txt"
 		},
 	  }
 	};
