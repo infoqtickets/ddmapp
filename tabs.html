@@ -65,33 +65,6 @@
 <!--**********************************
     Scripts
 ***********************************-->
-
-<script>
-	function sendToDotNet(msg) {
-		window.location.href = 'about:blank#' + encodeURIComponent(msg);
-	}
-	function tabClick(obj, val) {
-		setTab(obj.getAttribute('qtmenu'), val);
-	}
-	function receiveFromDotNet(msg) {
-		alert(msg);
-	}
-	function setTab(tabname, val)
-	{
-		const elements = document.querySelectorAll('[qtmenu]');
-		elements.forEach(element => {
-		  element.classList.remove('active');
-		});
-		var obj = document.querySelector('[qtmenu="' + tabname + '"]');
-		obj.classList.add('active');
-		if (tabname == 'webshop') {
-			sendToDotNet('openurl_' + val);
-		}
-		else {
-			sendToDotNet('showcontent_' + obj.getAttribute('qtmenu'));
-		}
-	}
-</script>
 <script src="index.js" defer></script>
 <script src="assets/js/jquery.js"></script>
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -99,5 +72,6 @@
 <script src="assets/js/custom.js"></script>
 <script src="assets/js/dz.carousel.js"></script><!-- Swiper -->
 <script src="assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
+<script src="assets/js/appafter.js"></script>
 </body>
 </html>
