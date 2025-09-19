@@ -1,9 +1,10 @@
+[F]|2025-09-19T21:52:50|aboutapp.html
 [F]|2022-06-09T16:14:54|app.js
 [D]|2025-09-04T23:24:27|assets
 [D]|2025-09-04T23:24:26|assets/css
 [F]|2025-09-19T02:37:10|assets/css/style.css
 [F]|2025-04-24T01:53:09|assets/css/style_ori.css
-[D]|2025-09-19T02:11:54|assets/images
+[D]|2025-09-19T21:48:06|assets/images
 [F]|2022-06-07T16:57:52|assets/images/1.png
 [F]|2025-05-25T23:25:45|assets/images/artist1.png
 [F]|2025-05-25T23:25:22|assets/images/artist2.png
@@ -69,6 +70,7 @@
 [F]|2022-06-11T13:01:38|assets/images/message/pic6.jpg
 [F]|2022-06-06T11:50:16|assets/images/preloader.gif
 [F]|2022-06-09T16:19:48|assets/images/pwa.png
+[F]|2025-09-19T21:47:18|assets/images/qtickets-logo.png
 [D]|2025-09-04T23:24:27|assets/images/social
 [F]|2022-05-19T15:00:04|assets/images/social/facebook.png
 [F]|2022-05-19T14:59:58|assets/images/social/google.png
@@ -188,11 +190,12 @@
 [F]|2025-05-20T01:19:08|index3_ok1.html
 [F]|2025-07-08T23:03:28|index3_ok2.html
 [F]|2025-09-19T12:36:18|index4.html
-[F]|2025-09-19T12:57:06|index5.html
+[F]|2025-09-19T21:34:54|index5.html
 [F]|2025-05-16T15:17:46|index_ok1.html
 [F]|2025-09-19T00:50:36|notification.html
 [F]|2025-09-16T21:37:41|notificationlist.txt
-[F]|2025-09-19T21:13:07|releasetag.txt
+[F]|2025-09-19T21:34:16|notificationsettings.html
+[F]|2025-09-19T21:53:19|releasetag.txt
 [F]|2025-09-05T09:50:02|robots.txt
 [F]|2025-05-16T23:19:54|schedule.html
 [F]|2025-05-13T00:36:47|schedule_ok.html
