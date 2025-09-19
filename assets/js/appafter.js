@@ -1,3 +1,5 @@
+let currentFile = '';
+
 function sendToDotNet(msg) {
 	window.location.href = 'about:blank#' + encodeURIComponent(msg);
 }
@@ -78,11 +80,16 @@ function receiveFromDotNet(msg) {
 			//alert(msg);
 			if (obj.Response.Header.Page !== undefined)
 			{
-				if (obj.Response.PersistentVars.introdone !== undefined)
+				currentFile = obj.Response.Header.Page;
+				if (currentFile == 'index0.html' && obj.Response.PersistentVars.introdone !== undefined)
 				{
 					if (obj.Response.PersistentVars.introdone == 'true')
 					{
 						sendToDotNet('openmainpage');
+					}
+					else
+					{
+						document.getElementById('introswiper').style.visibility = 'visible';
 					}
 				}
 			}
@@ -313,7 +320,20 @@ function resetDownloadUrls() {
 }
 
 function permissionGranted(perm) {
-	alert('Permission granted: ' + perm);
+	//alert('Permission granted: ' + perm);
+	if (currentFile == 'index0.html' && perm == 'pushnotification') {
+		//alert('next slide');
+		// continue to next slide
+		try {
+			//if(window.swiperGetStarted) {
+				window.swiperGetStarted.slideNext();
+			//}
+		}
+		catch(err) {
+			
+			//alert(err);
+		}
+	}
 }
 
 function onPageAppearing(fileviewed) {
