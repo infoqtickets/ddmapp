@@ -4,7 +4,7 @@ jQuery(document).ready(function() {
     
     // Get Started
     if(jQuery('.get-started').length > 0){
-		var swiperGetStarted = new Swiper('.get-started', {
+		window.swiperGetStarted = new Swiper('.get-started', {
 			speed: 500,
 			parallax: true,
 			slidesPerView: 1,
