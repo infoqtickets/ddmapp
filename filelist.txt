@@ -86,7 +86,7 @@
 [F]|2022-06-06T15:28:14|assets/images/welcome/wlc-2.png
 [F]|2022-06-06T15:31:16|assets/images/welcome/wlc-2.svg
 [D]|2025-09-04T23:24:27|assets/js
-[F]|2025-09-19T12:19:23|assets/js/appafter.js
+[F]|2025-09-19T17:26:24|assets/js/appafter.js
 [F]|2025-09-04T23:03:22|assets/js/appbefore.js
 [F]|2023-05-17T11:52:00|assets/js/custom.js
 [D]|2025-09-04T23:24:27|assets/js/dashboard
@@ -192,7 +192,7 @@
 [F]|2025-05-16T15:17:46|index_ok1.html
 [F]|2025-09-19T00:50:36|notification.html
 [F]|2025-09-16T21:37:41|notificationlist.txt
-[F]|2025-09-19T13:56:42|releasetag.txt
+[F]|2025-09-19T17:28:51|releasetag.txt
 [F]|2025-09-05T09:50:02|robots.txt
 [F]|2025-05-16T23:19:54|schedule.html
 [F]|2025-05-13T00:36:47|schedule_ok.html
