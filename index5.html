@@ -25,7 +25,7 @@
 		<div class="main-bar" style="padding-top: 35px;">
 			<div class="container">
 				<div class="header-content">
-					<div class="mid-content">Vendors</div>
+					<div class="mid-content">More</div>
 					<div class="right-content">
 						<a href="javascript:sendToDotNet('popupinternal_notification.html');" style="color: #fff;">
 							<i class="fal fa-bell" style="font-size: 1rem;"></i>
@@ -53,13 +53,13 @@
                         <div class="card-body py-2">
                             <div class="dz-list">
 								<ul id="vendor-list">
-									<li>
+									<!--<li>
                                         <a href="notificationsettings.html" class="item-content item-link">
                                             <div class="dz-inner">
                                                 <div class="dz-title">Notification settings</div>
                                             </div>
                                         </a>
-                                    </li>
+                                    </li>-->
 									<li>
                                         <a href="aboutapp.html" class="item-content item-link">
                                             <div class="dz-inner">
@@ -67,6 +67,29 @@
                                             </div>
                                         </a>
                                     </li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				    <div class="card m-t20">
+                        <div class="card-body py-2">
+                            <div class="dz-list">
+								<ul>
+									<li>
+                                        <a href="javascript:showadmininput();" class="item-content item-link">
+                                            <div class="dz-inner">
+                                                <div class="dz-title">Beta access</div>
+                                            </div>
+                                        </a>
+                                    </li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				    <div id="adminlinks" class="card m-t20" style="display: none;">
+                        <div class="card-body py-2">
+                            <div class="dz-list">
+								<ul>
 									<li>
                                         <a href="notification.html" class="item-content item-link">
                                             <div class="dz-inner">
@@ -155,7 +178,12 @@
 <script src="assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
 <script src="assets/js/appafter.js"></script>
 <script>
-
+function showadmininput() {
+	let code = prompt('Please enter code:');
+	if (code !== null && code == 'iambetatester') {
+	  document.getElementById('adminlinks').style.display = 'block';
+	}
+}
 </script>
 </body>
 </html>
