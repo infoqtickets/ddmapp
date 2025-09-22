@@ -327,6 +327,7 @@ function permissionGranted(perm) {
 		try {
 			//if(window.swiperGetStarted) {
 				window.swiperGetStarted.slideNext();
+				sendToDotNet('setvar_introdone|true');
 			//}
 		}
 		catch(err) {
