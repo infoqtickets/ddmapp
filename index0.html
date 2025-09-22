@@ -78,7 +78,7 @@
                                 <h1 class="dz-title">Do you want to receive notifications to stay updated?</span></h1>
                                 <br>
 								<button></button>
-								<a class="btn btn-primary w-100" href="javascript:sendToDotNet('askpermission_pushnotification|You will not receive push notifications.');">Yes, I want to stay updated</a>
+								<a class="btn btn-primary w-100" href="javascript:sendToDotNet('askpermission_pushnotification|You will not receive push notifications, go to the settings of this app to enable push notifications if you want to receive notifications.');">Yes, I want to stay updated</a>
 								<br>
 								<br>
 								<br>
@@ -96,7 +96,28 @@
                     <div class="swiper-slide">
                         <div class="slide-info">
                             <div class="slide-content">
-                                <h1 class="dz-title">You are ready to go</span></h1>
+                                <h1 class="dz-title">Do you want to use the camera to scan qrcodes at the Duystere Markt?</span></h1>
+                                <br>
+								<button></button>
+								<a class="btn btn-primary w-100" href="javascript:sendToDotNet('askpermission_camera|You will not be able to use the camera, go to the settings of this app to enable this if you do want to use the camera.');">Yes, I want to stay updated</a>
+								<br>
+								<br>
+								<br>
+								<i style="font-size: 1.5rem;" class="fas fa-arrow-left"></i> 
+								<i style="font-size: 3.0rem;" class="fa-solid fa-hand-back-point-up"></i> 
+								<i style="font-size: 1.5rem;" class="fas fa-arrow-right"></i>
+								<br>
+								<br>
+								<p>(Swipe to the left)</p>
+                            </div>
+                            <div class="dz-media">
+                            </div>
+                       </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="slide-info">
+                            <div class="slide-content">
+                                <h1 class="dz-title">You are ready to go 300</span></h1>
                                 <br>
                                 <br>
 								<button></button>
@@ -133,7 +154,7 @@
 <script>
 	function gotomainpage() {
 		sendToDotNet('setvar_introdone|true');
-		wait(100);
+		wait(300);
 		sendToDotNet('openmainpage');
 	}
 	
