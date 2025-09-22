@@ -96,7 +96,7 @@
 [F]|2022-06-08T17:25:54|assets/js/demo.js
 [F]|2025-09-19T19:02:31|assets/js/dz.carousel.js
 [F]|2022-05-18T11:34:46|assets/js/jquery.js
-[F]|2025-04-13T16:02:51|assets/js/jsQR.js
+[F]|2025-09-22T23:40:55|assets/js/jsQR.js
 [F]|2022-06-28T11:30:32|assets/js/noui-slider.init.js
 [F]|2022-06-13T17:11:16|assets/js/settings - Copy.js
 [F]|2022-06-17T16:45:58|assets/js/settings.js
@@ -196,7 +196,7 @@
 [F]|2025-09-21T13:47:32|notification.html
 [F]|2025-09-16T21:37:41|notificationlist.txt
 [F]|2025-09-19T21:34:16|notificationsettings.html
-[F]|2025-09-22T23:22:21|releasetag.txt
+[F]|2025-09-22T23:41:17|releasetag.txt
 [F]|2025-09-05T09:50:02|robots.txt
 [F]|2025-09-22T23:19:28|scanner.html
 [F]|2025-05-16T23:19:54|schedule.html
