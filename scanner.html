@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>QR scan met jsQR — full page</title>
+  <style>
+    /* video neemt de hele pagina in (cover zodat verhoudingen behouden blijven) */
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: black;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    #video {
+      position: fixed;
+      inset: 0;              /* top:0; right:0; bottom:0; left:0; */
+      width: 100%;
+      height: 100%;
+      object-fit: cover;     /* zorgt dat video de ruimte vult (kan bijsnijden) */
+    }
+
+    /* optionele scan-overlay in midden */
+    .overlay {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: min(60vmin, 400px);
+      height: min(60vmin, 400px);
+      border: 3px dashed rgba(255,255,255,0.6);
+      border-radius: 12px;
+      pointer-events: none;
+      box-shadow: 0 0 30px rgba(0,0,0,0.4) inset;
+    }
+
+    .hint {
+      position: fixed;
+      left: 50%;
+      bottom: 20px;
+      transform: translateX(-50%);
+      color: white;
+      background: rgba(0,0,0,0.4);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    /* verborgen canvas (nodig voor jsQR) */
+    #canvas {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <video id="video" playsinline></video>
+  <div class="overlay" aria-hidden="true"></div>
+  <div class="hint">Focus the QR-code within the frame</div>
+
+  <script src="assets/js/jsQR.js"></script>
+
+  <canvas id="canvas"></canvas>
+
+  <script>
+    (async function () {
+      const video = document.getElementById('video');
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      // probeer de achtercamera (environment) te kiezen
+      const constraints = {
+        audio: false,
+        video: {
+          facingMode: { exact: "environment" } // prefer rear camera; valt terug op default als niet beschikbaar
+        }
+      };
+
+      // fallback: als strict facingMode niet werkt (sommige browsers/desktop) gebruik permissie zonder exact
+      async function getStreamWithFallback() {
+        try {
+          return await navigator.mediaDevices.getUserMedia(constraints);
+        } catch (err) {
+          // probeer zonder exact (meer compatibel)
+          return await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
+        }
+      }
+
+      try {
+        const stream = await getStreamWithFallback();
+        video.srcObject = stream;
+        await video.play();
+      } catch (err) {
+        alert('Kon geen camera openen: ' + (err && err.message ? err.message : err));
+        return;
+      }
+
+      // helper om alle tracks te stoppen (bijv. na scannen)
+      function stopCamera() {
+        const stream = video.srcObject;
+        if (stream) {
+          const tracks = stream.getTracks();
+          tracks.forEach(t => t.stop());
+          video.srcObject = null;
+        }
+      }
+
+      let scanning = true;
+      let lastResult = null;
+
+      // maak canvas even groot als video frame (pas aan zodra video metadata geladen is)
+      function resizeCanvasToVideo() {
+        const w = video.videoWidth;
+        const h = video.videoHeight;
+        if (w && h) {
+          canvas.width = w;
+          canvas.height = h;
+        }
+      }
+
+      video.addEventListener('loadedmetadata', resizeCanvasToVideo, false);
+      window.addEventListener('resize', resizeCanvasToVideo);
+
+      // hoofdlus: read frames en decode met jsQR
+      async function tick() {
+        if (!scanning) return;
+        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+          resizeCanvasToVideo();
+          try {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const code = jsQR(imageData.data, imageData.width, imageData.height, {
+              inversionAttempts: "attemptBoth"
+            });
+
+            if (code) {
+              // voorkom herhaalde alerts voor hetzelfde resultaat
+              if (code.data && code.data !== lastResult) {
+                lastResult = code.data;
+                scanning = false; // stop verder scannen
+                stopCamera();     // optioneel: stop camera
+                //alert('Gevonden QR: ' + code.data);
+                // als je verder wilt navigeren in plaats van alert:
+                window.location = code.data;
+              }
+            }
+          } catch (err) {
+            console.error('Fout tijdens scannen:', err);
+          }
+        }
+        requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+
+      // optionele cleanup als gebruiker de pagina verlaat
+      window.addEventListener('pagehide', stopCamera);
+      window.addEventListener('beforeunload', stopCamera);
+    })();
+  </script>
+</body>
+</html>
