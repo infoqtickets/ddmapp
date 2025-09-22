@@ -321,7 +321,7 @@ function resetDownloadUrls() {
 
 function permissionGranted(perm) {
 	//alert('Permission granted: ' + perm);
-	if (currentFile == 'index0.html' && perm == 'pushnotification') {
+	if (currentFile == 'index0.html' && (perm == 'pushnotification' || perm == 'camera')) {
 		//alert('next slide');
 		// continue to next slide
 		try {
