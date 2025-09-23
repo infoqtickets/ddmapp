@@ -138,6 +138,14 @@
         }
       }
 
+		function navigateTo(url) {
+			// verander de URL in de adresbalk zonder te herladen
+			history.pushState({ path: url }, '', url);
+
+			// laad de inhoud dynamisch (bijvoorbeeld een iframe, div, of fetch)
+			loadContent(url);
+		}
+
       let scanning = true;
       let lastResult = null;
 
@@ -174,7 +182,8 @@
                 stopCamera();     // optioneel: stop camera
                 //alert('Gevonden QR: ' + code.data);
                 // als je verder wilt navigeren in plaats van alert:
-                window.location = code.data;
+                //window.location = code.data;
+				window.location.href = 'about:blank#' + encodeURIComponent('popup_' + code.data);
               }
             }
           } catch (err) {
