@@ -77,7 +77,26 @@
 
     #backButton:hover {
       background: rgba(0, 0, 0, 0.8);
-    }`
+    }
+	
+	.centerButton {
+    position: fixed;
+    left: 50%;
+    top: calc(70% + min(30vmin, 200px) / 2 + 20px); /* onder de overlay */
+    transform: translateX(-50%);
+    z-index: 20;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.centerButton:hover {
+    background: rgba(0,0,0,0.8);
+}
   </style>
 </head>
 <body>
@@ -85,7 +104,7 @@
   <div class="overlay" aria-hidden="true"></div>
   <div class="hint">Focus the QR-code within the frame</div>
   <button id="backButton">&lt; back</button>
-
+<button id="showCameraButton" class="centerButton">Show Camera</button>
   <script src="assets/js/jsQR.js"></script>
 
   <canvas id="canvas"></canvas>
@@ -159,6 +178,21 @@
         }
       }
 
+// knop-handler binnen dezelfde scope
+    document.getElementById("showCameraButton").addEventListener("click", async () => {
+        stopCamera();
+        scanning = true;
+        lastResult = null;
+
+        try {
+            const stream = await getStreamWithFallback();
+            video.srcObject = stream;
+            await video.play();
+        } catch (err) {
+            alert('Kon geen camera openen: ' + (err && err.message ? err.message : err));
+        }
+    });
+	
       video.addEventListener('loadedmetadata', resizeCanvasToVideo, false);
       window.addEventListener('resize', resizeCanvasToVideo);
 
