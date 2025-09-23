@@ -257,7 +257,7 @@ function setPersistentVars() {
 
 function setPersistentVarsIndex1() {
 	// Het JSON-object
-	alert('setting pvars');
+	//alert('setting pvars');
 	const obj = {
 	  Request: {
 		RequestActionName: "dosettingpvars",
