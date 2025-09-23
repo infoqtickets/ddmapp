@@ -247,8 +247,22 @@ function setPersistentVars() {
 		RequestActionName: "setPersistentVars",
 		PersistentVars : {
 			PopupHeaderBGColor: "e0a200",
+			PopupHeaderTextColor: "ffffff"
+		}
+	  }
+	};
+	const jsonText = JSON.stringify(obj);
+	sendToDotNet(jsonText);
+}
+
+function setPersistentVarsIndex1() {
+	const obj = {
+	  Request: {
+		RequestActionName: "setPersistentVars",
+		PersistentVars : {
+			PopupHeaderBGColor: "e0a200",
 			PopupHeaderTextColor: "ffffff",
-			introdone: "true"
+			introdone: "false"
 		}
 	  }
 	};
