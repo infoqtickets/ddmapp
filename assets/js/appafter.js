@@ -247,7 +247,8 @@ function setPersistentVars() {
 		RequestActionName: "setPersistentVars",
 		PersistentVars : {
 			PopupHeaderBGColor: "e0a200",
-			PopupHeaderTextColor: "ffffff"
+			PopupHeaderTextColor: "ffffff",
+			introdone: "true"
 		}
 	  }
 	};
@@ -327,6 +328,7 @@ function permissionGranted(perm) {
 		try {
 			//if(window.swiperGetStarted) {
 				window.swiperGetStarted.slideNext();
+				wait(100);
 				sendToDotNet('setvar_introdone|true');
 			//}
 		}
