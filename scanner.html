@@ -19,6 +19,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;     /* zorgt dat video de ruimte vult (kan bijsnijden) */
+	  background: black; /* fallback */
     }
 
     /* optionele scan-overlay in midden */
@@ -51,18 +52,50 @@
     #canvas {
       display: none;
     }
+	
+	#cover {
+      position: fixed;
+      inset: 0;
+      background: black;
+      z-index: 10;
+    }
+
+    /* Terug-knop linksboven */
+    #backButton {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 20;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #backButton:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }`
   </style>
 </head>
 <body>
-  <video id="video" playsinline></video>
+  <video id="video" autoplay muted playsinline></video>
   <div class="overlay" aria-hidden="true"></div>
   <div class="hint">Focus the QR-code within the frame</div>
+  <button id="backButton">&lt; back</button>
 
   <script src="assets/js/jsQR.js"></script>
 
   <canvas id="canvas"></canvas>
 
   <script>
+    document.getElementById("backButton").addEventListener("click", () => {
+      // navigeer terug in de browsergeschiedenis
+      history.back();
+    });
+	
     (async function () {
       const video = document.getElementById('video');
       const canvas = document.getElementById('canvas');
