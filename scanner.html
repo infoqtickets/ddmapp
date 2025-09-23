@@ -180,17 +180,18 @@
 
 // knop-handler binnen dezelfde scope
     document.getElementById("showCameraButton").addEventListener("click", async () => {
-        stopCamera();
-        scanning = true;
-        lastResult = null;
-
-        try {
-            const stream = await getStreamWithFallback();
-            video.srcObject = stream;
-            await video.play();
-        } catch (err) {
-            alert('Kon geen camera openen: ' + (err && err.message ? err.message : err));
-        }
+        //stopCamera();
+        //scanning = true;
+        //lastResult = null;
+		//
+        //try {
+        //    const stream = await getStreamWithFallback();
+        //    video.srcObject = stream;
+        //    await video.play();
+        //} catch (err) {
+        //    alert('Kon geen camera openen: ' + (err && err.message ? err.message : err));
+        //}
+		window.location.reload();
     });
 	
       video.addEventListener('loadedmetadata', resizeCanvasToVideo, false);
