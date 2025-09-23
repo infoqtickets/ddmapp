@@ -196,10 +196,10 @@
 [F]|2025-09-21T13:47:32|notification.html
 [F]|2025-09-16T21:37:41|notificationlist.txt
 [F]|2025-09-19T21:34:16|notificationsettings.html
-[F]|2025-09-23T16:43:00|releasetag.txt
+[F]|2025-09-23T16:46:01|releasetag.txt
 [F]|2025-09-05T09:50:02|robots.txt
 [F]|2025-09-23T16:27:13|samsshop.html
-[F]|2025-09-23T16:42:55|scanner.html
+[F]|2025-09-23T16:45:56|scanner.html
 [F]|2025-05-16T23:19:54|schedule.html
 [F]|2025-05-13T00:36:47|schedule_ok.html
 [F]|2025-05-13T01:05:22|schedule_ok2.html
