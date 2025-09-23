@@ -159,7 +159,12 @@
 	}
 	
 	$(document).ready(setPersistentVars);
-	
+		document.addEventListener("DOMContentLoaded", function() {
+		// Code hier uitvoeren
+		//alert('test');
+		setPersistentVars();
+	});
+
 </script>
 </body>
 </html>
