@@ -256,13 +256,18 @@ function setPersistentVars() {
 }
 
 function setPersistentVarsIndex1() {
+	// Het JSON-object
+	alert('setting pvars');
 	const obj = {
 	  Request: {
-		RequestActionName: "setPersistentVars",
+		RequestActionName: "dosettingpvars",
+		MainData: {
+		  pv1: "val1",
+		},
 		PersistentVars : {
 			PopupHeaderBGColor: "e0a200",
 			PopupHeaderTextColor: "ffffff",
-			introdone: "false"
+			introdone: "true"
 		}
 	  }
 	};
