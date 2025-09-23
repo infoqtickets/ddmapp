@@ -348,7 +348,7 @@ This is the first version of the app. Please let us know what you think. Ideas a
 <script src="assets/js/appafter.js"></script>
 <!-- counter script -->
 <script>
-  const targetDate = new Date("2025-09-27T10:00:00");
+  const targetDate = new Date("2025-09-27T12:00:00");
 
   function updateCountdown() {
     const now = new Date();
@@ -372,8 +372,14 @@ This is the first version of the app. Please let us know what you think. Ideas a
   }
 
   const timerInterval = setInterval(updateCountdown, 1000);
-  $(document).ready(updateCountdown);
+  //$(document).ready(updateCountdown);
+  $(document).ready(function() {
+    updateCountdown();
 
+    // voer setPersistentVarsIndex1 uit 3 seconden na het laden
+    setTimeout(setPersistentVarsIndex1, 3000);
+  });
+  
 </script>
 </body>
 </html>
