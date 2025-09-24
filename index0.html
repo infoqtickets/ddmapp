@@ -49,7 +49,7 @@
 <div class="full-background page-content page page-onboading">
 
         <div class="started-swiper-box">
-            <div id="introswiper" class="swiper-container get-started">
+            <div id="introswiper" class="swiper-container get-started" style="visibility: hidden;">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
                         <div class="slide-info">
@@ -153,17 +153,22 @@
 <script src="assets/js/appafter.js"></script>
 <script>
 	function gotomainpage() {
-		sendToDotNet('setvar_introdone|true');
-		wait(300);
-		sendToDotNet('openmainpage');
+		//alert('yow');
+		window.location.href = 'about:blank#' + encodeURIComponent('openmainpage');
+		//sendToDotNet('setvar_introdone|true');
+		//alert('yow2');
+		//wait(300);
+		//sendToDotNet('openmainpage');
+		//alert('yow3');
 	}
 	
-	$(document).ready(setPersistentVars);
-		document.addEventListener("DOMContentLoaded", function() {
-		// Code hier uitvoeren
-		//alert('test');
-		setPersistentVars();
-	});
+	$(document).ready(setPersistentVarsStart);
+	//document.addEventListener("DOMContentLoaded", function() {
+	//	// Code hier uitvoeren
+	//	alert('before setPersistentVars');
+	//	setPersistentVars();
+	//	alert('after setPersistentVars');
+	//});
 
 </script>
 </body>
