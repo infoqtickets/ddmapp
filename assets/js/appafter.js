@@ -1,7 +1,9 @@
 let currentFile = '';
 
 function sendToDotNet(msg) {
+	//alert('going to sent');
 	window.location.href = 'about:blank#' + encodeURIComponent(msg);
+	//alert('done sending');
 }
 
 function receiveFromDotNet(msg) {
@@ -18,6 +20,29 @@ function receiveFromDotNet(msg) {
 		if (obj.Response.Header.RequestActionName == 'actionniels')
 		{
 			alert(msg);
+		}
+		if (obj.Response.Header.RequestActionName == 'setPersistentVarsStart')
+		{
+			//alert('response of setPersistentVarsStart: ' + msg);
+			if (obj.Response.PersistentVars !== undefined && obj.Response.PersistentVars.introdone !== undefined)
+			{
+				//alert('bla1');
+				if (obj.Response.PersistentVars.introdone == 'true')
+				{
+					//alert('bla2');
+					sendToDotNet('openmainpage');
+				}
+				else
+				{
+					//alert('bla3');
+					document.getElementById('introswiper').style.visibility = 'visible';
+				}
+			}
+			else
+			{
+				//alert('bla4');
+				document.getElementById('introswiper').style.visibility = 'visible';
+			}
 		}
 		if (obj.Response.Header.RequestActionName == 'getnotifications')
 		{
@@ -147,6 +172,9 @@ function setLocalPushTest() {
 		  NotifyDate: "2025-09-15 20:40:00",
 		  ExtraData: "blablabla",
 		  ActionOnClick: "clickerdeclick"
+		},
+		PersistentVars : {
+		  Dummy: "var1"
 		}
 	  }
 	};
@@ -160,6 +188,9 @@ function removeLocalPushTest() {
 		RequestActionName: "removelocalpush",
 		MainData: {
 		  Key: "myfisrtkey"
+		},
+		PersistentVars : {
+		  Dummy: "var1"
 		}
 	  }
 	};
@@ -183,6 +214,9 @@ function setLocalPushFavorite(key, bandname, stagename, timelabel, datetime) {
 		  NotifyDate: formatDate(new Date(thedate.getTime() - 15 * 60 * 1000)), // 15 minuten eerder
 		  ExtraData: "",
 		  ActionOnClick: ""
+		},
+		PersistentVars : {
+		  Dummy: "var1"
 		}
 	  }
 	};
@@ -202,6 +236,9 @@ function removeLocalPushFavorite(key, datetime) {
 			RequestActionName: "removelocalpush",
 			MainData: {
 			  Key: "fav-" + key
+			},
+			PersistentVars : {
+			  Dummy: "var1"
 			}
 		  }
 		};
@@ -220,15 +257,6 @@ function postMainData() {
 		RequestActionName: "actionniels",
 		MainData: {
 		  var1: "val1",
-		  var2: "val1",
-		  var3: {
-			subvar1: 1,
-			subvar2: 2,
-			subvar3: {
-			  subsubvar1: "A",
-			  subsubvar2: "B"
-			}
-		  }
 		},
 		PersistentVars : {
 			PopupHeaderBGColor: "e0a200",
@@ -241,10 +269,14 @@ function postMainData() {
 	sendToDotNet(jsonText);
 }
 
-function setPersistentVars() {
+function setPersistentVarsStart() {
+	//alert('going to do setPersistentVarsStart');
 	const obj = {
 	  Request: {
-		RequestActionName: "setPersistentVars",
+		RequestActionName: "setPersistentVarsStart",
+		MainData: {
+		  pv1: "val1",
+		},
 		PersistentVars : {
 			PopupHeaderBGColor: "e0a200",
 			PopupHeaderTextColor: "ffffff"
@@ -252,7 +284,9 @@ function setPersistentVars() {
 	  }
 	};
 	const jsonText = JSON.stringify(obj);
+	//alert('sending: ' + jsonText);
 	sendToDotNet(jsonText);
+	//alert('sending done');
 }
 
 function setPersistentVarsIndex1() {
@@ -278,7 +312,13 @@ function setPersistentVarsIndex1() {
 function getPVFavorites() {
 	const obj = {
 	  Request: {
-		RequestActionName: "getPVFavorites"
+		RequestActionName: "getPVFavorites",
+		MainData: {
+		  pv1: "val1",
+		},
+		PersistentVars : {
+		  Dummy: "var1"
+		}
 	  }
 	};
 	const jsonText = JSON.stringify(obj);
@@ -292,6 +332,9 @@ function getNotifications() {
 		MainData: {
 		  Take: 30,
 		  OrderBy: "NotifyDate"
+		},
+		PersistentVars : {
+		  Dummy: "var1"
 		}
 	  }
 	};
@@ -305,6 +348,9 @@ function getSignature(theval) {
 		RequestActionName: "getsignature",
 		MainData: {
 		  valuetosign: "testje"
+		},
+		PersistentVars : {
+		  Dummy: "var1"
 		}
 	  }
 	};
@@ -315,7 +361,13 @@ function getSignature(theval) {
 function getDownloadUrls() {
 	const obj = {
 	  Request: {
-		RequestActionName: "getdownloadurls"
+		RequestActionName: "getdownloadurls",
+		MainData: {
+		  pv1: "val1"
+		},
+		PersistentVars : {
+		  Dummy: "var1"
+		}
 	  }
 	};
 	const jsonText = JSON.stringify(obj);
@@ -330,6 +382,9 @@ function setDownloadUrls() {
 		  DOWNLOAD_BASEURL: "https://www.qtickets.nl/eventsapps/ddmapp/",
 		  DOWNLOAD_RELEASE_TAG_URL: "https://www.qtickets.nl/eventsapps/ddmapp/releasetag.txt"
 		},
+		PersistentVars : {
+		  Dummy: "var1"
+		}
 	  }
 	};
 	const jsonText = JSON.stringify(obj);
@@ -341,18 +396,15 @@ function resetDownloadUrls() {
 
 function permissionGranted(perm) {
 	//alert('Permission granted: ' + perm);
-	if (currentFile == 'index0.html' && (perm == 'pushnotification' || perm == 'camera')) {
-		//alert('next slide');
+	//alert('currentFile=' + currentFile);
+	if (perm == 'pushnotification' || perm == 'camera') {
 		// continue to next slide
 		try {
-			//if(window.swiperGetStarted) {
-				window.swiperGetStarted.slideNext();
-				wait(100);
-				sendToDotNet('setvar_introdone|true');
-			//}
+			window.swiperGetStarted.slideNext();
+			wait(100);
+			sendToDotNet('setvar_introdone|true');
 		}
 		catch(err) {
-			
 			//alert(err);
 		}
 	}
