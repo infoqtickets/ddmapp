@@ -360,6 +360,7 @@ const bands = [
 const rowHeight = 110; // see and calculate 'stage-label'
 const originalHeaderHeight = 40;
 let currentselectedday = days[0];
+let favoriteIds = [];
 
 // set dropdown menu
 const dayselect = document.getElementById("dayselect");
@@ -765,7 +766,7 @@ function setFavorite(element, setnotification, savefavids, forceon) {
   }
   
   if (savefavids === true) {
-	  wait(505);
+	  wait(200);
 	  var favids = getFavoriteIds(addidforsaving, excludeidforsaving);
 	  //alert('save favids = ' + favids);
 	  sendToDotNet('setvar_favoriteids|' + favids);
@@ -797,27 +798,40 @@ function toggleFavorites(obj) {
 }
 
 function getFavoriteIds(addthisid, excludethisid) {
-	const ids = [];
-	document.querySelectorAll('.band-bg').forEach(bandbg => {
-		const skullIcon = bandbg.querySelector('.fa.fa-skull');
-		if (skullIcon) {
-			// Voeg het ID toe zonder de 'bg'-suffix
-			const idWithoutBg = bandbg.id.replace('bgband', '');
-			if (excludethisid !== idWithoutBg) {
-				if (!ids.includes(idWithoutBg)) {
-					ids.push(idWithoutBg);
-				}
-			}
-		}
-	});
-	if (addthisid !== '0' && !ids.includes(addthisid)) {
-		ids.push(addthisid);
+	//let ids = favoriteIds;
+	if (excludethisid !== '0' && favoriteIds.includes(excludethisid)) {
+		favoriteIds = removeFromArray(favoriteIds, excludethisid)
 	}
-	return ids.join(',');
+	if (addthisid !== '0' && !favoriteIds.includes(addthisid)) {
+		favoriteIds.push(addthisid);
+	}
+	return favoriteIds.join(',');
 }
+
+//function getFavoriteIds(addthisid, excludethisid) {
+//	const ids = [];
+//	document.querySelectorAll('.band-bg').forEach(bandbg => {
+//		const skullIcon = bandbg.querySelector('.fa.fa-skull');
+//		if (skullIcon) {
+//			// Voeg het ID toe zonder de 'bg'-suffix
+//			const idWithoutBg = bandbg.id.replace('bgband', '');
+//			if (excludethisid !== idWithoutBg) {
+//				if (!ids.includes(idWithoutBg)) {
+//					ids.push(idWithoutBg);
+//				}
+//			}
+//		}
+//	});
+//	if (addthisid !== '0' && !ids.includes(addthisid)) {
+//		ids.push(addthisid);
+//	}
+//	return ids.join(',');
+//}
+
 function setFavorites(Ids) {
 	//alert('calling setFavorites(Ids=' + Ids + ')');
-	const favoriteIds = Ids.split(',').map(id => id.trim());
+	//const favoriteIds = Ids.split(',').map(id => id.trim());
+	favoriteIds = Ids.split(',').map(id => id.trim());
 	favoriteIds.forEach(id => {
 	//alert('doing ' + id);
 		const element = document.getElementById('fav'+id);
@@ -867,6 +881,10 @@ function setFavs(Ids) {
 
 function showArtist() {
 	//alert("clicked");
+}
+
+function removeFromArray(arr, value) {
+	return arr.filter(item => item !== value);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
