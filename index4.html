@@ -327,7 +327,7 @@ html, body {
 		<script>
 const days = [
   {"name": "Saturday", "subtitle": "Day 1", "subtitle2": "27 september", "date": "2025-09-27", "starthour": 12, "endhour": 23},
-  {"name": "Sunday", "subtitle": "Day 2", "subtitle2": "28 september", "date": "2025-09-27", "starthour": 10, "endhour": 19}
+  {"name": "Sunday", "subtitle": "Day 2", "subtitle2": "28 september", "date": "2025-09-25", "starthour": 10, "endhour": 19}
 ]
 
 const stages = [
@@ -342,19 +342,19 @@ const stages = [
 const bands = [
   { "id": "1111", "day": "Saturday", "stage": "DOORS", "name": "Entrance Fanatic tickets", "image": null, "start": "12:00", "duration": 120 },
   { "id": "2", "day": "Saturday", "stage": "DOORS", "name": "Entrance Wanderer tickets", "image": null, "start": "14:00", "duration": 540 },
-  { "id": "3", "day": "Saturday", "stage": "COMEDY BAR", "name": "Water bij de wijn", "image": null, "start": "15:45", "duration": 15 },
+  { "id": "3", "day": "Saturday", "stage": "COMEDY BAR", "name": "Water bij", "image": null, "start": "15:45", "duration": 15 },
   { "id": "4", "day": "Saturday", "stage": "COMEDY BAR", "name": "Johnny Trash", "image": null, "start": "16:00", "duration": 30 },
   { "id": "5", "day": "Saturday", "stage": "COMEDY BAR", "name": "Fokcast + special guest", "image": null, "start": "17:30", "duration": 60 },
   { "id": "6", "day": "Saturday", "stage": "MAIN STAGE", "name": "The Witchdoctor", "image": null, "start": "15:00", "duration": 60 },
   { "id": "7", "day": "Saturday", "stage": "MAIN STAGE", "name": "Coraly Corazon & Ian freaks", "image": null, "start": "16:30", "duration": 30 },
-  { "id": "8", "day": "Saturday", "stage": "MAIN STAGE", "name": "No prisoners", "image": null, "start": "19:30", "duration": 90 },
+  { "id": "8", "day": "Saturday", "stage": "MAIN STAGE", "name": "No prisoners", "image": null, "start": "19:30", "duration": 30 },
   { "id": "9", "day": "Sunday", "stage": "DOORS", "name": "Entrance Sunday tickets", "image": null, "start": "10:00", "duration": 480 },
   { "id": "10", "day": "Sunday", "stage": "COMEDY BAR", "name": "Sander van der Smissen", "image": null, "start": "14:45", "duration": 15 },
   { "id": "11", "day": "Sunday", "stage": "COMEDY BAR", "name": "Joost van Hyfte", "image": null, "start": "15:00", "duration": 30 },
   { "id": "12", "day": "Sunday", "stage": "COMEDY BAR", "name": "Joker impro team", "image": null, "start": "16:30", "duration": 60 },
   { "id": "13", "day": "Sunday", "stage": "MAIN STAGE", "name": "Living statue show", "image": null, "start": "13:00", "duration": 60 },
   { "id": "14", "day": "Sunday", "stage": "MAIN STAGE", "name": "Coraly Corazon & Ian freaks", "image": null, "start": "15:40", "duration": 30 },
-  { "id": "15", "day": "Sunday", "stage": "MAIN STAGE", "name": "Divided", "image": null, "start": "17:40", "duration": 80 }
+  { "id": "15", "day": "Sunday", "stage": "MAIN STAGE", "name": "Divided", "image": null, "start": "17:40", "duration": 20 }
 ]
 
 const rowHeight = 110; // see and calculate 'stage-label'
@@ -389,8 +389,7 @@ if (days.length > 1) {
 }
 
 buildSchedule(days[0], days, stages, bands);
-updateNowLine();
-setInterval(updateNowLine, 0.25 * 60 * 1000); // every 15 seconds
+setInterval(updateNowLine(days[0]), 0.25 * 60 * 1000); // every 15 seconds
 
 //function buildSchedule(startHour, endHour, days, stages, bands)
 function buildSchedule(selectedday, alldays, allstages, allbands)
@@ -615,44 +614,59 @@ scrollContainer.addEventListener('scroll', () => {
 		}
 	});
 });
+updateNowLine(selectedday);
 }
 
-function updateNowLine() {
-	const day = days[0]; // Assuming you show only 1 day at a time
+function updateNowLine(selday) {
+	
+	//const day = days[0]; // Assuming you show only 1 day at a time
+	const today = new Date().toISOString().split("T")[0];
+	const day = days.find(d => d.date === today);
+	
 	const container = document.getElementById("now-line-container");
 	const box = document.getElementById("now-box");
 	const line = document.getElementById("now-line");
 
-	const pixelsPerMinute = 8;
-	const firstColumnWidth = pixelsPerMinute * 5;
-	const timeline = document.querySelector(".timeline");
-	const rows = document.getElementById("rows");
-
-	const now = new Date();
-	let hour = now.getHours();
-	if (hour < 6)
-	{
-		hour = hour + 24;
+	if (day === undefined || selday.name !== day.name) {
+		container.hidden = true;
+		box.hidden = true;
+		line.hidden = true;
 	}
-	let minutes = now.getMinutes();
-	const totalMinutes = hour * 60 + minutes;
-	const startMinutes = day.starthour * 60;
-	const endMinutes = day.endhour * 60;
+	else {
+		container.hidden = false;
+		box.hidden = false;
+		line.hidden = false;
+		const pixelsPerMinute = 8;
+		const firstColumnWidth = pixelsPerMinute * 5;
+		const timeline = document.querySelector(".timeline");
+		const rows = document.getElementById("rows");
 
-	if (totalMinutes < startMinutes || totalMinutes > endMinutes) {
-		container.style.display = "none";
-		return;
-	} else {
-		container.style.display = "block";
+		const now = new Date();
+		let hour = now.getHours();
+		if (hour < 6)
+		{
+			hour = hour + 24;
+		}
+		let minutes = now.getMinutes();
+		const totalMinutes = hour * 60 + minutes;
+		const startMinutes = day.starthour * 60;
+		const endMinutes = day.endhour * 60;
+
+		if (totalMinutes < startMinutes || totalMinutes > endMinutes) {
+			container.style.display = "none";
+			return;
+		} else {
+			container.style.display = "block";
+		}
+
+		const minutesFromStart = totalMinutes - startMinutes;
+		const left = firstColumnWidth + minutesFromStart * pixelsPerMinute;
+
+		// Move Now box and line
+		box.style.left = `${left}px`;
+		line.style.left = `${left}px`;
+		line.style.height = `${(rows.offsetHeight + originalHeaderHeight + 10)}px`;
 	}
-
-	const minutesFromStart = totalMinutes - startMinutes;
-	const left = firstColumnWidth + minutesFromStart * pixelsPerMinute;
-
-	// Move Now box and line
-	box.style.left = `${left}px`;
-	line.style.left = `${left}px`;
-	line.style.height = `${(rows.offsetHeight + originalHeaderHeight + 10)}px`;
 }
 
 // helpers
