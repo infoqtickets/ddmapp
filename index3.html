@@ -56,7 +56,7 @@
 				
 				    <div class="card m-t90">
                         <div class="card-header">
-                            <h5 class="card-title">Vendors @ Roeselare 2025</h5>
+                            <h5 class="card-title">Vendors @ Genk 2025</h5>
                         </div>
                         <div class="card-body py-2">
                             <div class="dz-list">
@@ -85,115 +85,37 @@
 <script src="assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
 <script src="assets/js/appafter.js"></script>
 <script>
-	const vendors = [
-	  { "name": "A lot of rosie" },
-	  { "name": "Abramacabra" },
-	  { "name": "Acres of Silence" },
-	  { "name": "Alice in Deadlands" },
-	  { "name": "Archeron Curiosities" },
-	  { "name": "Artless-Prints" },
-	  { "name": "Atelier Tenebris" },
-	  { "name": "Atelier Wolfstone" },
-	  { "name": "Atomic92" },
-	  { "name": "Ayame Designs" },
-	  { "name": "Berserker FX" },
-	  { "name": "Biocultjewelry" },
-	  { "name": "Bonehouse Lady's Delight - Carved Skulls & Bones" },
-	  { "name": "Bugs-Art" },
-	  { "name": "Carduus" },
-	  { "name": "Christopher Reuter" },
-	  { "name": "Christin Wenga" },
-	  { "name": "Corvus Craft" },
-	  { "name": "Doenker" },
-	  { "name": "Duisterkunst" },
-	  { "name": "EIWA" },
-	  { "name": "Fairy Moon" },
-	  { "name": "Fantasy Giftshop" },
-	  { "name": "Fliegengott" },
-	  { "name": "Forge du Drapeau Noir" },
-	  { "name": "Glanis Curiosity" },
-	  { "name": "going_to_darkness_" },
-	  { "name": "Gorghor One" },
-	  { "name": "H.art" },
-	  { "name": "Herpetofauna Foundation" },
-	  { "name": "Het Victoriaanse Huis" },
-	  { "name": "Inhabituel Antiques" },
-	  { "name": "innerSanctvm" },
-	  { "name": "Johnny Liquor" },
-	  { "name": "JUWELI" },
-	  { "name": "Kiki's Creative cabinet" },
-	  { "name": "Kiyoshi's Tarot & Spells" },
-	  { "name": "L'Antre de Dagda" },
-	  { "name": "Lost treasures" },
-	  { "name": "Magazijn22" },
-	  { "name": "Magician8" },
-	  { "name": "Maria's cabinet" },
-	  { "name": "MeanCrochetMachine" },
-	  { "name": "Michelle V art" },
-	  { "name": "Mirabella's Botanicals" },
-	  { "name": "Moonwake Jewelry" },
-	  { "name": "Muerta de arte" },
-	  { "name": "Mugs&Myths" },
-	  { "name": "Nans Curiosities" },
-	  { "name": "Natascha Mattens juwelen" },
-	  { "name": "Natur A Lien" },
-	  { "name": "Natuur Kabinet" },
-	  { "name": "Nature Deco" },
-	  { "name": "Nicolas Rossius Art" },
-	  { "name": "Ohmega Decoration" },
-	  { "name": "Opus Artifacts" },
-	  { "name": "Papillore" },
-	  { "name": "Persephone's Panopticum" },
-	  { "name": "Pretty little dead things" },
-	  { "name": "Preparatenshop" },
-	  { "name": "Rariteiten-By-Anne" },
-	  { "name": "Readmore Publishing House" },
-	  { "name": "Rock&Roadkill" },
-	  { "name": "Samsshop.nl" },
-	  { "name": "Sanskullartime" },
-	  { "name": "Saucissons d'Olivier" },
-	  { "name": "Shibesus" },
-	  { "name": "Siebi's creations" },
-	  { "name": "Sickeart" },
-	  { "name": "SinFlower Apparel" },
-	  { "name": "Skawager" },
-	  { "name": "Skull en Prull" },
-	  { "name": "Skull_bone_collector" },
-	  { "name": "Spooky Stuff" },
-	  { "name": "Stijn De Pourcq" },
-	  { "name": "Studio Sombre" },
-	  { "name": "Sweatyprints" },
-	  { "name": "Taranartos" },
-	  { "name": "Taxidermie Joyce" },
-	  { "name": "Tessa Von" },
-	  { "name": "The Berkey" },
-	  { "name": "The Dragon Oak" },
-	  { "name": "The Liner BV arthouse" },
-	  { "name": "The Major's CuriositiesCollection" },
-	  { "name": "The tales of wolfland" },
-	  { "name": "Typisch Kim" },
-	  { "name": "Veluws curiosities" },
-	  { "name": "Voxyz" },
-	  { "name": "Wauhahauwart" },
-	  { "name": "Wicked lady" },
-	  { "name": "Wilde bloem en libelle" },
-	  { "name": "Woodstock concept store" },
-	  { "name": "'t Piekuurtje" }
-	];
+	//let vendors = [
+	//  { "name": "A lot of rosie" },
+	//  { "name": "Abramacabra" }
+	//];
+	let vendors = [];
 	
 	const listEl = document.getElementById("vendor-list");
 
-    vendors.forEach(v => {
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <span class="item-content item-link">
-          <div class="dz-inner">
-            <div class="dz-title">${v.name}</div> 
-          </div>
-        </span>
-      `;
-      listEl.appendChild(li);
-    });
+	if (vendors.length === 0) {
+		const li = document.createElement("li");
+		li.innerHTML = `
+			<span class="item-content item-link">
+			  <div class="dz-inner">
+				<div class="dz-title">COMING SOON</div> 
+			  </div>
+			</span>
+		  `;
+		  listEl.appendChild(li);
+	} else {
+		vendors.forEach(v => {
+		  const li = document.createElement("li");
+		  li.innerHTML = `
+			<span class="item-content item-link">
+			  <div class="dz-inner">
+				<div class="dz-title">${v.name}</div> 
+			  </div>
+			</span>
+		  `;
+		  listEl.appendChild(li);
+		});
+	}
 </script>
 </body>
 </html>
