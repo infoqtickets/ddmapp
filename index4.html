@@ -296,7 +296,6 @@ html, body {
     
 
 
-		<!--
 		<div style="height: 90px;"></div>
 		<div id="schedule-wrapper" class="schedule-wrapper">
 			<div class="timeline-container">
@@ -310,7 +309,7 @@ html, body {
 				</div>
 			</div>
 		</div>
-		-->
+	<!--
     <div class="page-content">
         <div class="content-inner pt-0">
 			<div class="container fb">
@@ -318,6 +317,7 @@ html, body {
 			</div>
 		</div>
 	</div>
+	-->
 </div>    
 
 <!--**********************************
@@ -334,36 +334,76 @@ html, body {
 
 		<script>
 const days = [
-  {"name": "Saturday", "subtitle": "Day 1", "subtitle2": "13 december", "date": "2025-12-13", "starthour": 13, "endhour": 23},
-  {"name": "Sunday", "subtitle": "Day 2", "subtitle2": "14 december", "date": "2025-12-14", "starthour": 10, "endhour": 19}
+  {"name": "Saturday", "subtitle": "Day 1", "subtitle2": "13 december", "date": "2025-12-13", "starthour": 13, "endhour": 22},
+  {"name": "Sunday", "subtitle": "Day 2", "subtitle2": "14 december", "date": "2025-12-14", "starthour": 10, "endhour": 18}
 ]
 
 const stages = [
   { "day": "Saturday", "name": "DOORS", "color": "#e74c3c" },
-  { "day": "Saturday", "name": "COMEDY BAR", "color": "#3498db" },
+  { "day": "Saturday", "name": "AUDITORIUM", "color": "#3498db" },
+  { "day": "Saturday", "name": "INDOOR STAGE", "color": "#2ecc71" },
+  { "day": "Saturday", "name": "EXTREME STAGE", "color": "#2ecc71" },
   { "day": "Saturday", "name": "MAIN STAGE", "color": "#2ecc71" },
   { "day": "Sunday", "name": "DOORS", "color": "#e74c3c" },
-  { "day": "Sunday", "name": "COMEDY BAR", "color": "#3498db" },
+  { "day": "Sunday", "name": "AUDITORIUM", "color": "#3498db" },
+  { "day": "Sunday", "name": "INDOOR STAGE", "color": "#2ecc71" },
+  { "day": "Sunday", "name": "EXTREME STAGE", "color": "#2ecc71" },
   { "day": "Sunday", "name": "MAIN STAGE", "color": "#2ecc71" }
 ]
 
+//const bands = [
+//  { "id": "1111", "day": "Saturday", "stage": "DOORS", "name": "Entrance Fanatic tickets", "image": null, "start": "12:00", "duration": 120 },
+//  { "id": "2", "day": "Saturday", "stage": "DOORS", "name": "Entrance Wanderer tickets", "image": null, "start": "14:00", "duration": 540 },
+//  { "id": "3", "day": "Saturday", "stage": "COMEDY BAR", "name": "Water bij", "image": null, "start": "15:45", "duration": 15 },
+//  { "id": "4", "day": "Saturday", "stage": "COMEDY BAR", "name": "Johnny Trash", "image": null, "start": "16:00", "duration": 30 },
+//  { "id": "5", "day": "Saturday", "stage": "COMEDY BAR", "name": "Fokcast + special guest", "image": null, "start": "17:30", "duration": 60 },
+//  { "id": "6", "day": "Saturday", "stage": "MAIN STAGE", "name": "The Witchdoctor", "image": null, "start": "15:00", "duration": 60 },
+//  { "id": "7", "day": "Saturday", "stage": "MAIN STAGE", "name": "Coraly Corazon & Ian freaks", "image": null, "start": "16:30", "duration": 30 },
+//  { "id": "8", "day": "Saturday", "stage": "MAIN STAGE", "name": "No prisoners", "image": null, "start": "19:30", "duration": 30 },
+//  { "id": "9", "day": "Sunday", "stage": "DOORS", "name": "Entrance Sunday tickets", "image": null, "start": "10:00", "duration": 480 },
+//  { "id": "10", "day": "Sunday", "stage": "COMEDY BAR", "name": "Sander van der Smissen", "image": null, "start": "14:45", "duration": 15 },
+//  { "id": "11", "day": "Sunday", "stage": "COMEDY BAR", "name": "Joost van Hyfte", "image": null, "start": "15:00", "duration": 30 },
+//  { "id": "12", "day": "Sunday", "stage": "COMEDY BAR", "name": "Joker impro team", "image": null, "start": "16:30", "duration": 60 },
+//  { "id": "13", "day": "Sunday", "stage": "MAIN STAGE", "name": "Living statue show", "image": null, "start": "13:45", "duration": 60 },
+//  { "id": "14", "day": "Sunday", "stage": "MAIN STAGE", "name": "Coraly Corazon & Ian freaks", "image": null, "start": "13:00", "duration": 30 },
+//  { "id": "15", "day": "Sunday", "stage": "MAIN STAGE", "name": "Divided", "image": null, "start": "15:30", "duration": 45 }
+//]
 const bands = [
-  { "id": "1111", "day": "Saturday", "stage": "DOORS", "name": "Entrance Fanatic tickets", "image": null, "start": "12:00", "duration": 120 },
-  { "id": "2", "day": "Saturday", "stage": "DOORS", "name": "Entrance Wanderer tickets", "image": null, "start": "14:00", "duration": 540 },
-  { "id": "3", "day": "Saturday", "stage": "COMEDY BAR", "name": "Water bij", "image": null, "start": "15:45", "duration": 15 },
-  { "id": "4", "day": "Saturday", "stage": "COMEDY BAR", "name": "Johnny Trash", "image": null, "start": "16:00", "duration": 30 },
-  { "id": "5", "day": "Saturday", "stage": "COMEDY BAR", "name": "Fokcast + special guest", "image": null, "start": "17:30", "duration": 60 },
-  { "id": "6", "day": "Saturday", "stage": "MAIN STAGE", "name": "The Witchdoctor", "image": null, "start": "15:00", "duration": 60 },
-  { "id": "7", "day": "Saturday", "stage": "MAIN STAGE", "name": "Coraly Corazon & Ian freaks", "image": null, "start": "16:30", "duration": 30 },
-  { "id": "8", "day": "Saturday", "stage": "MAIN STAGE", "name": "No prisoners", "image": null, "start": "19:30", "duration": 30 },
-  { "id": "9", "day": "Sunday", "stage": "DOORS", "name": "Entrance Sunday tickets", "image": null, "start": "10:00", "duration": 480 },
-  { "id": "10", "day": "Sunday", "stage": "COMEDY BAR", "name": "Sander van der Smissen", "image": null, "start": "14:45", "duration": 15 },
-  { "id": "11", "day": "Sunday", "stage": "COMEDY BAR", "name": "Joost van Hyfte", "image": null, "start": "15:00", "duration": 30 },
-  { "id": "12", "day": "Sunday", "stage": "COMEDY BAR", "name": "Joker impro team", "image": null, "start": "16:30", "duration": 60 },
-  { "id": "13", "day": "Sunday", "stage": "MAIN STAGE", "name": "Living statue show", "image": null, "start": "13:45", "duration": 60 },
-  { "id": "14", "day": "Sunday", "stage": "MAIN STAGE", "name": "Coraly Corazon & Ian freaks", "image": null, "start": "13:00", "duration": 30 },
-  { "id": "15", "day": "Sunday", "stage": "MAIN STAGE", "name": "Divided", "image": null, "start": "15:30", "duration": 45 }
-]
+  /* --- SATURDAY --- */
+  { "id": "D1", "day": "Saturday", "stage": "DOORS", "name": "Entrance First freaks tickets", "image": null, "start": "13:00", "duration": 90 },
+  { "id": "D2", "day": "Saturday", "stage": "DOORS", "name": "Entrance The sideshow swarm tickets", "image": null, "start": "14:30", "duration": 210 },
+  { "id": "D3", "day": "Saturday", "stage": "DOORS", "name": "Entrance The stage monkeys tickets", "image": null, "start": "18:00", "duration": 240 },
+
+  { "id": "S1", "day": "Saturday", "stage": "AUDITORIUM", "name": "Seminar NL (uit)sterven, doodnormaal", "image": null, "start": "16:00", "duration": 60 },
+  { "id": "S2", "day": "Saturday", "stage": "AUDITORIUM", "name": "Documentary / Movie - Simba & me (ENG)", "image": null, "start": "18:00", "duration": 90 },
+
+  { "id": "S3", "day": "Saturday", "stage": "INDOOR STAGE", "name": "Hullabaloo Cabaret", "image": null, "start": "17:00", "duration": 30 },
+  { "id": "S4", "day": "Saturday", "stage": "INDOOR STAGE", "name": "Hullabaloo Cabaret", "image": null, "start": "20:30", "duration": 30 },
+
+  { "id": "S5", "day": "Saturday", "stage": "EXTREME STAGE", "name": "Antzaat", "image": null, "start": "18:40", "duration": 30 },
+  { "id": "S6", "day": "Saturday", "stage": "EXTREME STAGE", "name": "Extreme Sideshow 18+", "image": null, "start": "19:30", "duration": 40 },
+  { "id": "S7", "day": "Saturday", "stage": "EXTREME STAGE", "name": "Ekzeem-A", "image": null, "start": "20:30", "duration": 30 },
+
+  { "id": "S8", "day": "Saturday", "stage": "MAIN STAGE", "name": "Bloed", "image": null, "start": "18:00", "duration": 35 },
+  { "id": "S9", "day": "Saturday", "stage": "MAIN STAGE", "name": "Slow Crush", "image": null, "start": "19:15", "duration": 60 },
+  { "id": "S10", "day": "Saturday", "stage": "MAIN STAGE", "name": "Wiegedood", "image": null, "start": "21:00", "duration": 60 },
+
+  /* --- SUNDAY --- */
+  { "id": "DSU1", "day": "Sunday", "stage": "DOORS", "name": "Entrance The fading clowns tickets", "image": null, "start": "10:00", "duration": 480 },
+
+  { "id": "SU1", "day": "Sunday", "stage": "AUDITORIUM", "name": "Seminar NL (uit)sterven, doodnormaal!", "image": null, "start": "14:30", "duration": 60 },
+
+  { "id": "SU2", "day": "Sunday", "stage": "INDOOR STAGE", "name": "Hullabaloo Cabaret", "image": null, "start": "13:45", "duration": 40 },
+  { "id": "SU3", "day": "Sunday", "stage": "INDOOR STAGE", "name": "Hullabaloo Cabaret", "image": null, "start": "15:30", "duration": 40 },
+
+  { "id": "SU4", "day": "Sunday", "stage": "EXTREME STAGE", "name": "Lintworm", "image": null, "start": "13:00", "duration": 45 },
+  { "id": "SU5", "day": "Sunday", "stage": "EXTREME STAGE", "name": "Modder", "image": null, "start": "14:30", "duration": 45 },
+  { "id": "SU6", "day": "Sunday", "stage": "EXTREME STAGE", "name": "Extreme Sideshow 18+", "image": null, "start": "16:20", "duration": 40 },
+
+  { "id": "SU7", "day": "Sunday", "stage": "MAIN STAGE", "name": "Gnome", "image": null, "start": "15:20", "duration": 60 },
+  { "id": "SU8", "day": "Sunday", "stage": "MAIN STAGE", "name": "Henge", "image": null, "start": "17:00", "duration": 60 }
+];
+
 
 const rowHeight = 110; // see and calculate 'stage-label'
 const originalHeaderHeight = 40;
