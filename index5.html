@@ -73,7 +73,7 @@
 					</div>
 					<div id="hidcontr" style="height: 200px;" onclick="tap()">
 					</div>
-<!--				    <div class="card m-t20">
+				    <div id="betaaccess" class="card m-t20" style="display: none;">
                         <div class="card-body py-2">
                             <div class="dz-list">
 								<ul>
@@ -87,9 +87,9 @@
 								</ul>
 							</div>
 						</div>
-					</div>-->
+					</div>
 				    <!--<div id="adminlinks" class="card m-t20" style="display: none;">-->
-					<!--<div id="adminlinks" class="card m-t20" >
+					<div id="adminlinks" class="card m-t20" style="display: none;">
                         <div class="card-body py-2">
                             <div class="dz-list">
 								<ul>
@@ -131,14 +131,14 @@
 									<li>
                                         <a href="javascript:getDownloadUrls()" class="item-content item-link">
                                             <div class="dz-inner">
-                                                <div class="dz-title">Gett download urls</div>
+                                                <div class="dz-title">Get download urls</div>
                                             </div>
                                         </a>
                                     </li>
 									<li>
                                         <a href="javascript:setDownloadUrls()" class="item-content item-link">
                                             <div class="dz-inner">
-                                                <div class="dz-title">Sett download urls</div>
+                                                <div class="dz-title">Set download urls</div>
                                             </div>
                                         </a>
                                     </li>
@@ -166,7 +166,7 @@
 								</ul>
                             </div>
                         </div>
-                    </div>-->
+                    </div>
 	
 				
 			</div>
@@ -199,6 +199,9 @@ let counter = 0;
 
 function tap() {
 	counter++;
+	if (counter >= 20){
+		document.getElementById('betaaccess').style.display = 'block';
+	}
 	//document.getElementById('hidcontr').innerHTML = counter;
 }
 
