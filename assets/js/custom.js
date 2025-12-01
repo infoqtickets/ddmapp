@@ -38,10 +38,12 @@ var Jobie = function(){
 	var handleIsFixed = function(){
 		$(window).scroll(function() {    
 			var scroll = $(window).scrollTop();
-			if (scroll >= 100) {
+			if (scroll >= 50) {
 				$(".main-bar").addClass("sticky-header");
 			}else{
-				$(".main-bar").removeClass("sticky-header");
+				if (window.location.pathname.split('/').pop() !== 'index4.html') {
+					$(".main-bar").removeClass("sticky-header");
+				}
 			}
 		});
 	}
