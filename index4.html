@@ -370,11 +370,11 @@ const stages = [
 //]
 const bands = [
   /* --- SATURDAY --- */
-  { "id": "D1", "day": "Saturday", "stage": "DOORS", "name": "Entrance First freaks tickets", "image": null, "start": "13:00", "duration": 90 },
-  { "id": "D2", "day": "Saturday", "stage": "DOORS", "name": "Entrance The sideshow swarm tickets", "image": null, "start": "14:30", "duration": 210 },
+  { "id": "D1", "day": "Saturday", "stage": "DOORS", "name": "Entrance First freaks tickets", "image": null, "start": "13:00", "duration": 540 },
+  { "id": "D2", "day": "Saturday", "stage": "DOORS", "name": "Entrance The sideshow swarm tickets", "image": null, "start": "14:30", "duration": 450 },
   { "id": "D3", "day": "Saturday", "stage": "DOORS", "name": "Entrance The stage monkeys tickets", "image": null, "start": "18:00", "duration": 240 },
 
-  { "id": "S1", "day": "Saturday", "stage": "AUDITORIUM", "name": "Seminar NL (uit)sterven, doodnormaal", "image": null, "start": "16:00", "duration": 60 },
+  { "id": "S1", "day": "Saturday", "stage": "AUDITORIUM", "name": "Free Seminar (EN) Death, essential for life!", "image": null, "start": "16:00", "duration": 60 },
   { "id": "S2", "day": "Saturday", "stage": "AUDITORIUM", "name": "Documentary / Movie - Simba & me (ENG)", "image": null, "start": "18:00", "duration": 90 },
 
   { "id": "S3", "day": "Saturday", "stage": "INDOOR STAGE", "name": "Hullabaloo Cabaret", "image": null, "start": "17:00", "duration": 30 },
@@ -391,7 +391,7 @@ const bands = [
   /* --- SUNDAY --- */
   { "id": "DSU1", "day": "Sunday", "stage": "DOORS", "name": "Entrance The fading clowns tickets", "image": null, "start": "10:00", "duration": 480 },
 
-  { "id": "SU1", "day": "Sunday", "stage": "AUDITORIUM", "name": "Seminar NL (uit)sterven, doodnormaal!", "image": null, "start": "14:30", "duration": 60 },
+  { "id": "SU1", "day": "Sunday", "stage": "AUDITORIUM", "name": "Free Seminar (EN) Death, essential for life!", "image": null, "start": "14:30", "duration": 60 },
 
   { "id": "SU2", "day": "Sunday", "stage": "INDOOR STAGE", "name": "Hullabaloo Cabaret", "image": null, "start": "13:45", "duration": 40 },
   { "id": "SU3", "day": "Sunday", "stage": "INDOOR STAGE", "name": "Hullabaloo Cabaret", "image": null, "start": "15:30", "duration": 40 },
@@ -423,13 +423,15 @@ if (days.length > 1) {
 	ddtoggle.className = "dropdown-toggle";
 	ddtoggle.setAttribute("data-bs-toggle", "dropdown");
 	ddtoggle.setAttribute("aria-expanded", "false");
+	ddtoggle.style.fontSize = "20px"
 	ddmenu.className = "dropdown-menu";
 	ddmenu.setAttribute("style", "width: 100vw !important;");
 	days.forEach(day => {
 		let menuitem = document.createElement("a");
 		menuitem.className = "dropdown-item";
 		menuitem.setAttribute("href", "javascript:document.getElementById('daydd').innerHTML = '" + day.name + "';buildSchedule(days.find(d => d.name === '" + day.name + "'), days, stages, bands)");
-		menuitem.innerHTML = day.name;
+		menuitem.style.fontSize = "20px"
+		menuitem.innerHTML = day.name + ' ' + day.subtitle2;
 		ddmenu.appendChild(menuitem);
 	});
 	btngroup.appendChild(ddtoggle);
