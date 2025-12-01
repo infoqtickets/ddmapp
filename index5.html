@@ -71,6 +71,8 @@
 							</div>
 						</div>
 					</div>
+					<div id="hidcontr" style="height: 200px;" onclick="tap()">
+					</div>
 <!--				    <div class="card m-t20">
                         <div class="card-body py-2">
                             <div class="dz-list">
@@ -192,6 +194,18 @@ function showadmininput() {
 	  document.getElementById('adminlinks').style.display = 'block';
 	}
 }
+
+let counter = 0;
+
+function tap() {
+	counter++;
+	//document.getElementById('hidcontr').innerHTML = counter;
+}
+
+setInterval(() => {
+    counter = 0;
+}, 30000);
+
 </script>
 </body>
 </html>
