@@ -38,7 +38,7 @@ var Jobie = function(){
 	var handleIsFixed = function(){
 		$(window).scroll(function() {    
 			var scroll = $(window).scrollTop();
-			if (scroll >= 50) {
+			if (scroll >= 100) {
 				$(".main-bar").addClass("sticky-header");
 			}else{
 				$(".main-bar").removeClass("sticky-header");
