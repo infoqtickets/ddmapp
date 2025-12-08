@@ -187,7 +187,7 @@
 [F]|2025-09-25T18:39:00|index0.html
 [F]|2025-12-02T21:43:49|index1.html
 [F]|2025-09-19T04:26:28|index2.html
-[F]|2025-12-08T00:22:30|index3.html
+[F]|2025-12-08T13:12:55|index3.html
 [F]|2025-05-20T01:19:08|index3_ok1.html
 [F]|2025-07-08T23:03:28|index3_ok2.html
 [F]|2025-12-01T14:05:11|index4.html
@@ -196,7 +196,7 @@
 [F]|2025-09-21T13:47:32|notification.html
 [F]|2025-09-26T21:57:22|notificationlist.txt
 [F]|2025-09-19T21:34:16|notificationsettings.html
-[F]|2025-12-08T00:23:08|releasetag.txt
+[F]|2025-12-08T13:13:21|releasetag.txt
 [F]|2025-09-05T09:50:02|robots.txt
 [F]|2025-09-23T16:27:13|samsshop.html
 [F]|2025-09-23T17:51:31|scanner.html
@@ -211,8 +211,8 @@
 [F]|2025-05-14T21:35:57|stickytest.html
 [F]|2025-09-25T13:31:06|tabs.html
 [F]|2025-09-23T15:54:38|vendor - Copy.html
-[F]|2025-12-03T23:31:11|vendor.html
-[D]|2025-12-03T22:30:20|vendorimages
+[F]|2025-12-08T13:12:30|vendor.html
+[D]|2025-12-08T13:09:33|vendorimages
 [F]|2025-12-03T19:33:01|vendorimages/abramacabra.jpg
 [F]|2025-12-03T19:33:01|vendorimages/acresofsilence.jpg
 [F]|2025-12-03T19:33:01|vendorimages/ApothicArt.jpg
@@ -229,6 +229,7 @@
 [F]|2025-12-03T19:33:02|vendorimages/cindyvandijkcreations.jpg
 [F]|2025-12-03T19:33:02|vendorimages/Coleoptera Crypt.jpg
 [F]|2025-12-03T19:33:02|vendorimages/daffytheundertaker.jpg
+[F]|2025-12-08T13:08:55|vendorimages/DDM_credo6.jpg
 [F]|2025-12-03T19:33:02|vendorimages/Debottenaald.jpg
 [F]|2025-12-03T19:33:02|vendorimages/DesaCreata.jpg
 [F]|2025-12-03T19:33:02|vendorimages/designed-by-emma.jpg
