@@ -15,7 +15,24 @@
     <link rel="stylesheet" href="assets/vendor/swiper/swiper-bundle.min.css">
 	<link rel="stylesheet" href="assets/vendor/fontawesome651/css/all.min.css">
 	<link rel="stylesheet" href="assets/vendor/googlefonts/googlefont.css">
+	<script src="assets/vendor/panzoom/panzoom.min.js"></script>
 	<script src="assets/js/appbefore.js"></script>
+	<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* voorkom scrollen van hele pagina */
+}
+
+.map-mainwrapper {
+	display: flex;
+    height: calc(100vh - 181px);
+    overflow: hidden;
+    background-color: #000;
+}
+	</style>
 </head>   
 <body class="theme-dark" data-theme-color="color-orange">
 <div class="page-wraper">
@@ -25,7 +42,7 @@
 		<div class="main-bar" style="padding-top: 35px;">
 			<div class="container">
 				<div class="header-content">
-					<div class="mid-content">Vendors</div>
+					<div class="mid-content">Map</div>
 					<div class="right-content">
 						<a href="javascript:sendToDotNet('popupinternal_notification.html');" style="color: #fff;">
 							<i class="fal fa-bell" style="font-size: 1rem;"></i>
@@ -47,356 +64,32 @@
     <div class="page-content">
         
         <div class="content-inner pt-0">
-			<div class="container fb">
-				
-				    <div class="card m-t90">
-                        <div class="card-header">
-                            <h5 class="card-title">Booths</h5>
-                        </div>
-                        <div class="card-body py-2">
-                            <div class="dz-list">
-                                <ul>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Carduus1234</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Acres Of Silence</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Archeron Curiosities</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Ayame Designs</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Fantasy Giftshop </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Lost treasures</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Nans Curiosities </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Nature Deco </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Pretty little dead things</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Rock & Roadkill</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Sam's shop</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Stylish interior</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Sweatyprints</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Taranartos</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">The Major Curiosities Collection</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">ULTRA TRASH</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Carduus</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Acres Of Silence</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Archeron Curiosities</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Ayame Designs</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Fantasy Giftshop </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Lost treasures</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Nans Curiosities </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Nature Deco </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Pretty little dead things</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Rock & Roadkill</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Sam's shop</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Stylish interior</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Sweatyprints</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Taranartos</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">The Major Curiosities Collection</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">ULTRA TRASH</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Carduus</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Acres Of Silence</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Archeron Curiosities</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Ayame Designs</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Fantasy Giftshop </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Lost treasures</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Nans Curiosities </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Nature Deco </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Pretty little dead things</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Rock & Roadkill</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Sam's shop</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Stylish interior</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Sweatyprints</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">Taranartos</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">The Major Curiosities Collection</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="vendor.html" class="item-content item-link">
-                                            <div class="dz-inner">
-                                                <div class="dz-title">ULTRA TRASH</div>
-                                            </div>
-                                        </a>
-                                    </li>
-								</ul>
-                            </div>
-                        </div>
-                    </div>
-
+			<div class="container fb" style="padding: 0rem;">
+			
+				<div class="card-body m-t100" style="padding: 0rem;">
+					<center><h4>Floor</h4></center>
+					<div class="btn-group" style="width: 100%;">
+						<button floorbtn="1" type="button" onclick="ActivateButton(this)" style="border-radius: 0px;" class="btn btn-primary">0</button>
+						<button floorbtn="2" type="button" onclick="ActivateButton(this)" style="border-radius: 0px;" class="btn btn-outline-primary">1st</button>
+						<button floorbtn="3" type="button" onclick="ActivateButton(this)" style="border-radius: 0px;" class="btn btn-outline-primary">2nd</button>
+						<button floorbtn="4" type="button" onclick="ActivateButton(this)" style="border-radius: 0px;" class="btn btn-outline-primary">3rd</button>
+					</div>
+					
+					<div class="map-mainwrapper">
+					<div id="map-wrapper1" class="map-container">
+						<img id="map1" src="assets/images/2025_Thorcentral-FLOOR-0.jpg">
+					</div>
+					<div id="map-wrapper2" class="map-container" style="display: none;">
+						<img id="map2" src="assets/images/2025_Thorcentral-FLOOR-1.jpg">
+					</div>
+					<div id="map-wrapper3" class="map-container" style="display: none;">
+						<img id="map3" src="assets/images/2025_Thorcentral-FLOOR-2.jpg">
+					</div>
+					<div id="map-wrapper4" class="map-container" style="display: none;">
+						<img id="map4" src="assets/images/2025_Thorcentral-FLOOR-3.jpg">
+					</div>
+					</div>
+				</div>
 				
 			</div>
 		</div>    
@@ -404,7 +97,95 @@
 	<!-- Page Content End-->
 	
 </div>    
+<script>
+Panzoom(document.getElementById('map1'), {
+	maxScale: 10,
+	minScale: 0.1,
+	step: 1,
+	pinchAndPan: true,
+	contain: 'outside'
+});
+Panzoom(document.getElementById('map2'), {
+	maxScale: 10,
+	minScale: 0.1,
+	step: 1,
+	pinchAndPan: true,
+	contain: 'outside'
+});
+Panzoom(document.getElementById('map3'), {
+	maxScale: 10,
+	minScale: 0.1,
+	step: 1,
+	pinchAndPan: true,
+	contain: 'outside'
+});
+Panzoom(document.getElementById('map4'), {
+	maxScale: 10,
+	minScale: 0.1,
+	step: 1,
+	pinchAndPan: true,
+	contain: 'outside'
+});
 
+function ActivateButton(btn) {
+    // Als de geklikte button al actief is, doe niets
+    if (btn.classList.contains('btn-primary')) {
+        return;
+    }
+
+    // Alle buttons resetten naar 'btn-outline-primary'
+    const buttons = document.querySelectorAll('button[floorbtn]');
+    buttons.forEach(b => {
+        b.classList.remove('btn-primary');
+        b.classList.add('btn-outline-primary');
+    });
+
+    // Geklikte button op 'btn-primary' zetten
+    btn.classList.remove('btn-outline-primary');
+    btn.classList.add('btn-primary');
+
+    // Waarde van 'floorbtn' uitlezen
+    const floor = btn.getAttribute('floorbtn');
+
+    // Actie uitvoeren afhankelijk van welke knop is geklikt
+    switch(floor) {
+        case '1':
+			document.getElementById('map-wrapper1').style.display = 'block';
+			document.getElementById('map-wrapper2').style.display = 'none';
+			document.getElementById('map-wrapper3').style.display = 'none';
+			document.getElementById('map-wrapper4').style.display = 'none';
+            console.log("Eerste verdieping geselecteerd");
+            // Code voor 1st floor
+            break;
+        case '2':
+			document.getElementById('map-wrapper1').style.display = 'none';
+			document.getElementById('map-wrapper2').style.display = 'block';
+			document.getElementById('map-wrapper3').style.display = 'none';
+			document.getElementById('map-wrapper4').style.display = 'none';
+            console.log("Tweede verdieping geselecteerd");
+            // Code voor 2nd floor
+            break;
+        case '3':
+			document.getElementById('map-wrapper1').style.display = 'none';
+			document.getElementById('map-wrapper2').style.display = 'none';
+			document.getElementById('map-wrapper3').style.display = 'block';
+			document.getElementById('map-wrapper4').style.display = 'none';
+            console.log("Derde verdieping geselecteerd");
+            // Code voor 3rd floor
+            break;
+        case '4':
+			document.getElementById('map-wrapper1').style.display = 'none';
+			document.getElementById('map-wrapper2').style.display = 'none';
+			document.getElementById('map-wrapper3').style.display = 'none';
+			document.getElementById('map-wrapper4').style.display = 'block';
+            console.log("Derde verdieping geselecteerd");
+            // Code voor 3rd floor
+            break;
+        default:
+            console.log("Onbekende verdieping");
+    }
+}
+</script>
 <!--**********************************
     Scripts
 ***********************************-->
