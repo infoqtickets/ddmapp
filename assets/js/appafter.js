@@ -122,6 +122,8 @@ function receiveFromDotNet(msg) {
 		if (obj.Response.Header.RequestActionName == 'getsignature')
 		{
 			//alert('get signatureeeeeeee');
+			let jsonTexttest = JSON.stringify(obj);
+			$("#testtext").text(jsonTexttest);
 			alert(msg);
 		}
 		
@@ -158,18 +160,22 @@ function setTab(tabname, val)
 }
 
 function setLocalPushTest() {
-	const obj = {
+	let d1 = new Date();
+	let f1 = d1.toISOString().slice(0, 19).replace("T", " ");
+	let d2 = new Date(Date.now() + 20000);
+	let f2 = d2.toISOString().slice(0, 19).replace("T", " ");
+	let obj = {
 	  Request: {
 		RequestActionName: "setlocalpush",
 		MainData: {
 		  Key: "myfisrtkey",
 		  TargetOS: "android,ios",
 		  DateFormat: "yyyy-MM-dd HH:mm:ss",
-		  CreateDate: "2025-09-15 20:40:00",
+		  CreateDate: f1,
 		  Title: "Javascript push test",
 		  Description: "Javascript description test",
 		  CreatLocalPush: "true",
-		  NotifyDate: "2025-09-15 20:40:00",
+		  NotifyDate: f2,
 		  ExtraData: "blablabla",
 		  ActionOnClick: "clickerdeclick"
 		},
@@ -180,6 +186,7 @@ function setLocalPushTest() {
 	};
 	const jsonText = JSON.stringify(obj);
 	sendToDotNet(jsonText);
+	alert('notification set\n\n' + jsonText);
 }
 
 function removeLocalPushTest() {
