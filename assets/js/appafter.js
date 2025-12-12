@@ -151,12 +151,12 @@ function setTab(tabname, val)
 	});
 	var obj = document.querySelector('[qtmenu="' + tabname + '"]');
 	obj.classList.add('active');
-	if (tabname == 'tab2') {
-		sendToDotNet('openurl_' + val);
-	}
-	else {
+	//if (tabname == 'tab2') {
+	//	sendToDotNet('openurl_' + val);
+	//}
+	//else {
 		sendToDotNet('showcontent_' + obj.getAttribute('qtmenu'));
-	}
+	//}
 }
 
 function setLocalPushTest() {
