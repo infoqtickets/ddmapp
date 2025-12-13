@@ -1,1 +1,18 @@
-﻿[]
+﻿[
+	{
+		"Key": "10",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2025-12-13 17:50:44",
+		"Title": "Upcoming @ 18:00h",
+		"Description": "Bloed will perform at the Main stage and Simba & me will be played at the Auditorium",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2025-12-13 17:50:44",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2025-12-13 17:50:44",
+		"VisibleInListTo": "2026-02-11 17:50:44"
+	}
+]
