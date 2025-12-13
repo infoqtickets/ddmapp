@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "16",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2025-12-13 19:27:26",
+		"Title": "Marcopunk",
+		"Description": "Marcopunk will perform for the second time at the Indoor stage @ 19:30h",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2025-12-13 19:27:26",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2025-12-13 19:27:26",
+		"VisibleInListTo": "2026-02-11 19:27:26"
+	},
+	{
 		"Key": "15",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
