@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "17",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2025-12-13 20:16:46",
+		"Title": "Ekzeem-A",
+		"Description": "Ekzeem-A will perform at Indoor stage @ 20:30h",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2025-12-13 20:16:46",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2025-12-13 20:16:46",
+		"VisibleInListTo": "2026-02-11 20:16:46"
+	},
+	{
 		"Key": "16",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
