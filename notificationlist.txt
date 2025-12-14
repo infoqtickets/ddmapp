@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "26",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2025-12-14 15:21:36",
+		"Title": "Hullabaloo cabaret",
+		"Description": "Hullabaloo cabaret will perform soon at the Indoor stage @ 15:30h",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2025-12-14 15:21:36",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2025-12-14 15:21:36",
+		"VisibleInListTo": "2026-02-12 15:21:36"
+	},
+	{
 		"Key": "25",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
