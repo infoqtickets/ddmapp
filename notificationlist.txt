@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "20",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2025-12-14 12:47:30",
+		"Title": "First artist of today: Lintworm",
+		"Description": "Our first artist of today will perform soon at the Extreme stage @ 13:00h",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2025-12-14 12:47:30",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2025-12-14 12:47:30",
+		"VisibleInListTo": "2026-02-12 12:47:30"
+	},
+	{
 		"Key": "19",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
