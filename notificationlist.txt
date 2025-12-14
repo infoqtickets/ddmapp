@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "23",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2025-12-14 14:20:08",
+		"Title": "Free seminar",
+		"Description": "The free seminar Death, essential for life will begin soon at the Auditorium @ 14:30h",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2025-12-14 14:20:08",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2025-12-14 14:20:08",
+		"VisibleInListTo": "2026-02-12 14:20:08"
+	},
+	{
 		"Key": "22",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
