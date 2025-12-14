@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "25",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2025-12-14 15:10:30",
+		"Title": "Gnome",
+		"Description": "Gnome will perform at the Main stage @ 15:20h",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2025-12-14 15:10:30",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2025-12-14 15:10:30",
+		"VisibleInListTo": "2026-02-12 15:10:30"
+	},
+	{
 		"Key": "24",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
