@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "30",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2025-12-14 18:49:55",
+		"Title": "Thank you!",
+		"Description": "We would like to thank you for an other wonderful Duystere Markt edition. See you in May in Eindhoven",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2025-12-14 18:49:55",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2025-12-14 18:49:55",
+		"VisibleInListTo": "2026-02-12 18:49:55"
+	},
+	{
 		"Key": "29",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
