@@ -200,9 +200,9 @@
 [F]|2025-12-12T00:54:39|index5.html
 [F]|2025-05-16T15:17:46|index_ok1.html
 [F]|2025-09-21T13:47:32|notification.html
-[F]|2025-12-14T12:47:30|notificationlist.txt
+[F]|2025-12-14T13:33:46|notificationlist.txt
 [F]|2025-09-19T21:34:16|notificationsettings.html
-[F]|2025-12-14T12:47:30|releasetag.txt
+[F]|2025-12-14T13:33:46|releasetag.txt
 [F]|2025-09-05T09:50:02|robots.txt
 [F]|2025-09-23T16:27:13|samsshop.html
 [F]|2025-09-23T17:51:31|scanner.html
