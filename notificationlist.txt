@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "27",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2025-12-14 16:07:16",
+		"Title": "Extreme sideshow 18+",
+		"Description": "Extreme sideshow 18+ will perform soon at the Extreme stage @ 16:20h",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2025-12-14 16:07:16",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2025-12-14 16:07:16",
+		"VisibleInListTo": "2026-02-12 16:07:16"
+	},
+	{
 		"Key": "26",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
