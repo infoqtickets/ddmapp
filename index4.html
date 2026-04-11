@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     
@@ -334,78 +334,24 @@ html, body {
 
 		<script>
 const days = [
-  {"name": "Saturday", "subtitle": "Day 1", "subtitle2": "13 december", "date": "2025-12-13", "starthour": 13, "endhour": 22},
-  {"name": "Sunday", "subtitle": "Day 2", "subtitle2": "14 december", "date": "2025-12-14", "starthour": 10, "endhour": 18}
+  {"name": "Friday", "subtitle": "Day 1", "subtitle2": "1 mei", "date": "2026-05-01", "starthour": 18, "endhour": 23},
+  {"name": "Saturday", "subtitle": "Day 2", "subtitle2": "2 mei", "date": "2026-05-02", "starthour": 13, "endhour": 22},
+  {"name": "Sunday", "subtitle": "Day 3", "subtitle2": "3 mei", "date": "2026-05-03", "starthour": 10, "endhour": 18}
 ]
 
 const stages = [
+  { "day": "Friday", "name": "DOORS", "color": "#e74c3c" },
+  { "day": "Friday", "name": "MAIN STAGE", "color": "#9b59b6" },
   { "day": "Saturday", "name": "DOORS", "color": "#e74c3c" },
-  { "day": "Saturday", "name": "AUDITORIUM", "color": "#3498db" },
-  { "day": "Saturday", "name": "INDOOR STAGE", "color": "#2ecc71" },
   { "day": "Saturday", "name": "EXTREME STAGE", "color": "#f1c40f" },
   { "day": "Saturday", "name": "MAIN STAGE", "color": "#9b59b6" },
   { "day": "Sunday", "name": "DOORS", "color": "#e74c3c" },
-  { "day": "Sunday", "name": "AUDITORIUM", "color": "#3498db" },
-  { "day": "Sunday", "name": "INDOOR STAGE", "color": "#2ecc71" },
   { "day": "Sunday", "name": "EXTREME STAGE", "color": "#f1c40f" },
   { "day": "Sunday", "name": "MAIN STAGE", "color": "#9b59b6" }
 ]
 
-//const bands = [
-//  { "id": "1111", "day": "Saturday", "stage": "DOORS", "name": "Entrance Fanatic tickets", "image": null, "start": "12:00", "duration": 120 },
-//  { "id": "2", "day": "Saturday", "stage": "DOORS", "name": "Entrance Wanderer tickets", "image": null, "start": "14:00", "duration": 540 },
-//  { "id": "3", "day": "Saturday", "stage": "COMEDY BAR", "name": "Water bij", "image": null, "start": "15:45", "duration": 15 },
-//  { "id": "4", "day": "Saturday", "stage": "COMEDY BAR", "name": "Johnny Trash", "image": null, "start": "16:00", "duration": 30 },
-//  { "id": "5", "day": "Saturday", "stage": "COMEDY BAR", "name": "Fokcast + special guest", "image": null, "start": "17:30", "duration": 60 },
-//  { "id": "6", "day": "Saturday", "stage": "MAIN STAGE", "name": "The Witchdoctor", "image": null, "start": "15:00", "duration": 60 },
-//  { "id": "7", "day": "Saturday", "stage": "MAIN STAGE", "name": "Coraly Corazon & Ian freaks", "image": null, "start": "16:30", "duration": 30 },
-//  { "id": "8", "day": "Saturday", "stage": "MAIN STAGE", "name": "No prisoners", "image": null, "start": "19:30", "duration": 30 },
-//  { "id": "9", "day": "Sunday", "stage": "DOORS", "name": "Entrance Sunday tickets", "image": null, "start": "10:00", "duration": 480 },
-//  { "id": "10", "day": "Sunday", "stage": "COMEDY BAR", "name": "Sander van der Smissen", "image": null, "start": "14:45", "duration": 15 },
-//  { "id": "11", "day": "Sunday", "stage": "COMEDY BAR", "name": "Joost van Hyfte", "image": null, "start": "15:00", "duration": 30 },
-//  { "id": "12", "day": "Sunday", "stage": "COMEDY BAR", "name": "Joker impro team", "image": null, "start": "16:30", "duration": 60 },
-//  { "id": "13", "day": "Sunday", "stage": "MAIN STAGE", "name": "Living statue show", "image": null, "start": "13:45", "duration": 60 },
-//  { "id": "14", "day": "Sunday", "stage": "MAIN STAGE", "name": "Coraly Corazon & Ian freaks", "image": null, "start": "13:00", "duration": 30 },
-//  { "id": "15", "day": "Sunday", "stage": "MAIN STAGE", "name": "Divided", "image": null, "start": "15:30", "duration": 45 }
-//]
 const bands = [
-  /* --- SATURDAY --- */
-  { "id": "D1", "day": "Saturday", "stage": "DOORS", "name": "Entrance First freaks tickets", "image": null, "start": "13:00", "duration": 540 },
-  { "id": "D2", "day": "Saturday", "stage": "DOORS", "name": "Entrance The sideshow swarm tickets", "image": null, "start": "14:30", "duration": 450 },
-  { "id": "D3", "day": "Saturday", "stage": "DOORS", "name": "Entrance The stage monkeys tickets", "image": null, "start": "18:00", "duration": 240 },
-
-  { "id": "S1", "day": "Saturday", "stage": "AUDITORIUM", "name": "Free Seminar (EN) Death, essential for life!", "image": null, "start": "16:00", "duration": 60 },
-  { "id": "S2", "day": "Saturday", "stage": "AUDITORIUM", "name": "Documentary / Movie - Simba & me (ENG)", "image": null, "start": "18:00", "duration": 90 },
-
-  { "id": "S3", "day": "Saturday", "stage": "INDOOR STAGE", "name": "Hullabaloo Cabaret", "image": null, "start": "17:00", "duration": 30 },
-  { "id": "S4", "day": "Saturday", "stage": "INDOOR STAGE", "name": "Hullabaloo Cabaret", "image": null, "start": "20:30", "duration": 30 },
-  { "id": "S4a", "day": "Saturday", "stage": "INDOOR STAGE", "name": "Marcopunk", "image": null, "start": "18:30", "duration": 30 },
-  { "id": "S4b", "day": "Saturday", "stage": "INDOOR STAGE", "name": "Marcopunk", "image": null, "start": "19:30", "duration": 30 },
-
-  { "id": "S5", "day": "Saturday", "stage": "EXTREME STAGE", "name": "Antzaat", "image": null, "start": "18:40", "duration": 30 },
-  { "id": "S6", "day": "Saturday", "stage": "EXTREME STAGE", "name": "Extreme Sideshow 18+", "image": null, "start": "19:30", "duration": 40 },
-  { "id": "S7", "day": "Saturday", "stage": "EXTREME STAGE", "name": "Ekzeem-A", "image": null, "start": "20:30", "duration": 30 },
-
-  { "id": "S8", "day": "Saturday", "stage": "MAIN STAGE", "name": "Bloed", "image": null, "start": "18:00", "duration": 35 },
-  { "id": "S9", "day": "Saturday", "stage": "MAIN STAGE", "name": "Slow Crush", "image": null, "start": "19:15", "duration": 60 },
-  { "id": "S10", "day": "Saturday", "stage": "MAIN STAGE", "name": "Wiegedood", "image": null, "start": "21:00", "duration": 60 },
-
-  /* --- SUNDAY --- */
-  { "id": "DSU1", "day": "Sunday", "stage": "DOORS", "name": "Entrance The fading clowns tickets", "image": null, "start": "10:00", "duration": 480 },
-
-  { "id": "SU1", "day": "Sunday", "stage": "AUDITORIUM", "name": "Free Seminar (EN) Death, essential for life!", "image": null, "start": "14:30", "duration": 60 },
-
-  { "id": "SU2", "day": "Sunday", "stage": "INDOOR STAGE", "name": "Hullabaloo Cabaret", "image": null, "start": "13:45", "duration": 40 },
-  { "id": "SU3", "day": "Sunday", "stage": "INDOOR STAGE", "name": "Hullabaloo Cabaret", "image": null, "start": "15:30", "duration": 40 },
-  { "id": "SU3a", "day": "Sunday", "stage": "INDOOR STAGE", "name": "Marcopunk", "image": null, "start": "15:00", "duration": 30 },
-  { "id": "SU3b", "day": "Sunday", "stage": "INDOOR STAGE", "name": "Marcopunk", "image": null, "start": "16:30", "duration": 30 },
-
-  { "id": "SU4", "day": "Sunday", "stage": "EXTREME STAGE", "name": "Lintworm", "image": null, "start": "13:00", "duration": 45 },
-  { "id": "SU5", "day": "Sunday", "stage": "EXTREME STAGE", "name": "Modder", "image": null, "start": "14:30", "duration": 45 },
-  { "id": "SU6", "day": "Sunday", "stage": "EXTREME STAGE", "name": "Extreme Sideshow 18+", "image": null, "start": "16:20", "duration": 40 },
-
-  { "id": "SU7", "day": "Sunday", "stage": "MAIN STAGE", "name": "Gnome", "image": null, "start": "15:20", "duration": 60 },
-  { "id": "SU8", "day": "Sunday", "stage": "MAIN STAGE", "name": "Henge", "image": null, "start": "17:00", "duration": 60 }
+{ "id": "54", "day": "Friday", "stage": "DOORS", "name": "Entrance", "image": null, "start": "18:00", "duration": 300 },{ "id": "55", "day": "Friday", "stage": "MAIN STAGE", "name": "Bombstrap", "image": null, "start": "19:30", "duration": 30 },{ "id": "56", "day": "Friday", "stage": "MAIN STAGE", "name": "Pothamus", "image": null, "start": "20:30", "duration": 60 },{ "id": "57", "day": "Friday", "stage": "MAIN STAGE", "name": "Witch Club Satan", "image": null, "start": "22:00", "duration": 60 },{ "id": "58", "day": "Saturday", "stage": "EXTREME STAGE", "name": "Ferwhara", "image": null, "start": "16:00", "duration": 60 },{ "id": "59", "day": "Saturday", "stage": "EXTREME STAGE", "name": "Pyrogen Stuntteam", "image": null, "start": "17:00", "duration": 30 },{ "id": "60", "day": "Saturday", "stage": "EXTREME STAGE", "name": "Oliver Satyr", "image": null, "start": "18:30", "duration": 40 },{ "id": "61", "day": "Saturday", "stage": "EXTREME STAGE", "name": "Sellfable", "image": null, "start": "19:20", "duration": 25 },{ "id": "62", "day": "Saturday", "stage": "EXTREME STAGE", "name": "Santa Sangre", "image": null, "start": "20:00", "duration": 30 },{ "id": "63", "day": "Saturday", "stage": "MAIN STAGE", "name": "Ter ziele", "image": null, "start": "18:00", "duration": 40 },{ "id": "64", "day": "Saturday", "stage": "MAIN STAGE", "name": "Mortifero", "image": null, "start": "19:10", "duration": 40 },{ "id": "65", "day": "Saturday", "stage": "MAIN STAGE", "name": "Doodseskader", "image": null, "start": "20:45", "duration": 60 },{ "id": "67", "day": "Saturday", "stage": "DOORS", "name": "Entrance timeslot 13:00 - 22:00", "image": null, "start": "13:00", "duration": 540 },{ "id": "68", "day": "Saturday", "stage": "DOORS", "name": "Entrance timeslot 14:30 - 22:00", "image": null, "start": "14:30", "duration": 450 },{ "id": "69", "day": "Saturday", "stage": "DOORS", "name": "Entrance timeslot 17:00 - 22:00", "image": null, "start": "17:00", "duration": 180 },{ "id": "70", "day": "Sunday", "stage": "DOORS", "name": "Entrance 10:00 - 18:00", "image": null, "start": "10:00", "duration": 480 },{ "id": "71", "day": "Sunday", "stage": "EXTREME STAGE", "name": "Ferwhara", "image": null, "start": "13:00", "duration": 60 },{ "id": "72", "day": "Sunday", "stage": "EXTREME STAGE", "name": "Pyrogen stuntteam", "image": null, "start": "14:00", "duration": 30 },{ "id": "73", "day": "Sunday", "stage": "EXTREME STAGE", "name": "Santa Sangre", "image": null, "start": "15:00", "duration": 40 },{ "id": "74", "day": "Sunday", "stage": "EXTREME STAGE", "name": "Oliver Satyr", "image": null, "start": "16:15", "duration": 45 },{ "id": "75", "day": "Sunday", "stage": "MAIN STAGE", "name": "Hemelbestormer", "image": null, "start": "13:30", "duration": 60 },{ "id": "76", "day": "Sunday", "stage": "MAIN STAGE", "name": "Secret act", "image": null, "start": "15:15", "duration": 45 },{ "id": "77", "day": "Sunday", "stage": "MAIN STAGE", "name": "Sowulo", "image": null, "start": "17:00", "duration": 60 }
 ];
 
 
