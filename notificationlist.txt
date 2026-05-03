@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "31",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2026-05-03 15:28:33",
+		"Title": "Ak'chamel now playing at Mainstage",
+		"Description": "Ak'chamel, the crazed and sunchalked bones of the vanished herds is now playing at the mainstage. You don't want to miss this",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2026-05-03 15:28:33",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2026-05-03 15:28:33",
+		"VisibleInListTo": "2026-07-02 15:28:33"
+	},
+	{
 		"Key": "30",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
