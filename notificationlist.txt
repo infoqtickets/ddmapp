@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "32",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2026-05-03 16:50:27",
+		"Title": "Last band: Sowulo will be playing at the Mainstage @ 17:00h",
+		"Description": "Sowulo is the evocative musical work of Faber Horbach, blending the spiritual philosophy of ancient Northern Europe with the continuous cycles of the universe",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2026-05-03 16:50:27",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2026-05-03 16:50:27",
+		"VisibleInListTo": "2026-07-02 16:50:27"
+	},
+	{
 		"Key": "31",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
