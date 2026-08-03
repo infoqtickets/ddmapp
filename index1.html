@@ -69,7 +69,7 @@
 					<div class="item-content">
 						<div id="countdown">
 						    <h2>Eindhoven edition</h2>
-							Klokgebouw 50, 5617 AB Eindhoven
+							<div id="subtitel"></div>
 						    <div class="timer">
 								<div class="time-block"><div class="value" id="days">0</div><div class="label">days</div></div>
 								<div class="time-block"><div class="value" id="hours">0</div><div class="label">hours</div></div>
@@ -81,23 +81,10 @@
                 </div>
 				
 				<!-- Tickets -->
-				<div class="title-bar">
+				<div class="title-bar" id="shoptitle" style="display: none;">
 					<h3 class="dz-title">Tickets</h3>
 				</div>
-				<div class="card job-post">
-					<div class="card-header border-0 pb-0">
-						<h5 class="card-title">Get your tickets now</h5>
-					</div>
-					<div class="card-body" style="display: block;">
-						<p class="card-text">Buy your tickets now before it's too late. Saterday tickets are popular.
-						</p>
-						<a href="javascript:sendToDotNet('openurl_https://shop.qtickets.nl/deduysteremarktnl/?code=EBA10DEA48CF01C84');" class="btn btn-primary w-100">Buy tickets for Eindhoven</a>
-					</div>
-					<!--<div class="card-footer border-0 pt-0">
-						<p class="card-text d-inline">Card footer</p>
-						<a href="javascript:void(0);" class="card-link float-end">Card link</a>
-					</div>-->
-				</div>
+				<div id="shopblocks"></div>
 				<!-- Tickets End -->
 				
 				<!-- Tickets -->
@@ -225,38 +212,388 @@ No market. Music only.<br>
 <script src="assets/js/appafter.js"></script>
 <!-- counter script -->
 <script>
-  const targetDate = new Date("2026-05-01T18:00:00");
 
-  function updateCountdown() {
-    const now = new Date();
-    const diff = targetDate - now;
+(function ($) {
+  "use strict";
 
-    if (diff <= 0) {
-      $("#days, #hours, #minutes, #seconds").text("0");
-      clearInterval(timerInterval); 
+  /* ---------- 1. Jouw schema ---------- */
+  var TIMER_EVENTS = [
+    {
+      naam:         "Roeselare edition",
+      timerStart:   "2026-08-03T00:00:00+02:00",
+      eventStart:   "2026-09-26T13:00:00+02:00",
+      eventEind:    "2026-09-27T18:00:00+02:00",
+      subtitelVoor: "Veldstraat 59, 8800 Roeselare, België",
+      subVoorStart: "2026-08-01T00:00:00+02:00",
+      subVoorEind:  "2026-09-27T18:00:00+02:00",
+      subtitelNa:   "Thanks for joining us — see you next edition",
+      subNaStart:   "2026-09-27T18:00:00+02:00",
+      subNaEind:    "2026-10-05T18:00:00+02:00",
+      // Ticketblok
+      shopStart:      "2026-08-01T00:00:00+02:00",
+      shopEind:       "2026-09-27T18:00:00+02:00", // weglaten = tot eventEind
+      shopTitle:      "Get your tickets now for Roeselare",
+      shopText:       "Buy your tickets now before it's too late. Saturday tickets are popular.",
+      shopButtonText: "Buy tickets for Roeselare",
+      shopButtonUrl:  "javascript:sendToDotNet('openurl_https://shop.qtickets.nl/ddmroeselare/?code=E8668BEAD5518FFD5');"
+    },
+    {
+      naam:         "Genk edition",
+      timerStart:   "2026-10-05T18:00:00+02:00",
+      eventStart:   "2026-12-12T13:00:00+02:00",
+      eventEind:    "2026-12-13T18:00:00+02:00",
+      subtitelVoor: "Thor Park, 3600 Genk, België",
+      subVoorStart: "2026-10-05T18:00:00+02:00",
+      subVoorEind:  "2026-12-13T18:00:00+02:00",
+      subtitelNa:   "Thanks for joining us — see you next edition",
+      subNaStart:   "2026-12-13T18:00:00+02:00",
+      subNaEind:    "2026-12-21T18:00:00+02:00",
+      // Ticketblok — start hier bewust vóór het einde van Roeselare,
+      // zodat beide blokken een tijd naast elkaar staan.
+      shopStart:      "2026-09-01T00:00:00+02:00",
+      shopEind:       "2026-12-13T18:00:00+02:00",
+      shopTitle:      "Get your tickets now for Genk",
+      shopText:       "Buy your tickets now before it's too late. Saturday tickets are popular.",
+      shopButtonText: "Buy tickets for Genk",
+      shopButtonUrl:  "javascript:sendToDotNet('openurl_https://shop.qtickets.nl/ddmroeselare/?code=E8668BEAD5518FFD5');"
+    }
+  ];
+
+  /* ---------- 2. Instellingen ---------- */
+  var OPTIES = {
+    padTweeCijfers:      true,            // 09 i.p.v. 9 (dagen blijven ongepad)
+    naamSelector:        "#countdown h2", // bestaande kop in je markup
+    naamLegenZonderEvent: false,          // false = kop uit de HTML blijft staan als er niets gepland is
+    subtitelSelector:    "#subtitel",     // wordt aangemaakt als hij nog niet bestaat
+    subtitelAanmaken:    true,
+    shopHouderSelector:  "#shopblocks",   // container waar de ticketblokken in komen
+    shopTitelSelector:   "#shoptitle",    // de "Tickets" kop
+    shopTitelStandaard:  "Get your tickets now",
+    shopTekstStandaard:  ""
+  };
+
+  var DAG_MS = 86400000;
+
+  /* ---------- 3. Hulpfuncties ---------- */
+  function datum(waarde, terugval) {
+    if (!waarde) return terugval === undefined ? null : terugval;
+    var d = waarde instanceof Date ? waarde : new Date(waarde);
+    return isNaN(d.getTime()) ? (terugval === undefined ? null : terugval) : d;
+  }
+
+  function pad(getal) {
+    return OPTIES.padTweeCijfers && getal < 10 ? "0" + getal : String(getal);
+  }
+
+  /* ---------- 4. Schema klaarzetten ---------- */
+  var schema = [];
+
+  function bouwSchema(events) {
+    schema = (events || []).map(function (e) {
+      var eventStart = datum(e.eventStart);
+      if (!eventStart) {
+        if (window.console) console.warn("Countdown: ongeldige eventStart bij", e.naam);
+        return null;
+      }
+      var timerStart = datum(e.timerStart, eventStart);
+      var eventEind  = datum(e.eventEind, eventStart);
+      var subNaStart = datum(e.subNaStart, eventEind);
+      return {
+        naam:         e.naam || "",
+        timerStart:   timerStart,
+        eventStart:   eventStart,
+        eventEind:    eventEind,
+        subtitelVoor: e.subtitelVoor || "",
+        subVoorStart: datum(e.subVoorStart, timerStart),
+        subVoorEind:  datum(e.subVoorEind, eventStart),
+        subtitelNa:   e.subtitelNa || "",
+        subNaStart:   subNaStart,
+        subNaEind:    datum(e.subNaEind, new Date(subNaStart.getTime() + DAG_MS)),
+        // Ticketblok: zonder shopStart wordt er geen blok getoond.
+        shopStart:      datum(e.shopStart, null),
+        shopEind:       datum(e.shopEind, eventEind),
+        shopTitle:      e.shopTitle || "",
+        shopText:       e.shopText || "",
+        shopButtonText: e.shopButtonText || "",
+        shopButtonUrl:  e.shopButtonUrl  || ""
+      };
+    }).filter(Boolean).sort(function (a, b) {
+      return a.eventStart - b.eventStart;
+    });
+  }
+
+  /* ---------- 5. Welk event is nu aan de beurt? ---------- */
+  function fase(ev, nu) {
+    if (nu < ev.timerStart) return "wachten";
+    if (nu < ev.eventStart) return "aftellen";
+    if (nu < ev.eventEind)  return "bezig";
+    return "afgelopen";
+  }
+
+  // Lager = belangrijker. Een lopend event wint dus van de nasleep
+  // van het vorige event, ook als die vensters elkaar overlappen.
+  var RANG = { bezig: 0, aftellen: 1, afgelopen: 2, wachten: 3 };
+
+  function isKlaar(ev, nu) {
+    return nu >= ev.eventEind && nu >= ev.subNaEind;
+  }
+
+  function kiesEvent(nu) {
+    var kandidaten = schema.filter(function (ev) { return !isKlaar(ev, nu); });
+    if (!kandidaten.length) return null;
+    kandidaten.sort(function (a, b) {
+      var verschil = RANG[fase(a, nu)] - RANG[fase(b, nu)];
+      return verschil !== 0 ? verschil : a.eventStart - b.eventStart;
+    });
+    return kandidaten[0];
+  }
+
+  function kiesSubtitel(ev, nu) {
+    if (ev.subtitelVoor && nu >= ev.subVoorStart && nu < ev.subVoorEind) return ev.subtitelVoor;
+    if (ev.subtitelNa   && nu >= ev.subNaStart   && nu < ev.subNaEind)   return ev.subtitelNa;
+    return "";
+  }
+
+  /* ---------- 5b. Ticketblokken ---------- */
+  // Los van de teller: er kunnen meerdere edities tegelijk in de verkoop staan.
+  function kiesShopBlokken(nu) {
+    return schema.filter(function (ev) {
+      if (!ev.shopStart || !ev.shopButtonUrl) return false;
+      return nu >= ev.shopStart && nu < ev.shopEind;
+    }).map(function (ev) {
+      return {
+        sleutel:   ev.naam + "|" + ev.shopButtonText + "|" + ev.shopButtonUrl,
+        titel:     ev.shopTitle || ev.naam || OPTIES.shopTitelStandaard,
+        tekst:     ev.shopText || OPTIES.shopTekstStandaard,
+        knopTekst: ev.shopButtonText || "Tickets",
+        url:       ev.shopButtonUrl
+      };
+    });
+  }
+
+  /* ---------- 6. Weergave ---------- */
+  var $subtitel = null;
+
+  function subtitelElement() {
+    if ($subtitel && $subtitel.length) return $subtitel;
+    $subtitel = $(OPTIES.subtitelSelector);
+    if (!$subtitel.length && OPTIES.subtitelAanmaken) {
+      $subtitel = $("<div></div>")
+        .attr("id", OPTIES.subtitelSelector.replace("#", ""))
+        .css("margin-top", "10px")
+        .appendTo("#countdown");
+    }
+    return $subtitel;
+  }
+
+  function zetSubtitel(tekst) {
+    var $el = subtitelElement();
+    if (!$el || !$el.length) return;
+    $el.text(tekst || "").css("display", tekst ? "" : "none");
+  }
+
+  function bouwShopKaart(blok) {
+    var $kaart = $("<div></div>").addClass("card job-post shopblock");
+
+    $kaart.append(
+      $("<div></div>").addClass("card-header border-0 pb-0").append(
+        $("<h5></h5>").addClass("card-title").text(blok.titel)
+      )
+    );
+
+    var $body = $("<div></div>").addClass("card-body").css("display", "block");
+    if (blok.tekst) {
+      $body.append($("<p></p>").addClass("card-text").text(blok.tekst));
+    }
+    $body.append(
+      $("<a></a>")
+        .addClass("btn btn-primary w-100 shopbutton")
+        .attr("href", blok.url)
+        .text(blok.knopTekst)
+    );
+
+    return $kaart.append($body);
+  }
+
+  // Alleen opnieuw opbouwen als de set blokken echt wijzigt; anders zou de
+  // DOM elke seconde vervangen worden en kan een tap verloren gaan.
+  var laatsteShopSleutel = null;
+
+  function zetShopBlokken(blokken) {
+    var sleutel = blokken.map(function (b) { return b.sleutel; }).join("~");
+    if (sleutel === laatsteShopSleutel) return;
+    laatsteShopSleutel = sleutel;
+
+    var $houder = $(OPTIES.shopHouderSelector);
+    if (!$houder.length) return;
+
+    $houder.empty();
+    blokken.forEach(function (blok) { $houder.append(bouwShopKaart(blok)); });
+
+    // Kop "Tickets" alleen tonen als er minstens één blok staat.
+    $(OPTIES.shopTitelSelector).css("display", blokken.length ? "" : "none");
+  }
+
+  function toonCijfers(diff) {
+    if (diff < 0) diff = 0;
+    $("#days").text(Math.floor(diff / DAG_MS));
+    $("#hours").text(pad(Math.floor(diff / 3600000) % 24));
+    $("#minutes").text(pad(Math.floor(diff / 60000) % 60));
+    $("#seconds").text(pad(Math.floor(diff / 1000) % 60));
+  }
+
+  function render(ev, nu) {
+    if (!ev) {
+      if (OPTIES.naamLegenZonderEvent) $(OPTIES.naamSelector).text("");
+      $("#countdown").attr("data-fase", "geen-event");
+      zetSubtitel("");
+      toonCijfers(0);
       return;
     }
 
-    const seconds = Math.floor((diff / 1000) % 60);
-    const minutes = Math.floor((diff / 1000 / 60) % 60);
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    var huidigeFase = fase(ev, nu);
 
-    $("#days").text(days);
-    $("#hours").text(hours);
-    $("#minutes").text(minutes);
-    $("#seconds").text(seconds);
+    if (ev.naam) $(OPTIES.naamSelector).text(ev.naam);
+    $("#countdown").attr("data-fase", huidigeFase);
+    zetSubtitel(kiesSubtitel(ev, nu));
+
+    // De teller is altijd zichtbaar en staat standaard op 0. Hij telt alleen
+    // af tussen timerStart en de start van het event; daarvoor, tijdens het
+    // event en erna staan alle vier de vakken op 0.
+    toonCijfers(huidigeFase === "aftellen" ? ev.eventStart - nu : 0);
   }
 
-  const timerInterval = setInterval(updateCountdown, 1000);
-  //$(document).ready(updateCountdown);
-  $(document).ready(function() {
-    updateCountdown();
+  /* ---------- 7. Klok ---------- */
+  var intervalId = null;
+  var nepNu = null; // voor testen: TimerScheduler.testTijd("2026-09-26T14:00:00+02:00")
 
-    // voer setPersistentVarsIndex1 uit 3 seconden na het laden
-    //setTimeout(setPersistentVarsIndex1, 3000);
+  function nuTijd() {
+    return nepNu ? new Date(nepNu.getTime()) : new Date();
+  }
+
+  function tik() {
+    var nu = nuTijd();
+    render(kiesEvent(nu), nu);
+    zetShopBlokken(kiesShopBlokken(nu));
+  }
+
+  function start() {
+    stop();
+    tik();
+    intervalId = setInterval(tik, 1000);
+  }
+
+  function stop() {
+    if (intervalId) { clearInterval(intervalId); intervalId = null; }
+  }
+
+  // Webviews en browsers vertragen intervallen op de achtergrond; daarom
+  // meteen opnieuw rekenen zodra de app weer op de voorgrond komt.
+  $(document).on("visibilitychange", function () {
+    if (!document.hidden) tik();
   });
+
+  /* ---------- 8. Publieke API ---------- */
+  window.TimerScheduler = {
+    start: start,
+    stop: stop,
+    ververs: tik,
+    schema: function () { return schema; },
+    setEvents: function (events) { bouwSchema(events); laatsteShopSleutel = null; tik(); },
+    testTijd: function (waarde) { nepNu = waarde ? datum(waarde) : null; tik(); }
+  };
+
+  $(document).ready(function () {
+    if (!$("#countdown").length) return; // pagina zonder teller
+    bouwSchema(TIMER_EVENTS);
+    start();
+  });
+
+}(jQuery));
+
+</script>
+<script>
+
+(function ($) {
+  "use strict";
   
+  const showTestPanel = false;
+
+  if (!window.TimerScheduler) return;
+
+  var MINUUT = 60000, UUR = 3600000, DAG = 86400000;
+
+  function naarInputWaarde(d) {
+    function p(n) { return (n < 10 ? "0" : "") + n; }
+    return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate()) +
+           "T" + p(d.getHours()) + ":" + p(d.getMinutes()) + ":" + p(d.getSeconds());
+  }
+
+  function zet(d) {
+    $invoer.val(naarInputWaarde(d));
+    window.TimerScheduler.testTijd(d);
+  }
+
+  function huidig() {
+    var waarde = $invoer.val();
+    var d = waarde ? new Date(waarde) : new Date();
+    return isNaN(d.getTime()) ? new Date() : d;
+  }
+
+  function knop(tekst, klik) {
+    return $("<button type='button'></button>").text(tekst).css({
+      background: "#333", color: "#fff", border: "1px solid #555",
+      "border-radius": "6px", padding: "4px 8px", font: "inherit",
+      cursor: "pointer", margin: "2px"
+    }).on("click", klik);
+  }
+
+  var $paneel = $("<div></div>").css({
+    position: "fixed", left: 0, right: 0, bottom: 0, "z-index": 99999,
+    background: "rgba(0,0,0,.92)", color: "#fff", padding: "8px 10px",
+    font: "12px/1.4 system-ui, sans-serif", "max-height": "45vh", "overflow": "auto"
+  });
+
+  var $invoer = $("<input type='datetime-local' step='1'>").css({
+    background: "#111", color: "#fff", border: "1px solid #555",
+    "border-radius": "6px", padding: "4px 6px", font: "inherit", "margin-right": "4px"
+  }).on("input change", function () {
+    window.TimerScheduler.testTijd(this.value || null);
+  });
+
+  if (showTestPanel) {
+	  $paneel.append($("<strong>Testtijd</strong> ").css("margin-right", "6px"), $invoer);
+
+	  $paneel.append(
+		knop("nu", function () { $invoer.val(""); window.TimerScheduler.testTijd(null); }),
+		knop("-1 d", function () { zet(new Date(huidig().getTime() - DAG)); }),
+		knop("-1 u", function () { zet(new Date(huidig().getTime() - UUR)); }),
+		knop("+1 u", function () { zet(new Date(huidig().getTime() + UUR)); }),
+		knop("+1 d", function () { zet(new Date(huidig().getTime() + DAG)); }),
+		knop("sluit", function () { $paneel.remove(); })
+	  );
+
+	  // Sprongknoppen naar elk kantelpunt in het schema
+	  var schema = window.TimerScheduler.schema() || [];
+	  schema.forEach(function (ev) {
+		var $rij = $("<div></div>").css({ "margin-top": "6px", "border-top": "1px solid #333", "padding-top": "4px" });
+		$rij.append($("<span></span>").text(ev.naam || "(zonder naam)").css({ opacity: .7, "margin-right": "6px" }));
+		$rij.append(
+		  knop("voor timer", function () { zet(new Date(ev.timerStart.getTime() - MINUUT)); }),
+		  knop("aftellen",   function () { zet(new Date(ev.timerStart.getTime() + MINUUT)); }),
+		  knop("bezig",      function () { zet(new Date(ev.eventStart.getTime() + MINUUT)); }),
+		  knop("na afloop",  function () { zet(new Date(ev.eventEind.getTime() + MINUUT)); }),
+		  knop("alles voorbij", function () { zet(new Date(Math.max(ev.eventEind, ev.subNaEind) + MINUUT)); })
+		);
+		$paneel.append($rij);
+	  });
+
+	  $(function () { $paneel.appendTo("body"); });
+  }
+  
+}(jQuery));
+
+
 </script>
 </body>
 </html>
