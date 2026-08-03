@@ -191,7 +191,7 @@
 [F]|2025-09-03T23:36:39|index.html
 [F]|2025-04-23T20:15:01|index.js
 [F]|2025-09-25T18:39:00|index0.html
-[F]|2026-04-11T19:25:11|index1.html
+[F]|2026-08-03T23:47:03|index1.html
 [F]|2026-04-29T21:32:01|index2.html
 [F]|2026-05-01T01:25:17|index3.html
 [F]|2025-05-20T01:19:08|index3_ok1.html
@@ -202,7 +202,7 @@
 [F]|2025-09-21T13:47:32|notification.html
 [F]|2026-05-03T16:50:27|notificationlist.txt
 [F]|2025-09-19T21:34:16|notificationsettings.html
-[F]|2026-05-03T16:50:27|releasetag.txt
+[F]|2026-08-04T00:34:24|releasetag.txt
 [F]|2025-09-05T09:50:02|robots.txt
 [F]|2025-09-23T16:27:13|samsshop.html
 [F]|2025-09-23T17:51:31|scanner.html
