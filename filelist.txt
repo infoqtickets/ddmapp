@@ -193,7 +193,7 @@
 [F]|2025-09-25T18:39:00|index0.html
 [F]|2026-08-03T23:47:03|index1.html
 [F]|2026-04-29T21:32:01|index2.html
-[F]|2026-05-01T01:25:17|index3.html
+[F]|2026-09-02T13:52:55|index3.html
 [F]|2025-05-20T01:19:08|index3_ok1.html
 [F]|2025-07-08T23:03:28|index3_ok2.html
 [F]|2026-04-27T19:33:32|index4.html
@@ -202,7 +202,7 @@
 [F]|2025-09-21T13:47:32|notification.html
 [F]|2026-05-03T16:50:27|notificationlist.txt
 [F]|2025-09-19T21:34:16|notificationsettings.html
-[F]|2026-08-09T22:57:59|releasetag.txt
+[F]|2026-09-02T13:53:19|releasetag.txt
 [F]|2025-09-05T09:50:02|robots.txt
 [F]|2025-09-23T16:27:13|samsshop.html
 [F]|2025-09-23T17:51:31|scanner.html
@@ -218,8 +218,9 @@
 [F]|2025-12-12T11:34:30|tabs.html
 [F]|2025-09-23T15:54:38|vendor - Copy.html
 [F]|2026-05-01T01:25:30|vendor.html
-[D]|2026-08-09T22:43:29|vendorimages
+[D]|2026-08-14T15:10:25|vendorimages
 [F]|2026-08-09T21:34:22|vendorimages/839295A0B12D64E8_8B3790B24DF0A592_field5.jpg
+[F]|2026-08-14T15:10:53|vendorimages/839295A0B12D64E8_A7D20EED0C2900B8_field5.jpg
 [F]|2026-04-13T12:42:23|vendorimages/8632BC9E2D4816C1_801FEAA9E8F2D0AD_field5_DOKOMI_Banner_1500x1000.jpg
 [F]|2026-04-19T20:44:14|vendorimages/8632BC9E2D4816C1_8021C220A2FBC2CC_field5_Logo Magazijn22.PNG
 [F]|2026-04-29T13:08:54|vendorimages/8632BC9E2D4816C1_8093EBA651D11B41_field5_Screenshot_20260429_102805_WhatsApp~2.jpg
