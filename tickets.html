@@ -164,9 +164,6 @@ let tkStateLoaded  = false;
 let tkBusy         = false;
 let tkResendTimer  = null;
 
-// Lopende getsignature-aanvragen, op valuetosign zodat antwoorden niet kunnen kruisen.
-const tkSignPending = {};
-
 /* ---------- kleine helpers ---------- */
 
 function tkEsc(s) {
@@ -209,7 +206,7 @@ function tkSetBusy(buttonid, busy, busytext, normaltext) {
 }
 
 function tkErrorText(e) {
-	return (e && e.tkSign)
+	return (e && (e.tkSign || e.tkBridge))
 		? 'The app could not sign the request. Close this screen and try again.'
 		: 'No connection. Check your internet connection and try again.';
 }
@@ -224,9 +221,68 @@ function tkFormatDate(sqldate) {
 	return m ? (m[3] + '-' + m[2] + '-' + m[1] + ' ' + m[4] + ':' + m[5]) : String(sqldate || '');
 }
 
-/* ---------- state via de bridge ---------- */
+/* ---------- berichten naar de app ----------
 
-// Het eerste bericht naar de app kan verloren gaan terwijl de popup nog opent, dus
+   De bridge werkt met window.location.href = 'about:blank#...'. Zet je die twee keer
+   in dezelfde tick, dan vervangt de tweede navigatie de eerste en is het eerste
+   bericht weg — zonder enige melding. Daarom gaat alle verkeer door één wachtrij:
+   één bericht tegelijk, en pas het volgende als het antwoord binnen is (of na een
+   timeout). Elk JSON-request krijgt namelijk altijd een antwoord terug.
+   ------------------------------------------------------------------------ */
+
+const TK_BRIDGE_TIMEOUT_MS = 2500;
+
+const tkOutbox = [];
+let tkOutboxCurrent = null;
+
+function tkSendRequest(action, mainData, persistentVars) {
+	return new Promise(function (resolve, reject) {
+		tkOutbox.push({
+			action: action,
+			json: JSON.stringify({
+				Request: {
+					RequestActionName: action,
+					MainData: mainData || {},
+					PersistentVars: persistentVars || {}
+				}
+			}),
+			resolve: resolve,
+			reject: reject,
+			timer: null
+		});
+		tkPumpOutbox();
+	});
+}
+
+function tkPumpOutbox() {
+	if (tkOutboxCurrent || !tkOutbox.length) { return; }
+
+	const item = tkOutbox.shift();
+	tkOutboxCurrent = item;
+	item.timer = setTimeout(function () {
+		const err = new Error('bridge timeout: ' + item.action);
+		err.tkBridge = true;
+		tkFinishOutbox(null, err);
+	}, TK_BRIDGE_TIMEOUT_MS);
+
+	sendToDotNet(item.json);
+}
+
+function tkFinishOutbox(response, error) {
+	const item = tkOutboxCurrent;
+	if (!item) { return; }
+
+	tkOutboxCurrent = null;
+	clearTimeout(item.timer);
+	if (error) { item.reject(error); } else { item.resolve(response); }
+
+	// Even een tick wachten: de webview moet de vorige navigatie eerst afronden.
+	setTimeout(tkPumpOutbox, 50);
+}
+
+/* ---------- state ---------- */
+
+// Het eerste bericht kan alsnog verloren gaan terwijl de popup nog opent, dus
 // blijven we het rustig herhalen tot er antwoord is. We tonen nooit uit onszelf het
 // e-mailscherm: een gebruiker die al is ingelogd zou dan onterecht opnieuw moeten
 // beginnen. Lukt het echt niet, dan komt er een knop om het opnieuw te proberen.
@@ -239,7 +295,7 @@ function tkStartStateLoad() {
 	tkStopStateLoad();
 	tkStateTries = 0;
 	tkStateLoaded = false;
-	document.getElementById('tk-loading-text').textContent = 'Loading\u2026';
+	document.getElementById('tk-loading-text').textContent = 'Loading…';
 	document.getElementById('tk-loading-retry').style.display = 'none';
 	tkShowStep('tk-step-loading');
 
@@ -251,6 +307,8 @@ function tkStartStateLoad() {
 			document.getElementById('tk-loading-retry').style.display = 'block';
 			return;
 		}
+		// niet opstapelen: er staat er al een klaar of onderweg
+		if (tkOutboxCurrent || tkOutbox.length) { return; }
 		tkStateTries++;
 		tkGetState();
 	};
@@ -264,79 +322,34 @@ function tkStopStateLoad() {
 }
 
 function tkGetState() {
-	sendToDotNet(JSON.stringify({
-		Request: {
-			RequestActionName: 'ticketsGetState',
-			MainData: {},
-			PersistentVars: {}
-		}
-	}));
+	return tkSendRequest('ticketsGetState', {}, {}).catch(function () { /* opnieuw geprobeerd */ });
 }
 
+// Opslaan gaat door dezelfde wachtrij, dus dit bericht kan niet meer worden
+// overschreven door een signature-aanvraag die er vlak achteraan komt.
 function tkSaveState(email, code, requestedat) {
 	tkEmail = email;
 	tkCode = code;
 	tkRequestedAt = requestedat;
-	sendToDotNet(JSON.stringify({
-		Request: {
-			RequestActionName: 'ticketsSaveState',
-			MainData: {},
-			PersistentVars: {
-				ticketsEmail: email,
-				ticketsCode: code,
-				ticketsRequestedAt: String(requestedat)
-			}
-		}
-	}));
-}
-
-// Laat de app een waarde ondertekenen met de secretkey die in de app zelf zit.
-// Antwoorden worden gekoppeld op valuetosign, dus gelijktijdige aanvragen
-// kunnen elkaars antwoord niet pakken.
-function tkSign(value) {
-	const v = String(value);
-	return new Promise(function (resolve, reject) {
-		if (tkSignPending[v]) {
-			tkSignPending[v].waiters.push({ resolve: resolve, reject: reject });
-			return;
-		}
-		const entry = { waiters: [{ resolve: resolve, reject: reject }], timer: null };
-		tkSignPending[v] = entry;
-		entry.timer = setTimeout(function () {
-			delete tkSignPending[v];
-			const err = new Error('signature timeout');
-			err.tkSign = true;
-			entry.waiters.forEach(function (w) { w.reject(err); });
-		}, 10000);
-
-		sendToDotNet(JSON.stringify({
-			Request: {
-				RequestActionName: 'getsignature',
-				MainData: { valuetosign: v },
-				PersistentVars: {}
-			}
-		}));
+	return tkSendRequest('ticketsSaveState', {}, {
+		ticketsEmail: email,
+		ticketsCode: code,
+		ticketsRequestedAt: String(requestedat)
 	});
 }
 
-function tkResolveSignature(maindata) {
-	const md = maindata || {};
-	if (md.valuetosign === undefined || md.valuetosign === null) { return; }
-	const v = String(md.valuetosign);
-	const entry = tkSignPending[v];
-	if (!entry) { return; }
+// Laat de app een waarde ondertekenen met de secretkey die in de app zelf zit.
+async function tkSign(value) {
+	const v = String(value);
+	const res = await tkSendRequest('getsignature', { valuetosign: v }, {});
+	const md = (res && res.Response && res.Response.MainData) || {};
 
-	delete tkSignPending[v];
-	clearTimeout(entry.timer);
-
-	const sig = md.signature ? String(md.signature) : '';
-	if (sig) {
-		entry.waiters.forEach(function (w) { w.resolve(sig); });
-	} else {
-		const err = new Error('lege signature');
+	if (String(md.valuetosign) !== v || !md.signature) {
+		const err = new Error('geen signature voor: ' + v);
 		err.tkSign = true;
-		entry.waiters.forEach(function (w) { w.reject(err); });
+		throw err;
 	}
+	return String(md.signature);
 }
 
 // De bestaande receiveFromDotNet uit appafter.js laten staan en er onze eigen
@@ -362,13 +375,13 @@ window.receiveFromDotNet = function (msg) {
 		tkDeviceGuid = String(obj.Response.Header.DeviceGuid);
 	}
 
-	if (action === 'getsignature') {
-		tkResolveSignature(obj.Response.MainData);
-		return;
+	// Elk antwoord bevat PersistentVars, dus ook 'pageloaded' kan ons op weg helpen.
+	if (!tkStateLoaded && (action === 'ticketsGetState' || action === 'pageloaded')) {
+		tkApplyState(obj.Response.PersistentVars || {});
 	}
 
-	if (action === 'ticketsGetState' || (action === 'pageloaded' && !tkStateLoaded)) {
-		tkApplyState(obj.Response.PersistentVars || {});
+	if (tkOutboxCurrent && tkOutboxCurrent.action === action) {
+		tkFinishOutbox(obj, null);
 	}
 };
 
@@ -464,11 +477,12 @@ async function tkRequestCode() {
 
 	tkSetBusy('tk-btn-request', true, 'Sending…', 'Send me a code');
 
-	// Eerst opslaan, dan pas de call: gaat de gebruiker meteen naar zijn mail-app
-	// en start de app daarna opnieuw op, dan komt hij toch op het codescherm terug.
-	tkSaveState(email, '', Date.now());
-
 	try {
+		// Eerst opslaan én afwachten, dan pas de call: gaat de gebruiker meteen naar
+		// zijn mail-app en start de app daarna opnieuw op, dan komt hij toch op het
+		// codescherm terug.
+		await tkSaveState(email, '', Date.now());
+
 		const body = await tkApiCall('requestcode', email, '');
 		if (!await tkResponseSignatureValid(body, '', email)) {
 			tkMessage('tk-msg-email', 'We could not verify the response from the server. Please try again.');
@@ -535,7 +549,7 @@ async function tkResendCode() {
 			tkMessage('tk-msg-code', 'Something went wrong. Please try again later.');
 			return;
 		}
-		tkSaveState(tkEmail, '', Date.now());
+		await tkSaveState(tkEmail, '', Date.now());
 		tkMessage('tk-msg-code', 'A new code is on its way. Note that only the newest code works.', 'info');
 		tkStartResendCooldown();
 	} catch (e) {
@@ -547,7 +561,7 @@ async function tkResendCode() {
 function tkUseOtherEmail() {
 	if (tkResendTimer) { clearInterval(tkResendTimer); tkResendTimer = null; }
 	tkClearMessages();
-	tkSaveState('', '', 0);
+	tkSaveState('', '', 0).catch(function () {});
 	document.getElementById('tk-email').value = '';
 	tkShowStep('tk-step-email');
 }
@@ -578,8 +592,9 @@ async function tkVerifyCode() {
 			return;
 		}
 
-		// Goedgekeurd: de code is vanaf nu de sleutel voor getticketurls.
-		tkSaveState(tkEmail, code, tkRequestedAt);
+		// Goedgekeurd: de code is vanaf nu de sleutel voor getticketurls. Eerst het
+		// opslaan afwachten, anders staat hij er bij een herstart niet.
+		await tkSaveState(tkEmail, code, tkRequestedAt);
 		if (tkResendTimer) { clearInterval(tkResendTimer); tkResendTimer = null; }
 		tkShowStep('tk-step-list');
 		document.getElementById('tk-list-intro').textContent = 'Loading your tickets…';
@@ -671,6 +686,14 @@ function tkRenderOrders(rows) {
 
 function tkOpenTickets(url) {
 	if (!url) { return; }
+
+	// Ook dit is een navigatie, dus wachten tot de wachtrij leeg is — anders kan
+	// deze en een bridge-bericht elkaar overschrijven.
+	if (tkOutboxCurrent || tkOutbox.length) {
+		setTimeout(function () { tkOpenTickets(url); }, 100);
+		return;
+	}
+
 	// Binnen de popup blijven: de ticketpagina van QTickets opent in deze webview,
 	// de gebruiker sluit hem weer met het kruisje rechtsboven.
 	// (openurl_ zou de app verlaten én sneuvelt op een underscore in de url.)
@@ -680,7 +703,7 @@ function tkOpenTickets(url) {
 /* ---------- uitloggen ---------- */
 
 function tkForceRelogin(message) {
-	tkSaveState(tkEmail, '', 0);
+	tkSaveState(tkEmail, '', 0).catch(function () {});
 	if (tkResendTimer) { clearInterval(tkResendTimer); tkResendTimer = null; }
 	document.getElementById('tk-orders').innerHTML = '';
 	document.getElementById('tk-list-intro').textContent = '';
@@ -691,7 +714,7 @@ function tkForceRelogin(message) {
 
 function tkLogout() {
 	if (tkResendTimer) { clearInterval(tkResendTimer); tkResendTimer = null; }
-	tkSaveState('', '', 0);
+	tkSaveState('', '', 0).catch(function () {});
 	tkClearMessages();
 	document.getElementById('tk-orders').innerHTML = '';
 	document.getElementById('tk-list-intro').textContent = '';
