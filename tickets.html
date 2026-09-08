@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, viewport-fit=cover">
+	<meta name="theme-color" content="#2196f3">
+	<meta name="author" content="QTickets" />
+	<meta name="format-detection" content="telephone=no">
+	<!-- Title -->
+	<title>QTickets Event App</title>
+	<!-- Stylesheets -->
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<link rel="stylesheet" href="assets/vendor/swiper/swiper-bundle.min.css">
+	<link rel="stylesheet" href="assets/vendor/fontawesome651/css/all.min.css">
+	<link rel="stylesheet" href="assets/vendor/googlefonts/googlefont.css">
+	<script src="assets/js/appbefore.js"></script>
+	<style>
+		.tk-wrap { padding: 20px 0 40px 0; }
+		.tk-step { display: none; }
+		.tk-step.tk-active { display: block; }
+		.tk-title { font-size: 1.15rem; font-weight: 600; margin-bottom: 6px; }
+		.tk-intro { font-size: .85rem; opacity: .75; margin-bottom: 18px; line-height: 1.5; }
+		.tk-code-input { letter-spacing: .45em; text-align: center; font-size: 1.4rem; font-weight: 600; }
+		.tk-msg { display: none; font-size: .85rem; border-radius: 8px; padding: 10px 12px; margin-bottom: 16px; line-height: 1.45; }
+		.tk-msg.tk-show { display: block; }
+		.tk-msg-error { background: rgba(220, 53, 69, .15); color: #ff8a94; }
+		.tk-msg-info { background: rgba(224, 162, 0, .15); color: #e0a200; }
+		.tk-order-head { font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; opacity: .6; margin-bottom: 2px; }
+		.tk-order-sub { font-size: .75rem; opacity: .55; margin-bottom: 12px; }
+		.tk-event { border-top: 1px solid rgba(255, 255, 255, .08); padding-top: 12px; margin-top: 12px; }
+		.tk-event:first-of-type { border-top: 0; padding-top: 0; margin-top: 0; }
+		.tk-event-title { font-size: .95rem; font-weight: 600; margin-bottom: 10px; }
+		.tk-link { font-size: .8rem; opacity: .7; text-decoration: underline; }
+		.tk-spinner { text-align: center; padding: 40px 0; opacity: .6; }
+		.tk-busy { pointer-events: none; opacity: .55; }
+	</style>
+</head>
+<body class="theme-dark" data-theme-color="color-orange">
+<div class="page-wraper">
+
+	<!-- Page Content -->
+	<div class="page-content bottom-content">
+		<div class="container tk-wrap">
+
+			<!-- stap: bezig met laden -->
+			<div id="tk-step-loading" class="tk-step tk-active">
+				<div class="tk-spinner">Loading&hellip;</div>
+			</div>
+
+			<!-- stap 1: e-mailadres invoeren -->
+			<div id="tk-step-email" class="tk-step">
+				<div class="tk-title">My tickets</div>
+				<p class="tk-intro">
+					Enter the e-mail address you used to order your tickets. We will send you a
+					verification code so we can show your tickets in this app.
+				</p>
+				<div id="tk-msg-email" class="tk-msg"></div>
+				<div class="card">
+					<div class="card-body">
+						<label class="form-label" for="tk-email">E-mail address</label>
+						<input type="email" id="tk-email" class="form-control" inputmode="email"
+							   autocomplete="email" autocapitalize="off" autocorrect="off"
+							   spellcheck="false" placeholder="you@example.com">
+						<a href="javascript:tkRequestCode();" id="tk-btn-request"
+						   class="btn btn-primary w-100 m-t20">Send me a code</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- stap 2: code invoeren -->
+			<div id="tk-step-code" class="tk-step">
+				<div class="tk-title">Enter your code</div>
+				<p class="tk-intro">
+					We have sent a code to <strong id="tk-code-email"></strong> if that address is
+					known to us. The code is valid for 10 minutes. Check your mailbox, copy the code
+					and come back to this screen &mdash; your progress is saved.
+				</p>
+				<div id="tk-msg-code" class="tk-msg"></div>
+				<div class="card">
+					<div class="card-body">
+						<label class="form-label" for="tk-code">Verification code</label>
+						<input type="text" id="tk-code" class="form-control tk-code-input"
+							   inputmode="numeric" pattern="[0-9]*" maxlength="8"
+							   autocomplete="one-time-code" autocapitalize="off" autocorrect="off"
+							   spellcheck="false" placeholder="00000000">
+						<a href="javascript:tkVerifyCode();" id="tk-btn-verify"
+						   class="btn btn-primary w-100 m-t20">Show my tickets</a>
+						<div class="text-center m-t20">
+							<a href="javascript:tkResendCode();" id="tk-btn-resend" class="tk-link">Send a new code</a>
+							<span class="tk-link" style="text-decoration: none; opacity: .35;"> &nbsp;|&nbsp; </span>
+							<a href="javascript:tkUseOtherEmail();" class="tk-link">Use another e-mail address</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- stap 3: overzicht van de bestellingen -->
+			<div id="tk-step-list" class="tk-step">
+				<div class="tk-title">My tickets</div>
+				<p class="tk-intro" id="tk-list-intro"></p>
+				<div id="tk-msg-list" class="tk-msg"></div>
+				<div id="tk-orders"></div>
+				<div class="text-center m-t30">
+					<a href="javascript:tkLogout();" class="tk-link">Log out</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- Page Content End-->
+
+</div>
+
+<!--**********************************
+	Scripts
+***********************************-->
+<script src="assets/js/jquery.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/settings.js"></script>
+<script src="assets/js/custom.js"></script>
+<script src="assets/js/dz.carousel.js"></script><!-- Swiper -->
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
+<script src="assets/js/appafter.js"></script>
+
+<script>
+/* ------------------------------------------------------------------------
+   Tickets in de app — zie docs/APIRESTticketsapp.md
+
+   Flow:  e-mailadres  ->  code per mail  ->  code invullen  ->  lijst met tickets.
+   De stand van zaken staat in PersistentVars (ticketsEmail / ticketsCode /
+   ticketsRequestedAt), zodat de gebruiker naar zijn mail-app kan en verder kan
+   waar hij gebleven was, ook als de app ondertussen opnieuw is opgestart.
+   ------------------------------------------------------------------------ */
+
+// De secretkey staat bewust NIET in deze (publieke) content: het ondertekenen
+// gebeurt in de app zelf via de bridge-actie 'getsignature', die
+// md5(valuetosign + APP_SECRET_KEY) teruggeeft. Dat is precies de formule die
+// /RESTticketsapp/ verwacht, zowel voor de aanvraag als voor het antwoord.
+const TK_API_URL = 'https://www.qtickets.nl/RESTticketsapp/';
+const TK_APP_ID  = '1';
+
+// Hoe lang we na een code-aanvraag nog het invulscherm tonen bij terugkomst.
+// Ruimer dan de 10 minuten geldigheid, zodat we "code verlopen" netjes kunnen melden.
+const TK_RESUME_WINDOW_MS = 30 * 60 * 1000;
+// Minimale wachttijd tussen twee code-aanvragen (server staat er 5 per uur toe).
+const TK_RESEND_COOLDOWN_MS = 60 * 1000;
+
+let tkDeviceGuid   = '';
+let tkEmail        = '';
+let tkCode         = '';
+let tkRequestedAt  = 0;
+let tkStateLoaded  = false;
+let tkBusy         = false;
+let tkResendTimer  = null;
+
+// Lopende getsignature-aanvragen, op valuetosign zodat antwoorden niet kunnen kruisen.
+const tkSignPending = {};
+
+/* ---------- kleine helpers ---------- */
+
+function tkEsc(s) {
+	return String(s === undefined || s === null ? '' : s)
+		.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function tkShowStep(id) {
+	document.querySelectorAll('.tk-step').forEach(el => el.classList.remove('tk-active'));
+	const el = document.getElementById(id);
+	if (el) { el.classList.add('tk-active'); }
+	window.scrollTo(0, 0);
+}
+
+function tkMessage(boxid, text, kind) {
+	const el = document.getElementById(boxid);
+	if (!el) { return; }
+	if (!text) {
+		el.className = 'tk-msg';
+		el.innerHTML = '';
+		return;
+	}
+	el.className = 'tk-msg tk-show ' + (kind === 'info' ? 'tk-msg-info' : 'tk-msg-error');
+	el.innerHTML = tkEsc(text);
+}
+
+function tkClearMessages() {
+	tkMessage('tk-msg-email', '');
+	tkMessage('tk-msg-code', '');
+	tkMessage('tk-msg-list', '');
+}
+
+function tkSetBusy(buttonid, busy, busytext, normaltext) {
+	tkBusy = busy;
+	const btn = document.getElementById(buttonid);
+	if (!btn) { return; }
+	btn.classList.toggle('tk-busy', busy);
+	btn.textContent = busy ? busytext : normaltext;
+}
+
+function tkErrorText(e) {
+	return (e && e.tkSign)
+		? 'The app could not sign the request. Close this screen and try again.'
+		: 'No connection. Check your internet connection and try again.';
+}
+
+function tkValidEmail(email) {
+	return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+}
+
+function tkFormatDate(sqldate) {
+	// "2026-09-01 18:00:00" -> "01-09-2026 18:00"
+	const m = /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})/.exec(String(sqldate || ''));
+	return m ? (m[3] + '-' + m[2] + '-' + m[1] + ' ' + m[4] + ':' + m[5]) : String(sqldate || '');
+}
+
+/* ---------- state via de bridge ---------- */
+
+function tkGetState() {
+	sendToDotNet(JSON.stringify({
+		Request: {
+			RequestActionName: 'ticketsGetState',
+			MainData: {},
+			PersistentVars: {}
+		}
+	}));
+}
+
+function tkSaveState(email, code, requestedat) {
+	tkEmail = email;
+	tkCode = code;
+	tkRequestedAt = requestedat;
+	sendToDotNet(JSON.stringify({
+		Request: {
+			RequestActionName: 'ticketsSaveState',
+			MainData: {},
+			PersistentVars: {
+				ticketsEmail: email,
+				ticketsCode: code,
+				ticketsRequestedAt: String(requestedat)
+			}
+		}
+	}));
+}
+
+// Laat de app een waarde ondertekenen via de app zelf.
+// Antwoorden worden gekoppeld op valuetosign, dus gelijktijdige aanvragen
+// kunnen elkaars antwoord niet pakken.
+function tkSign(value) {
+	const v = String(value);
+	return new Promise(function (resolve, reject) {
+		if (tkSignPending[v]) {
+			tkSignPending[v].waiters.push({ resolve: resolve, reject: reject });
+			return;
+		}
+		const entry = { waiters: [{ resolve: resolve, reject: reject }], timer: null };
+		tkSignPending[v] = entry;
+		entry.timer = setTimeout(function () {
+			delete tkSignPending[v];
+			const err = new Error('signature timeout');
+			err.tkSign = true;
+			entry.waiters.forEach(function (w) { w.reject(err); });
+		}, 10000);
+
+		sendToDotNet(JSON.stringify({
+			Request: {
+				RequestActionName: 'getsignature',
+				MainData: { valuetosign: v },
+				PersistentVars: {}
+			}
+		}));
+	});
+}
+
+function tkResolveSignature(maindata) {
+	const md = maindata || {};
+	if (md.valuetosign === undefined || md.valuetosign === null) { return; }
+	const v = String(md.valuetosign);
+	const entry = tkSignPending[v];
+	if (!entry) { return; }
+
+	delete tkSignPending[v];
+	clearTimeout(entry.timer);
+
+	const sig = md.signature ? String(md.signature) : '';
+	if (sig) {
+		entry.waiters.forEach(function (w) { w.resolve(sig); });
+	} else {
+		const err = new Error('lege signature');
+		err.tkSign = true;
+		entry.waiters.forEach(function (w) { w.reject(err); });
+	}
+}
+
+// De bestaande receiveFromDotNet uit appafter.js laten staan en er onze eigen
+// afhandeling achteraan hangen (valkuil: er komt ook niet-JSON doorheen).
+const tkOriginalReceive = window.receiveFromDotNet;
+window.receiveFromDotNet = function (msg) {
+	let obj = null;
+	try { obj = JSON.parse(msg); } catch (e) { obj = null; }
+
+	const action = (obj && obj.Response && obj.Response.Header)
+		? obj.Response.Header.RequestActionName : null;
+
+	// getsignature bewust niet doorgeven: de handler in appafter.js doet daar een alert().
+	if (action !== 'getsignature') {
+		try {
+			if (typeof tkOriginalReceive === 'function') { tkOriginalReceive(msg); }
+		} catch (e) { /* de originele handler mag ons niet blokkeren */ }
+	}
+
+	if (!obj || !action) { return; }
+
+	if (obj.Response.Header.DeviceGuid) {
+		tkDeviceGuid = String(obj.Response.Header.DeviceGuid);
+	}
+
+	if (action === 'getsignature') {
+		tkResolveSignature(obj.Response.MainData);
+		return;
+	}
+
+	if (action === 'ticketsGetState' || (action === 'pageloaded' && !tkStateLoaded)) {
+		tkApplyState(obj.Response.PersistentVars || {});
+	}
+};
+
+function tkApplyState(pv) {
+	if (tkStateLoaded) { return; }
+	tkStateLoaded = true;
+
+	tkEmail = pv.ticketsEmail ? String(pv.ticketsEmail) : '';
+	tkCode = pv.ticketsCode ? String(pv.ticketsCode) : '';
+	tkRequestedAt = parseInt(pv.ticketsRequestedAt || '0', 10) || 0;
+
+	if (tkCode) {
+		// Al geverifieerd: meteen de tickets ophalen.
+		tkShowStep('tk-step-list');
+		document.getElementById('tk-list-intro').textContent = 'Loading your tickets…';
+		tkLoadTickets();
+		return;
+	}
+
+	if (tkEmail && (Date.now() - tkRequestedAt) < TK_RESUME_WINDOW_MS) {
+		// Er is net een code aangevraagd; de gebruiker komt terug uit zijn mail-app.
+		tkShowCodeStep(false);
+		return;
+	}
+
+	document.getElementById('tk-email').value = tkEmail;
+	tkShowStep('tk-step-email');
+}
+
+/* ---------- calls naar de RESTticketsapp-api ---------- */
+
+// Aanvraag: md5(email|deviceguid + key), of md5(email|code|deviceguid + key)
+function tkRequestSignature(email, code) {
+	const base = code
+		? (email + '|' + code + '|' + tkDeviceGuid)
+		: (email + '|' + tkDeviceGuid);
+	return tkSign(base);
+}
+
+// Antwoord: md5(status + verstuurde code + e-mailadres + key) — andere volgorde,
+// geen deviceguid en geen pipes. Zie docs/APIRESTticketsapp.md §2.
+async function tkResponseSignatureValid(body, sentcode, email) {
+	let status, signature;
+	if (Array.isArray(body)) {
+		if (body.length === 0) { return true; }   // "[]" heeft geen signature
+		status = 'ok';
+		signature = body[0].signature;
+	} else {
+		status = body.code;
+		signature = body.signature;
+	}
+	if (!signature) { return false; }
+	const expected = await tkSign(String(status) + String(sentcode || '') + String(email).toLowerCase());
+	return String(signature).toLowerCase() === String(expected).toLowerCase();
+}
+
+async function tkApiCall(req, email, code) {
+	const payload = {
+		req: req,
+		appid: TK_APP_ID,
+		email: email,
+		signature: await tkRequestSignature(email, code || ''),
+		deviceguid: tkDeviceGuid
+	};
+	if (code) { payload.code = code; }   // bij requestcode geen code meesturen
+
+	const res = await fetch(TK_API_URL, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(payload)
+	});
+	const text = await res.text();
+	return JSON.parse(text);
+}
+
+/* ---------- stap 1: code aanvragen ---------- */
+
+async function tkRequestCode() {
+	if (tkBusy) { return; }
+	tkClearMessages();
+
+	const email = String(document.getElementById('tk-email').value || '').trim().toLowerCase();
+	if (!tkValidEmail(email)) {
+		tkMessage('tk-msg-email', 'Please enter a valid e-mail address.');
+		return;
+	}
+	if (!tkDeviceGuid) {
+		tkMessage('tk-msg-email', 'The app is still starting up. Please try again in a moment.');
+		tkGetState();
+		return;
+	}
+
+	tkSetBusy('tk-btn-request', true, 'Sending…', 'Send me a code');
+
+	// Eerst opslaan, dan pas de call: gaat de gebruiker meteen naar zijn mail-app
+	// en start de app daarna opnieuw op, dan komt hij toch op het codescherm terug.
+	tkSaveState(email, '', Date.now());
+
+	try {
+		const body = await tkApiCall('requestcode', email, '');
+		if (!await tkResponseSignatureValid(body, '', email)) {
+			tkMessage('tk-msg-email', 'We could not verify the response from the server. Please try again.');
+			tkSetBusy('tk-btn-request', false, '', 'Send me a code');
+			return;
+		}
+		if (body.code !== 'ok') {
+			tkMessage('tk-msg-email', 'Something went wrong. Please try again later.');
+			tkSetBusy('tk-btn-request', false, '', 'Send me a code');
+			return;
+		}
+		tkSetBusy('tk-btn-request', false, '', 'Send me a code');
+		tkShowCodeStep(true);
+	} catch (e) {
+		tkSetBusy('tk-btn-request', false, '', 'Send me a code');
+		tkMessage('tk-msg-email', tkErrorText(e));
+	}
+}
+
+function tkShowCodeStep(justrequested) {
+	document.getElementById('tk-code-email').textContent = tkEmail;
+	document.getElementById('tk-code').value = '';
+	tkShowStep('tk-step-code');
+
+	if (justrequested) {
+		tkMessage('tk-msg-code', 'Check your mailbox. Did not receive anything? Also check your spam folder.', 'info');
+	} else if ((Date.now() - tkRequestedAt) > 10 * 60 * 1000) {
+		tkMessage('tk-msg-code', 'Your code may have expired. Request a new one if it does not work.', 'info');
+	}
+	tkStartResendCooldown();
+	setTimeout(() => { try { document.getElementById('tk-code').focus(); } catch (e) {} }, 200);
+}
+
+function tkStartResendCooldown() {
+	const btn = document.getElementById('tk-btn-resend');
+	if (!btn) { return; }
+	if (tkResendTimer) { clearInterval(tkResendTimer); tkResendTimer = null; }
+
+	const tick = () => {
+		const left = Math.ceil((TK_RESEND_COOLDOWN_MS - (Date.now() - tkRequestedAt)) / 1000);
+		if (left > 0) {
+			btn.classList.add('tk-busy');
+			btn.textContent = 'Send a new code (' + left + 's)';
+		} else {
+			btn.classList.remove('tk-busy');
+			btn.textContent = 'Send a new code';
+			clearInterval(tkResendTimer);
+			tkResendTimer = null;
+		}
+	};
+	tick();
+	tkResendTimer = setInterval(tick, 1000);
+}
+
+async function tkResendCode() {
+	if (tkBusy) { return; }
+	if ((Date.now() - tkRequestedAt) < TK_RESEND_COOLDOWN_MS) { return; }
+	tkClearMessages();
+	tkSetBusy('tk-btn-verify', true, 'Sending…', 'Show my tickets');
+	try {
+		const body = await tkApiCall('requestcode', tkEmail, '');
+		tkSetBusy('tk-btn-verify', false, '', 'Show my tickets');
+		if (!await tkResponseSignatureValid(body, '', tkEmail) || body.code !== 'ok') {
+			tkMessage('tk-msg-code', 'Something went wrong. Please try again later.');
+			return;
+		}
+		tkSaveState(tkEmail, '', Date.now());
+		tkMessage('tk-msg-code', 'A new code is on its way. Note that only the newest code works.', 'info');
+		tkStartResendCooldown();
+	} catch (e) {
+		tkSetBusy('tk-btn-verify', false, '', 'Show my tickets');
+		tkMessage('tk-msg-code', tkErrorText(e));
+	}
+}
+
+function tkUseOtherEmail() {
+	if (tkResendTimer) { clearInterval(tkResendTimer); tkResendTimer = null; }
+	tkClearMessages();
+	tkSaveState('', '', 0);
+	document.getElementById('tk-email').value = '';
+	tkShowStep('tk-step-email');
+}
+
+/* ---------- stap 2: code controleren ---------- */
+
+async function tkVerifyCode() {
+	if (tkBusy) { return; }
+	tkClearMessages();
+
+	const code = String(document.getElementById('tk-code').value || '').replace(/\D/g, '');
+	if (code.length !== 8) {
+		tkMessage('tk-msg-code', 'The code consists of 8 digits.');
+		return;
+	}
+
+	tkSetBusy('tk-btn-verify', true, 'Checking…', 'Show my tickets');
+	try {
+		const body = await tkApiCall('verifycode', tkEmail, code);
+		tkSetBusy('tk-btn-verify', false, '', 'Show my tickets');
+
+		if (!await tkResponseSignatureValid(body, code, tkEmail)) {
+			tkMessage('tk-msg-code', 'We could not verify the response from the server. Please try again.');
+			return;
+		}
+		if (body.code !== 'ok') {
+			tkMessage('tk-msg-code', 'That code is not correct or has expired. Request a new code.');
+			return;
+		}
+
+		// Goedgekeurd: de code is vanaf nu de sleutel voor getticketurls.
+		tkSaveState(tkEmail, code, tkRequestedAt);
+		if (tkResendTimer) { clearInterval(tkResendTimer); tkResendTimer = null; }
+		tkShowStep('tk-step-list');
+		document.getElementById('tk-list-intro').textContent = 'Loading your tickets…';
+		document.getElementById('tk-orders').innerHTML = '<div class="tk-spinner">Loading…</div>';
+		tkLoadTickets();
+	} catch (e) {
+		tkSetBusy('tk-btn-verify', false, '', 'Show my tickets');
+		tkMessage('tk-msg-code', tkErrorText(e));
+	}
+}
+
+/* ---------- stap 3: de tickets ---------- */
+
+async function tkLoadTickets() {
+	const orders = document.getElementById('tk-orders');
+	orders.innerHTML = '<div class="tk-spinner">Loading…</div>';
+
+	try {
+		const body = await tkApiCall('getticketurls', tkEmail, tkCode);
+
+		if (!await tkResponseSignatureValid(body, tkCode, tkEmail)) {
+			orders.innerHTML = '';
+			document.getElementById('tk-list-intro').textContent = '';
+			tkMessage('tk-msg-list', 'We could not verify the response from the server. Please try again.');
+			return;
+		}
+
+		if (!Array.isArray(body)) {
+			// fail op call 3 = de code is ingetrokken (bijv. elders opnieuw ingelogd).
+			tkForceRelogin('You have been logged out. Please enter your e-mail address again.');
+			return;
+		}
+
+		tkRenderOrders(body);
+	} catch (e) {
+		orders.innerHTML = '';
+		document.getElementById('tk-list-intro').textContent = '';
+		tkMessage('tk-msg-list', tkErrorText(e));
+	}
+}
+
+function tkRenderOrders(rows) {
+	const intro = document.getElementById('tk-list-intro');
+	const orders = document.getElementById('tk-orders');
+
+	if (!rows.length) {
+		intro.textContent = 'Signed in as ' + tkEmail + '.';
+		orders.innerHTML =
+			'<div class="card"><div class="card-body">' +
+			'<p class="tk-intro" style="margin: 0;">We did not find any tickets for this e-mail address. ' +
+			'Tickets only show up here once the order is complete, and they disappear again two days ' +
+			'after the event. Some organisers release their tickets shortly before the event.</p>' +
+			'</div></div>';
+		return;
+	}
+
+	intro.textContent = 'Signed in as ' + tkEmail + '.';
+
+	// Per bestelling groeperen; één bestelling kan meerdere evenementen bevatten.
+	const groups = [];
+	const byKey = {};
+	rows.forEach(r => {
+		const key = String(r.orderkey || '');
+		if (!byKey[key]) {
+			byKey[key] = { orderkey: key, webshop: r.webshop, orderdate: r.orderdate, events: [] };
+			groups.push(byKey[key]);
+		}
+		byKey[key].events.push(r);
+	});
+
+	let html = '';
+	groups.forEach(g => {
+		html += '<div class="card"><div class="card-body">';
+		html += '<div class="tk-order-head">' + tkEsc(g.webshop) + '</div>';
+		html += '<div class="tk-order-sub">Order ' + tkEsc(g.orderkey) + ' &middot; ' + tkEsc(tkFormatDate(g.orderdate)) + '</div>';
+		g.events.forEach(ev => {
+			html += '<div class="tk-event">';
+			html += '<div class="tk-event-title">' + tkEsc(ev.eventtitle) + '</div>';
+			html += '<a href="javascript:void(0);" class="btn btn-primary w-100" ' +
+					'onclick="tkOpenTickets(this.getAttribute(\'data-url\'));" ' +
+					'data-url="' + tkEsc(ev.ticketsurl) + '">Show tickets</a>';
+			html += '</div>';
+		});
+		html += '</div></div>';
+	});
+
+	orders.innerHTML = html;
+}
+
+function tkOpenTickets(url) {
+	if (!url) { return; }
+	// Binnen de popup blijven: de ticketpagina van QTickets opent in deze webview,
+	// de gebruiker sluit hem weer met het kruisje rechtsboven.
+	// (openurl_ zou de app verlaten én sneuvelt op een underscore in de url.)
+	window.location.href = url;
+}
+
+/* ---------- uitloggen ---------- */
+
+function tkForceRelogin(message) {
+	tkSaveState(tkEmail, '', 0);
+	if (tkResendTimer) { clearInterval(tkResendTimer); tkResendTimer = null; }
+	document.getElementById('tk-orders').innerHTML = '';
+	document.getElementById('tk-list-intro').textContent = '';
+	document.getElementById('tk-email').value = tkEmail;
+	tkShowStep('tk-step-email');
+	tkMessage('tk-msg-email', message, 'info');
+}
+
+function tkLogout() {
+	if (tkResendTimer) { clearInterval(tkResendTimer); tkResendTimer = null; }
+	tkSaveState('', '', 0);
+	tkClearMessages();
+	document.getElementById('tk-orders').innerHTML = '';
+	document.getElementById('tk-list-intro').textContent = '';
+	document.getElementById('tk-email').value = '';
+	tkShowStep('tk-step-email');
+}
+
+/* ---------- start ---------- */
+
+document.addEventListener('DOMContentLoaded', function () {
+	// alleen cijfers in het codeveld, ook bij plakken
+	const codeinput = document.getElementById('tk-code');
+	codeinput.addEventListener('input', function () {
+		const cleaned = this.value.replace(/\D/g, '').slice(0, 8);
+		if (cleaned !== this.value) { this.value = cleaned; }
+	});
+	codeinput.addEventListener('keydown', function (e) {
+		if (e.key === 'Enter') { e.preventDefault(); tkVerifyCode(); }
+	});
+	document.getElementById('tk-email').addEventListener('keydown', function (e) {
+		if (e.key === 'Enter') { e.preventDefault(); tkRequestCode(); }
+	});
+
+	tkGetState();
+	// Vangnet: komt er geen antwoord (bijv. omdat de bridge nog niet klaar was),
+	// dan tonen we alsnog het beginscherm.
+	setTimeout(function () {
+		if (!tkStateLoaded) { tkGetState(); }
+		setTimeout(function () {
+			if (!tkStateLoaded) { tkApplyState({}); }
+		}, 1500);
+	}, 1500);
+});
+</script>
+</body>
+</html>
