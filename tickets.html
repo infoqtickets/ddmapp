@@ -17,7 +17,9 @@
 	<link rel="stylesheet" href="assets/vendor/googlefonts/googlefont.css">
 	<script src="assets/js/appbefore.js"></script>
 	<style>
-		.tk-wrap { padding: 20px 0 40px 0; }
+		.tk-list-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; }
+		.tk-list-top .tk-intro { margin-bottom: 18px; }
+		.tk-logout { flex: 0 0 auto; font-size: .8rem; text-decoration: underline; opacity: .7; white-space: nowrap; padding-top: 4px; }
 		.tk-step { display: none; }
 		.tk-step.tk-active { display: block; }
 		.tk-title { font-size: 1.15rem; font-weight: 600; margin-bottom: 6px; }
@@ -41,72 +43,79 @@
 <div class="page-wraper">
 
 	<!-- Page Content -->
-	<div class="page-content bottom-content">
-		<div class="container tk-wrap">
+	<div class="page-content">
+		<div class="content-inner pt-0">
+			<div class="container fb">
 
-			<!-- stap: bezig met laden -->
-			<div id="tk-step-loading" class="tk-step tk-active">
-				<div class="tk-spinner">Loading&hellip;</div>
-			</div>
-
-			<!-- stap 1: e-mailadres invoeren -->
-			<div id="tk-step-email" class="tk-step">
-				<div class="tk-title">My tickets</div>
-				<p class="tk-intro">
-					Enter the e-mail address you used to order your tickets. We will send you a
-					verification code so we can show your tickets in this app.
-				</p>
-				<div id="tk-msg-email" class="tk-msg"></div>
-				<div class="card">
-					<div class="card-body">
-						<label class="form-label" for="tk-email">E-mail address</label>
-						<input type="email" id="tk-email" class="form-control" inputmode="email"
-							   autocomplete="email" autocapitalize="off" autocorrect="off"
-							   spellcheck="false" placeholder="you@example.com">
-						<a href="javascript:tkRequestCode();" id="tk-btn-request"
-						   class="btn btn-primary w-100 m-t20">Send me a code</a>
+				<!-- stap: bezig met laden -->
+				<div id="tk-step-loading" class="tk-step tk-active">
+					<div class="tk-spinner" id="tk-loading-text">Loading&hellip;</div>
+					<div class="text-center" id="tk-loading-retry" style="display: none;">
+						<a href="javascript:tkStartStateLoad();" class="btn btn-primary">Try again</a>
 					</div>
 				</div>
-			</div>
 
-			<!-- stap 2: code invoeren -->
-			<div id="tk-step-code" class="tk-step">
-				<div class="tk-title">Enter your code</div>
-				<p class="tk-intro">
-					We have sent a code to <strong id="tk-code-email"></strong> if that address is
-					known to us. The code is valid for 10 minutes. Check your mailbox, copy the code
-					and come back to this screen &mdash; your progress is saved.
-				</p>
-				<div id="tk-msg-code" class="tk-msg"></div>
-				<div class="card">
-					<div class="card-body">
-						<label class="form-label" for="tk-code">Verification code</label>
-						<input type="text" id="tk-code" class="form-control tk-code-input"
-							   inputmode="numeric" pattern="[0-9]*" maxlength="8"
-							   autocomplete="one-time-code" autocapitalize="off" autocorrect="off"
-							   spellcheck="false" placeholder="00000000">
-						<a href="javascript:tkVerifyCode();" id="tk-btn-verify"
-						   class="btn btn-primary w-100 m-t20">Show my tickets</a>
-						<div class="text-center m-t20">
-							<a href="javascript:tkResendCode();" id="tk-btn-resend" class="tk-link">Send a new code</a>
-							<span class="tk-link" style="text-decoration: none; opacity: .35;"> &nbsp;|&nbsp; </span>
-							<a href="javascript:tkUseOtherEmail();" class="tk-link">Use another e-mail address</a>
+				<!-- stap 1: e-mailadres invoeren -->
+				<div id="tk-step-email" class="tk-step">
+					<div class="tk-title m-t20">My tickets</div>
+					<p class="tk-intro">
+						Enter the e-mail address you used to order your tickets. We will send you a
+						verification code so we can show your tickets in this app.
+					</p>
+					<div id="tk-msg-email" class="tk-msg"></div>
+					<div class="card">
+						<div class="card-body">
+							<label class="form-label" for="tk-email">E-mail address</label>
+							<input type="email" id="tk-email" class="form-control" inputmode="email"
+								   autocomplete="email" autocapitalize="off" autocorrect="off"
+								   spellcheck="false" placeholder="you@example.com">
+							<a href="javascript:tkRequestCode();" id="tk-btn-request"
+							   class="btn btn-primary w-100 m-t20">Send me a code</a>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<!-- stap 3: overzicht van de bestellingen -->
-			<div id="tk-step-list" class="tk-step">
-				<div class="tk-title">My tickets</div>
-				<p class="tk-intro" id="tk-list-intro"></p>
-				<div id="tk-msg-list" class="tk-msg"></div>
-				<div id="tk-orders"></div>
-				<div class="text-center m-t30">
-					<a href="javascript:tkLogout();" class="tk-link">Log out</a>
+				<!-- stap 2: code invoeren -->
+				<div id="tk-step-code" class="tk-step">
+					<div class="tk-title m-t20">Enter your code</div>
+					<p class="tk-intro">
+						We have sent a code to <strong id="tk-code-email"></strong> if that address is
+						known to us. The code is valid for 10 minutes. Check your mailbox, copy the code
+						and come back to this screen &mdash; your progress is saved.
+					</p>
+					<div id="tk-msg-code" class="tk-msg"></div>
+					<div class="card">
+						<div class="card-body">
+							<label class="form-label" for="tk-code">Verification code</label>
+							<input type="text" id="tk-code" class="form-control tk-code-input"
+								   inputmode="numeric" pattern="[0-9]*" maxlength="8"
+								   autocomplete="one-time-code" autocapitalize="off" autocorrect="off"
+								   spellcheck="false" placeholder="00000000">
+							<a href="javascript:tkVerifyCode();" id="tk-btn-verify"
+							   class="btn btn-primary w-100 m-t20">Show my tickets</a>
+							<div class="text-center m-t20">
+								<a href="javascript:tkResendCode();" id="tk-btn-resend" class="tk-link">Send a new code</a>
+								<span class="tk-link" style="text-decoration: none; opacity: .35;"> &nbsp;|&nbsp; </span>
+								<a href="javascript:tkUseOtherEmail();" class="tk-link">Use another e-mail address</a>
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>
 
+				<!-- stap 3: overzicht van de bestellingen -->
+				<div id="tk-step-list" class="tk-step">
+					<div class="tk-list-top m-t20">
+						<div>
+							<div class="tk-title">My tickets</div>
+							<p class="tk-intro" id="tk-list-intro"></p>
+						</div>
+						<a href="javascript:tkLogout();" class="tk-logout">Log out</a>
+					</div>
+					<div id="tk-msg-list" class="tk-msg"></div>
+					<div id="tk-orders"></div>
+				</div>
+
+			</div>
 		</div>
 	</div>
 	<!-- Page Content End-->
@@ -217,6 +226,43 @@ function tkFormatDate(sqldate) {
 
 /* ---------- state via de bridge ---------- */
 
+// Het eerste bericht naar de app kan verloren gaan terwijl de popup nog opent, dus
+// blijven we het rustig herhalen tot er antwoord is. We tonen nooit uit onszelf het
+// e-mailscherm: een gebruiker die al is ingelogd zou dan onterecht opnieuw moeten
+// beginnen. Lukt het echt niet, dan komt er een knop om het opnieuw te proberen.
+const TK_STATE_RETRY_MS  = 1200;
+const TK_STATE_MAX_TRIES = 8;
+let tkStateTries = 0;
+let tkStateTimer = null;
+
+function tkStartStateLoad() {
+	tkStopStateLoad();
+	tkStateTries = 0;
+	tkStateLoaded = false;
+	document.getElementById('tk-loading-text').textContent = 'Loading\u2026';
+	document.getElementById('tk-loading-retry').style.display = 'none';
+	tkShowStep('tk-step-loading');
+
+	const attempt = function () {
+		if (tkStateLoaded) { tkStopStateLoad(); return; }
+		if (tkStateTries >= TK_STATE_MAX_TRIES) {
+			tkStopStateLoad();
+			document.getElementById('tk-loading-text').textContent = 'Could not reach the app.';
+			document.getElementById('tk-loading-retry').style.display = 'block';
+			return;
+		}
+		tkStateTries++;
+		tkGetState();
+	};
+
+	attempt();
+	tkStateTimer = setInterval(attempt, TK_STATE_RETRY_MS);
+}
+
+function tkStopStateLoad() {
+	if (tkStateTimer) { clearInterval(tkStateTimer); tkStateTimer = null; }
+}
+
 function tkGetState() {
 	sendToDotNet(JSON.stringify({
 		Request: {
@@ -244,7 +290,7 @@ function tkSaveState(email, code, requestedat) {
 	}));
 }
 
-// Laat de app een waarde ondertekenen via de app zelf.
+// Laat de app een waarde ondertekenen met de secretkey die in de app zelf zit.
 // Antwoorden worden gekoppeld op valuetosign, dus gelijktijdige aanvragen
 // kunnen elkaars antwoord niet pakken.
 function tkSign(value) {
@@ -329,6 +375,7 @@ window.receiveFromDotNet = function (msg) {
 function tkApplyState(pv) {
 	if (tkStateLoaded) { return; }
 	tkStateLoaded = true;
+	tkStopStateLoad();
 
 	tkEmail = pv.ticketsEmail ? String(pv.ticketsEmail) : '';
 	tkCode = pv.ticketsCode ? String(pv.ticketsCode) : '';
@@ -668,15 +715,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (e.key === 'Enter') { e.preventDefault(); tkRequestCode(); }
 	});
 
-	tkGetState();
-	// Vangnet: komt er geen antwoord (bijv. omdat de bridge nog niet klaar was),
-	// dan tonen we alsnog het beginscherm.
-	setTimeout(function () {
-		if (!tkStateLoaded) { tkGetState(); }
-		setTimeout(function () {
-			if (!tkStateLoaded) { tkApplyState({}); }
-		}, 1500);
-	}, 1500);
+	tkStartStateLoad();
 });
 </script>
 </body>
