@@ -155,6 +155,11 @@ const TK_APP_ID  = '1';
 const TK_RESUME_WINDOW_MS = 30 * 60 * 1000;
 // Minimale wachttijd tussen twee code-aanvragen (server staat er 5 per uur toe).
 const TK_RESEND_COOLDOWN_MS = 60 * 1000;
+// Hoe lang de opgehaalde bestellingen hergebruikt mogen worden voordat we de
+// server opnieuw bevragen. Daarna wordt de cache leeggegooid.
+const TK_CACHE_MS = 5 * 60 * 1000;
+// Bovengrens voor wat we in PersistentVars proppen; daarboven slaan we niets op.
+const TK_CACHE_MAX_CHARS = 40000;
 
 let tkDeviceGuid   = '';
 let tkEmail        = '';
@@ -331,11 +336,86 @@ function tkSaveState(email, code, requestedat) {
 	tkEmail = email;
 	tkCode = code;
 	tkRequestedAt = requestedat;
+	// De cache hoort bij één e-mailadres + code, dus die gaat hier altijd mee weg.
 	return tkSendRequest('ticketsSaveState', {}, {
 		ticketsEmail: email,
 		ticketsCode: code,
-		ticketsRequestedAt: String(requestedat)
+		ticketsRequestedAt: String(requestedat),
+		ticketsCache: '',
+		ticketsCacheAt: '0'
 	});
+}
+
+/* ---------- cache van de bestellingen (5 minuten) ----------
+
+   De ticket-urls bewaren we bewust kort: is de gebruiker elders opnieuw ingelogd of
+   hebben wij hem uitgelogd, dan moet dat snel doorwerken. Alleen de velden die we
+   tonen gaan mee; als JSON-string, want PersistentVars bewaart alleen tekst.
+   ------------------------------------------------------------------------ */
+
+// De app geeft antwoorden terug als receiveFromDotNet('<json>') en escapet daarin
+// alleen de apostrof. Een backslash-escape in die JSON (\", \\, \n) wordt dus door
+// het JS-stringliteral opgegeten en dan loopt JSON.parse stuk — en valt de hele
+// pagina stil. Daarom bewaren we de cache als base64: alleen A-Z a-z 0-9 + / =,
+// dus niets wat onderweg geëscaped hoeft te worden.
+function tkEncodeCache(text) {
+	return btoa(unescape(encodeURIComponent(text)));
+}
+
+function tkDecodeCache(b64) {
+	return decodeURIComponent(escape(atob(b64)));
+}
+
+function tkReadCache(pv) {
+	const raw = pv.ticketsCache ? String(pv.ticketsCache) : '';
+	const at = parseInt(pv.ticketsCacheAt || '0', 10) || 0;
+	if (!raw) { return null; }
+
+	const age = Date.now() - at;
+	if (at <= 0 || age < 0 || age >= TK_CACHE_MS) {
+		tkClearCache();          // verlopen: leeggooien en straks opnieuw ophalen
+		return null;
+	}
+
+	try {
+		const rows = JSON.parse(tkDecodeCache(raw));
+		return Array.isArray(rows) ? rows : null;
+	} catch (e) {
+		tkClearCache();
+		return null;
+	}
+}
+
+function tkSaveCache(rows) {
+	const slim = rows.map(function (r) {
+		return {
+			orderkey: r.orderkey,
+			webshop: r.webshop,
+			orderdate: r.orderdate,
+			eventtitle: r.eventtitle,
+			ticketsurl: r.ticketsurl
+		};
+	});
+
+	let encoded;
+	try {
+		encoded = tkEncodeCache(JSON.stringify(slim));
+	} catch (e) {
+		return tkClearCache();
+	}
+	if (encoded.length > TK_CACHE_MAX_CHARS) { return tkClearCache(); }
+
+	return tkSendRequest('ticketsSaveCache', {}, {
+		ticketsCache: encoded,
+		ticketsCacheAt: String(Date.now())
+	}).catch(function () { /* zonder cache werkt alles gewoon, alleen vaker */ });
+}
+
+function tkClearCache() {
+	return tkSendRequest('ticketsSaveCache', {}, {
+		ticketsCache: '',
+		ticketsCacheAt: '0'
+	}).catch(function () {});
 }
 
 // Laat de app een waarde ondertekenen met de secretkey die in de app zelf zit.
@@ -395,8 +475,16 @@ function tkApplyState(pv) {
 	tkRequestedAt = parseInt(pv.ticketsRequestedAt || '0', 10) || 0;
 
 	if (tkCode) {
-		// Al geverifieerd: meteen de tickets ophalen.
 		tkShowStep('tk-step-list');
+
+		// Nog geen vijf minuten oud? Dan tonen we die en laten we de server met rust.
+		const cached = tkReadCache(pv);
+		if (cached) {
+			tkRenderOrders(cached);
+			return;
+		}
+
+		// Anders altijd opnieuw ophalen: zo merken we meteen dat de code is ingetrokken.
 		document.getElementById('tk-list-intro').textContent = 'Loading your tickets…';
 		tkLoadTickets();
 		return;
@@ -629,6 +717,7 @@ async function tkLoadTickets() {
 		}
 
 		tkRenderOrders(body);
+		tkSaveCache(body);
 	} catch (e) {
 		orders.innerHTML = '';
 		document.getElementById('tk-list-intro').textContent = '';
