@@ -65,19 +65,32 @@ html, body {
         
         <div class="content-inner pt-0">
 			<div class="container fb" style="padding: 0rem;">
+			
 				<div class="card-body m-t100" style="padding: 0rem;">
-					<center><h4>Floorplan</h4></center>
+					<center><h4>Floor</h4></center>
+					<!--<div class="btn-group" style="width: 100%;">
+						<button floorbtn="1" type="button" onclick="ActivateButton(this)" style="border-radius: 0px;" class="btn btn-primary">0</button>
+						<button floorbtn="2" type="button" onclick="ActivateButton(this)" style="border-radius: 0px;" class="btn btn-outline-primary">1st</button>
+						<button floorbtn="3" type="button" onclick="ActivateButton(this)" style="border-radius: 0px;" class="btn btn-outline-primary">2nd</button>
+						<button floorbtn="4" type="button" onclick="ActivateButton(this)" style="border-radius: 0px;" class="btn btn-outline-primary">3rd</button>
+					</div>-->
 					
 					<div class="map-mainwrapper">
-					<!--<div id="map-wrapper1" class="map-container">
-						<img id="map1" src="assets/images/DDM_NL_Floor_2026-final.jpg">
+					<div id="map-wrapper1" class="map-container">
+						<img id="map1" src="assets/images/DDM-Roeselare-floor-2026.jpg">
+					</div>
+					<!--<div id="map-wrapper2" class="map-container" style="display: none;">
+						<img id="map2" src="assets/images/2025_Thorcentral-FLOOR-1.jpg">
+					</div>
+					<div id="map-wrapper3" class="map-container" style="display: none;">
+						<img id="map3" src="assets/images/2025_Thorcentral-FLOOR-2.jpg">
+					</div>
+					<div id="map-wrapper4" class="map-container" style="display: none;">
+						<img id="map4" src="assets/images/2025_Thorcentral-FLOOR-3.jpg">
 					</div>-->
-			        <div class="content-inner pt-0">
-						<div class="container fb">
-							Coming soon
-						</div>
 					</div>
 				</div>
+				
 			</div>
 		</div>    
 	</div>
@@ -92,27 +105,27 @@ Panzoom(document.getElementById('map1'), {
 	pinchAndPan: true,
 	contain: 'outside'
 });
-Panzoom(document.getElementById('map2'), {
-	maxScale: 10,
-	minScale: 0.1,
-	step: 1,
-	pinchAndPan: true,
-	contain: 'outside'
-});
-Panzoom(document.getElementById('map3'), {
-	maxScale: 10,
-	minScale: 0.1,
-	step: 1,
-	pinchAndPan: true,
-	contain: 'outside'
-});
-Panzoom(document.getElementById('map4'), {
-	maxScale: 10,
-	minScale: 0.1,
-	step: 1,
-	pinchAndPan: true,
-	contain: 'outside'
-});
+//Panzoom(document.getElementById('map2'), {
+//	maxScale: 10,
+//	minScale: 0.1,
+//	step: 1,
+//	pinchAndPan: true,
+//	contain: 'outside'
+//});
+//Panzoom(document.getElementById('map3'), {
+//	maxScale: 10,
+//	minScale: 0.1,
+//	step: 1,
+//	pinchAndPan: true,
+//	contain: 'outside'
+//});
+//Panzoom(document.getElementById('map4'), {
+//	maxScale: 10,
+//	minScale: 0.1,
+//	step: 1,
+//	pinchAndPan: true,
+//	contain: 'outside'
+//});
 
 function ActivateButton(btn) {
     // Als de geklikte button al actief is, doe niets
