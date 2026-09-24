@@ -4,7 +4,7 @@
 [D]|2025-09-04T23:24:26|assets/css
 [F]|2025-09-19T02:37:10|assets/css/style.css
 [F]|2025-04-24T01:53:09|assets/css/style_ori.css
-[D]|2026-04-29T21:23:02|assets/images
+[D]|2026-09-24T18:05:17|assets/images
 [F]|2022-06-07T16:57:52|assets/images/1.png
 [F]|2025-05-25T23:25:45|assets/images/artist1.png
 [F]|2025-05-25T23:25:22|assets/images/artist2.png
@@ -34,6 +34,7 @@
 [F]|2026-04-11T19:44:56|assets/images/DDM-eindhoven-2026-music-poster.jpg
 [F]|2026-04-11T19:44:43|assets/images/DDM-eindhoven-2026-poster.jpg
 [F]|2025-09-10T12:42:54|assets/images/DDM-loader.gif
+[F]|2026-09-24T18:04:29|assets/images/DDM-Roeselare-floor-2026.jpg
 [F]|2025-05-30T02:25:16|assets/images/DdmAppSplashBg.jpg
 [F]|2025-09-10T12:28:19|assets/images/DDMLogo.svg
 [F]|2025-09-10T12:32:51|assets/images/DDMLogoTransparent.svg
@@ -192,7 +193,7 @@
 [F]|2025-04-23T20:15:01|index.js
 [F]|2025-09-25T18:39:00|index0.html
 [F]|2026-09-10T15:46:39|index1.html
-[F]|2026-09-06T12:22:27|index2.html
+[F]|2026-09-24T18:17:44|index2.html
 [F]|2026-09-24T13:20:00|index3.html
 [F]|2025-05-20T01:19:08|index3_ok1.html
 [F]|2025-07-08T23:03:28|index3_ok2.html
@@ -202,7 +203,7 @@
 [F]|2025-09-21T13:47:32|notification.html
 [F]|2026-05-03T16:50:27|notificationlist.txt
 [F]|2025-09-19T21:34:16|notificationsettings.html
-[F]|2026-09-24T13:20:39|releasetag.txt
+[F]|2026-09-24T18:18:01|releasetag.txt
 [F]|2025-09-05T09:50:02|robots.txt
 [F]|2025-09-23T16:27:13|samsshop.html
 [F]|2025-09-23T17:51:31|scanner.html
