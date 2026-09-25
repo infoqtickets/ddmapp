@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "33",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2026-09-25 18:00:24",
+		"Title": "THIS WEEKEND: DDM ROESELARE",
+		"Description": "Are you coming to De Duystere Markt Roesalere? Sunday tickets still available.",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2026-09-25 18:00:24",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2026-09-25 18:00:24",
+		"VisibleInListTo": "2026-11-24 18:00:24"
+	},
+	{
 		"Key": "32",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
