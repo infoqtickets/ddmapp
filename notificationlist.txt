@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "36",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2026-09-26 14:30:22",
+		"Title": "DARE TO TASTE 🌶️",
+		"Description": "Taste our brand-new hot sauce! Ask for a sample at our catering area or visit the stand of ’t Piekuurtje. Don’t be afraid, it’s not to hot!",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2026-09-26 14:30:22",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2026-09-26 14:30:22",
+		"VisibleInListTo": "2026-11-25 14:30:22"
+	},
+	{
 		"Key": "35",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
