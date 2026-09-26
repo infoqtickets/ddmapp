@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "35",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2026-09-26 14:00:52",
+		"Title": "WELCOME TO DE DUYSTERE MARKT 🖤",
+		"Description": "Whether you’re already exploring or still on your way: welcome to De Duystere Markt Roeselare. Have a wonderful day!",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2026-09-26 14:00:52",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2026-09-26 14:00:52",
+		"VisibleInListTo": "2026-11-25 14:00:52"
+	},
+	{
 		"Key": "34",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
