@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "42",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2026-09-26 18:30:39",
+		"Title": "CAPTURE YOUR MOMENT",
+		"Description": "Photograph the Vanitas still life of Roman Schapp, pose next to our life-sized poster or get a picture with reptiles. Find your favourite photo spot at De Duystere Markt!",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2026-09-26 18:30:39",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2026-09-26 18:30:39",
+		"VisibleInListTo": "2026-11-25 18:30:39"
+	},
+	{
 		"Key": "41",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
@@ -462,21 +478,5 @@
 		"VisibleInList": "true",
 		"VisibleInListFrom": "2025-12-13 18:41:22",
 		"VisibleInListTo": "2026-02-11 18:41:22"
-	},
-	{
-		"Key": "12",
-		"TargetOS": "android,ios",
-		"PushType": "serverpush",
-		"DateFormat": "yyyy-MM-dd HH:mm:ss",
-		"CreateDate": "2025-12-13 18:41:18",
-		"Title": "Antzaat will perform @ 18:40h",
-		"Description": "Antzaat is now playing at the Extreme stage",
-		"CreateLocalPush": "false",
-		"NotifyDate": "2025-12-13 18:41:18",
-		"ExtraData": "",
-		"ActionOnClick": "",
-		"VisibleInList": "true",
-		"VisibleInListFrom": "2025-12-13 18:41:18",
-		"VisibleInListTo": "2026-02-11 18:41:18"
 	}
 ]
