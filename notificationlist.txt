@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "39",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2026-09-26 15:30:04",
+		"Title": "DARE TO TRUST YOUR NOSE?",
+		"Description": "Visit inner Sanctvm and play a mysterious little game of “Guess the Scent”. Can you identify what’s hiding inside?",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2026-09-26 15:30:04",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2026-09-26 15:30:04",
+		"VisibleInListTo": "2026-11-25 15:30:04"
+	},
+	{
 		"Key": "38",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
