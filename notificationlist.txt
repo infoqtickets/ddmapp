@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "34",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2026-09-26 12:00:11",
+		"Title": "NEW: CASHLESS FOOD & DRINKS",
+		"Description": "All food and drinks at De Duystere Markt Roeselare are cashless this weekend. Quick, easy and no tokens needed.",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2026-09-26 12:00:11",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2026-09-26 12:00:11",
+		"VisibleInListTo": "2026-11-25 12:00:11"
+	},
+	{
 		"Key": "33",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
