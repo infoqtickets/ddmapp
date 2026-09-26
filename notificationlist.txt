@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "38",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2026-09-26 15:00:44",
+		"Title": "HELP US BUILD A SWARM OF FREAKS",
+		"Description": "Paint your own strange little doll head and add it to our growing swarm. Free to join throughout the event.",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2026-09-26 15:00:44",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2026-09-26 15:00:44",
+		"VisibleInListTo": "2026-11-25 15:00:44"
+	},
+	{
 		"Key": "37",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
