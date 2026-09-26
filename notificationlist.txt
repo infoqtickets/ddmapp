@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "40",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2026-09-26 15:50:21",
+		"Title": "SATANIC WITCH — 16:00",
+		"Description": "Satanic Witch takes the stage at 16:00. Join us!",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2026-09-26 15:50:21",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2026-09-26 15:50:21",
+		"VisibleInListTo": "2026-11-25 15:50:21"
+	},
+	{
 		"Key": "39",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
@@ -462,21 +478,5 @@
 		"VisibleInList": "true",
 		"VisibleInListFrom": "2025-12-13 18:22:43",
 		"VisibleInListTo": "2026-02-11 18:22:43"
-	},
-	{
-		"Key": "10",
-		"TargetOS": "android,ios",
-		"PushType": "serverpush",
-		"DateFormat": "yyyy-MM-dd HH:mm:ss",
-		"CreateDate": "2025-12-13 17:50:44",
-		"Title": "Upcoming @ 18:00h",
-		"Description": "Bloed will perform at the Main stage and Simba & me will be played at the Auditorium",
-		"CreateLocalPush": "false",
-		"NotifyDate": "2025-12-13 17:50:44",
-		"ExtraData": "",
-		"ActionOnClick": "",
-		"VisibleInList": "true",
-		"VisibleInListFrom": "2025-12-13 17:50:44",
-		"VisibleInListTo": "2026-02-11 17:50:44"
 	}
 ]
