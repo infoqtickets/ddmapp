@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "43",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2026-09-26 19:06:02",
+		"Title": "DOODSWENS — 19:15",
+		"Description": "Doodswens takes the stage at 19:15. Be there for today’s final performance.",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2026-09-26 19:06:02",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2026-09-26 19:06:02",
+		"VisibleInListTo": "2026-11-25 19:06:02"
+	},
+	{
 		"Key": "42",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
@@ -462,21 +478,5 @@
 		"VisibleInList": "true",
 		"VisibleInListFrom": "2025-12-13 19:12:52",
 		"VisibleInListTo": "2026-02-11 19:12:52"
-	},
-	{
-		"Key": "13",
-		"TargetOS": "android,ios",
-		"PushType": "serverpush",
-		"DateFormat": "yyyy-MM-dd HH:mm:ss",
-		"CreateDate": "2025-12-13 18:41:22",
-		"Title": "",
-		"Description": "",
-		"CreateLocalPush": "false",
-		"NotifyDate": "2025-12-13 18:41:22",
-		"ExtraData": "",
-		"ActionOnClick": "",
-		"VisibleInList": "true",
-		"VisibleInListFrom": "2025-12-13 18:41:22",
-		"VisibleInListTo": "2026-02-11 18:41:22"
 	}
 ]
