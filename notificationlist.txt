@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "41",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2026-09-26 17:20:34",
+		"Title": "MYRGON — 17:30",
+		"Description": "Myrgon takes the stage at 17:30. Make your way to the stage and don’t miss it.",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2026-09-26 17:20:34",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2026-09-26 17:20:34",
+		"VisibleInListTo": "2026-11-25 17:20:34"
+	},
+	{
 		"Key": "40",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
@@ -462,21 +478,5 @@
 		"VisibleInList": "true",
 		"VisibleInListFrom": "2025-12-13 18:41:18",
 		"VisibleInListTo": "2026-02-11 18:41:18"
-	},
-	{
-		"Key": "11",
-		"TargetOS": "android,ios",
-		"PushType": "serverpush",
-		"DateFormat": "yyyy-MM-dd HH:mm:ss",
-		"CreateDate": "2025-12-13 18:22:43",
-		"Title": "Marcopunk @ indoor stage",
-		"Description": "Marcopunk will perform soon at the Indoor stage @ 18:30h",
-		"CreateLocalPush": "false",
-		"NotifyDate": "2025-12-13 18:22:43",
-		"ExtraData": "",
-		"ActionOnClick": "",
-		"VisibleInList": "true",
-		"VisibleInListFrom": "2025-12-13 18:22:43",
-		"VisibleInListTo": "2026-02-11 18:22:43"
 	}
 ]
