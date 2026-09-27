@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "47",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2026-09-27 12:00:10",
+		"Title": "HELP US BUILD A SWARM OF FREAKS",
+		"Description": "Paint your own strange little doll head and add it to our growing swarm. Free to join throughout the event.",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2026-09-27 12:00:10",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2026-09-27 12:00:10",
+		"VisibleInListTo": "2026-11-26 12:00:10"
+	},
+	{
 		"Key": "46",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
@@ -462,21 +478,5 @@
 		"VisibleInList": "true",
 		"VisibleInListFrom": "2025-12-13 20:18:16",
 		"VisibleInListTo": "2026-02-11 20:18:16"
-	},
-	{
-		"Key": "17",
-		"TargetOS": "android,ios",
-		"PushType": "serverpush",
-		"DateFormat": "yyyy-MM-dd HH:mm:ss",
-		"CreateDate": "2025-12-13 20:16:46",
-		"Title": "Ekzeem-A",
-		"Description": "Ekzeem-A will perform at Indoor stage @ 20:30h",
-		"CreateLocalPush": "false",
-		"NotifyDate": "2025-12-13 20:16:46",
-		"ExtraData": "",
-		"ActionOnClick": "",
-		"VisibleInList": "true",
-		"VisibleInListFrom": "2025-12-13 20:16:46",
-		"VisibleInListTo": "2026-02-11 20:16:46"
 	}
 ]
