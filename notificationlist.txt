@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "44",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2026-09-27 10:30:53",
+		"Title": "NEW: CASHLESS FOOD & DRINKS",
+		"Description": "All food and drinks at De Duystere Markt Roeselare are cashless this weekend. Quick, easy and no tokens needed.",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2026-09-27 10:30:53",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2026-09-27 10:30:53",
+		"VisibleInListTo": "2026-11-26 10:30:53"
+	},
+	{
 		"Key": "43",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
@@ -462,21 +478,5 @@
 		"VisibleInList": "true",
 		"VisibleInListFrom": "2025-12-13 19:26:30",
 		"VisibleInListTo": "2026-02-11 19:26:30"
-	},
-	{
-		"Key": "14",
-		"TargetOS": "android,ios",
-		"PushType": "serverpush",
-		"DateFormat": "yyyy-MM-dd HH:mm:ss",
-		"CreateDate": "2025-12-13 19:12:52",
-		"Title": "Slow Crush",
-		"Description": "Slow Crush will perform soon at the Main stage @ 19:15h",
-		"CreateLocalPush": "false",
-		"NotifyDate": "2025-12-13 19:12:52",
-		"ExtraData": "",
-		"ActionOnClick": "",
-		"VisibleInList": "true",
-		"VisibleInListFrom": "2025-12-13 19:12:52",
-		"VisibleInListTo": "2026-02-11 19:12:52"
 	}
 ]
