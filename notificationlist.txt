@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "46",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2026-09-27 11:30:42",
+		"Title": "DARE TO TRUST YOUR NOSE?",
+		"Description": "Visit inner Sanctvm and play a mysterious little game of “Guess the Scent”. Can you identify what’s hiding inside?",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2026-09-27 11:30:42",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2026-09-27 11:30:42",
+		"VisibleInListTo": "2026-11-26 11:30:42"
+	},
+	{
 		"Key": "45",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
@@ -462,21 +478,5 @@
 		"VisibleInList": "true",
 		"VisibleInListFrom": "2025-12-13 20:16:46",
 		"VisibleInListTo": "2026-02-11 20:16:46"
-	},
-	{
-		"Key": "16",
-		"TargetOS": "android,ios",
-		"PushType": "serverpush",
-		"DateFormat": "yyyy-MM-dd HH:mm:ss",
-		"CreateDate": "2025-12-13 19:27:26",
-		"Title": "Marcopunk",
-		"Description": "Marcopunk will perform for the second time at the Indoor stage @ 19:30h",
-		"CreateLocalPush": "false",
-		"NotifyDate": "2025-12-13 19:27:26",
-		"ExtraData": "",
-		"ActionOnClick": "",
-		"VisibleInList": "true",
-		"VisibleInListFrom": "2025-12-13 19:27:26",
-		"VisibleInListTo": "2026-02-11 19:27:26"
 	}
 ]
