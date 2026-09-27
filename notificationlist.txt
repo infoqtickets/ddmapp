@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "45",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2026-09-27 11:00:12",
+		"Title": "CAPTURE YOUR MOMENT",
+		"Description": "Photograph the Vanitas still life of Roman Schapp, pose next to our life-sized poster or get a picture with reptiles. Find your favourite photo spot at De Duystere Markt!",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2026-09-27 11:00:12",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2026-09-27 11:00:12",
+		"VisibleInListTo": "2026-11-26 11:00:12"
+	},
+	{
 		"Key": "44",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
@@ -462,21 +478,5 @@
 		"VisibleInList": "true",
 		"VisibleInListFrom": "2025-12-13 19:27:26",
 		"VisibleInListTo": "2026-02-11 19:27:26"
-	},
-	{
-		"Key": "15",
-		"TargetOS": "android,ios",
-		"PushType": "serverpush",
-		"DateFormat": "yyyy-MM-dd HH:mm:ss",
-		"CreateDate": "2025-12-13 19:26:30",
-		"Title": "Extreme Sideshow",
-		"Description": "Extreme Sideshow (18+) will perform at the Extreme stage @ 19:30h",
-		"CreateLocalPush": "false",
-		"NotifyDate": "2025-12-13 19:26:30",
-		"ExtraData": "",
-		"ActionOnClick": "",
-		"VisibleInList": "true",
-		"VisibleInListFrom": "2025-12-13 19:26:30",
-		"VisibleInListTo": "2026-02-11 19:26:30"
 	}
 ]
