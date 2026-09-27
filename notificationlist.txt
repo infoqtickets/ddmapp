@@ -1,5 +1,21 @@
 ﻿[
 	{
+		"Key": "50",
+		"TargetOS": "android,ios",
+		"PushType": "serverpush",
+		"DateFormat": "yyyy-MM-dd HH:mm:ss",
+		"CreateDate": "2026-09-27 14:50:23",
+		"Title": "RONKER — 15:00",
+		"Description": "Ronker takes the stage at 15:00. Join us for the final live performance of the weekend with an extra occult set. Let’s RONK!",
+		"CreateLocalPush": "false",
+		"NotifyDate": "2026-09-27 14:50:23",
+		"ExtraData": "",
+		"ActionOnClick": "",
+		"VisibleInList": "true",
+		"VisibleInListFrom": "2026-09-27 14:50:23",
+		"VisibleInListTo": "2026-11-26 14:50:23"
+	},
+	{
 		"Key": "49",
 		"TargetOS": "android,ios",
 		"PushType": "serverpush",
@@ -462,21 +478,5 @@
 		"VisibleInList": "true",
 		"VisibleInListFrom": "2025-12-14 13:33:46",
 		"VisibleInListTo": "2026-02-12 13:33:46"
-	},
-	{
-		"Key": "20",
-		"TargetOS": "android,ios",
-		"PushType": "serverpush",
-		"DateFormat": "yyyy-MM-dd HH:mm:ss",
-		"CreateDate": "2025-12-14 12:47:30",
-		"Title": "First artist of today: Lintworm",
-		"Description": "Our first artist of today will perform soon at the Extreme stage @ 13:00h",
-		"CreateLocalPush": "false",
-		"NotifyDate": "2025-12-14 12:47:30",
-		"ExtraData": "",
-		"ActionOnClick": "",
-		"VisibleInList": "true",
-		"VisibleInListFrom": "2025-12-14 12:47:30",
-		"VisibleInListTo": "2026-02-12 12:47:30"
 	}
 ]
