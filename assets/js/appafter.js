@@ -160,10 +160,6 @@ function setTab(tabname, val)
 }
 
 function setLocalPushTest() {
-	let d1 = new Date();
-	let f1 = d1.toISOString().slice(0, 19).replace("T", " ");
-	let d2 = new Date(Date.now() + 20000);
-	let f2 = d2.toISOString().slice(0, 19).replace("T", " ");
 	let obj = {
 	  Request: {
 		RequestActionName: "setlocalpush",
@@ -171,11 +167,11 @@ function setLocalPushTest() {
 		  Key: "myfisrtkey",
 		  TargetOS: "android,ios",
 		  DateFormat: "yyyy-MM-dd HH:mm:ss",
-		  CreateDate: f1,
+		  CreateDate: formatDate(new Date()),
 		  Title: "Javascript push test",
 		  Description: "Javascript description test",
-		  CreatLocalPush: "true",
-		  NotifyDate: f2,
+		  CreateLocalPush: "true",
+		  NotifyDate: formatDate(new Date(Date.now() + 20000)), // over 20 sec, lokale tijd
 		  ExtraData: "blablabla",
 		  ActionOnClick: "clickerdeclick"
 		},
