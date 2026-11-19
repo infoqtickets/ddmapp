@@ -203,6 +203,10 @@ function removeLocalPushTest() {
 
 function setLocalPushFavorite(key, bandname, stagename, timelabel, datetime) {
 	let thedate = new Date(datetime.replace(" ", "T"));
+	let notiTime = new Date(thedate.getTime() - 15 * 60 * 1000); // 15 minuten eerder
+	if (notiTime <= new Date()) {
+		notiTime = new Date(Date.now() + 10 * 1000); // al voorbij: over 10 sec melden
+	}
 	const obj = {
 	  Request: {
 		RequestActionName: "setlocalpush",
@@ -213,8 +217,8 @@ function setLocalPushFavorite(key, bandname, stagename, timelabel, datetime) {
 		  CreateDate: datetime,
 		  Title: bandname + " is starting soon",
 		  Description: bandname + " is starting soon at " + stagename + " @ " + timelabel,
-		  CreatLocalPush: "true",
-		  NotifyDate: formatDate(new Date(thedate.getTime() - 15 * 60 * 1000)), // 15 minuten eerder
+		  CreateLocalPush: "true",
+		  NotifyDate: formatDate(notiTime),
 		  ExtraData: "",
 		  ActionOnClick: ""
 		},
@@ -223,10 +227,8 @@ function setLocalPushFavorite(key, bandname, stagename, timelabel, datetime) {
 		}
 	  }
 	};
-	const jsonText = JSON.stringify(obj);
-	sendToDotNet(jsonText);
+	sendToDotNet(JSON.stringify(obj));
 }
-
 function removeLocalPushFavorite(key, datetime) {
 	let thenotidate = new Date(datetime.replace(" ", "T"));
 	let datenow = new Date();
