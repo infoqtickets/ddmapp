@@ -192,18 +192,18 @@
 [F]|2025-09-03T23:36:39|index.html
 [F]|2025-04-23T20:15:01|index.js
 [F]|2025-09-25T18:39:00|index0.html
-[F]|2026-11-26T03:00:30|index1.html
-[F]|2026-11-26T03:00:30|index2.html
-[F]|2026-11-26T03:00:30|index3.html
+[F]|2026-11-27T03:00:14|index1.html
+[F]|2026-11-27T03:00:14|index2.html
+[F]|2026-11-27T03:00:15|index3.html
 [F]|2025-05-20T01:19:08|index3_ok1.html
 [F]|2025-07-08T23:03:28|index3_ok2.html
-[F]|2026-11-26T03:00:31|index4.html
-[F]|2026-11-26T03:00:31|index5.html
+[F]|2026-11-27T03:00:15|index4.html
+[F]|2026-11-27T03:00:15|index5.html
 [F]|2025-05-16T15:17:46|index_ok1.html
 [F]|2025-09-21T13:47:32|notification.html
 [F]|2026-09-27T14:50:23|notificationlist.txt
 [F]|2025-09-19T21:34:16|notificationsettings.html
-[F]|2026-11-26T03:00:31|releasetag.txt
+[F]|2026-11-27T03:00:15|releasetag.txt
 [F]|2025-09-05T09:50:02|robots.txt
 [F]|2025-09-23T16:27:13|samsshop.html
 [F]|2025-09-23T17:51:31|scanner.html
@@ -216,12 +216,13 @@
 [F]|2025-05-17T00:02:05|shows.html
 [F]|2025-09-02T21:21:51|splash.html
 [F]|2025-05-14T21:35:57|stickytest.html
-[F]|2026-11-26T03:00:30|tabs.html
+[F]|2026-11-27T03:00:14|tabs.html
 [F]|2026-09-09T17:25:15|tickets.html
 [F]|2025-09-23T15:54:38|vendor - Copy.html
-[F]|2026-11-26T03:00:30|vendor.html
-[D]|2026-11-25T14:39:48|vendorimages
+[F]|2026-11-27T03:00:15|vendor.html
+[D]|2026-11-26T21:57:28|vendorimages
 [F]|2026-11-22T12:48:58|vendorimages/A5D14A9C7D827088_8189354F0072096C_field5.jpg
+[F]|2026-11-26T11:06:09|vendorimages/A5D14A9C7D827088_81BD0E5BB209A26A_field5.jpg
 [F]|2026-11-19T19:01:14|vendorimages/A5D14A9C7D827088_87D9946D892CD79F_field5.jpg
 [F]|2026-11-19T09:49:24|vendorimages/A5D14A9C7D827088_8A6E2A4FBFE0D102_field5.jpg
 [F]|2026-11-19T11:02:50|vendorimages/A5D14A9C7D827088_8B36060EDD5136DF_field5.jpg
@@ -255,3 +256,4 @@
 [F]|2026-11-19T12:06:46|vendorimages/A5D14A9C7D827088_B8BD1E815F64A48D_field5.jpg
 [F]|2026-11-24T16:51:37|vendorimages/A5D14A9C7D827088_B9EFFA892C8F9681_field5.jpg
 [F]|2026-11-20T13:36:53|vendorimages/A5D14A9C7D827088_BED97C5E0849D0F4_field5.jpg
+[F]|2026-11-26T21:57:28|vendorimages/A5D14A9C7D827088_GDDM2606_field5.jpg
